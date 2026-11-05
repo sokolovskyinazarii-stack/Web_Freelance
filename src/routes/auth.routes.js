@@ -1,18 +1,18 @@
 import { Router } from 'express';
 import passport from 'passport';
-import { requireAuth, requireGuest } from '../auth/middleware.js';
+import { requireAuth, requireGuest } from '../auth/middleware/index.js';
 import {
   logout,
   register,
   showLogin,
   showRegister
-} from '../controllers/auth.controller.js';
-import { profile } from '../controllers/profile.controller.js';
+} from '../controllers/auth/auth.controller.js';
+import { profile } from '../controllers/profile/profile.controller.js';
 import {
   changePassword,
   editProfile,
   updateProfile
-} from '../controllers/profile-edit.controller.js';
+} from '../controllers/profile/profile-edit.controller.js';
 
 const authRouter = Router();
 

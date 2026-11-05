@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { requireRole } from '../auth/middleware.js';
+import { requireRole } from '../auth/middleware/index.js';
 import { ROLES } from '../auth/roles.js';
-import { apply, accept, reject, cancelFreelancerHandler } from '../controllers/order-application.controller.js';
-import { publish, reject as rejectOrder } from '../controllers/order-moderation.controller.js';
-import { show, create } from '../controllers/order-request.controller.js';
-import { show as showEdit, update as updateEdit } from '../controllers/order-request-edit.controller.js';
-import { submit, complete, rework, cancel } from '../controllers/order-work.controller.js';
-import { accept as acceptDelivery, request as requestDelivery, status as deliveryStatus } from '../controllers/delivery-workflow.controller.js';
-import { order as orderReview, delivery as deliveryReview } from '../controllers/review.controller.js';
+import { apply, accept, reject, cancelFreelancerHandler } from '../controllers/orders/order-application.controller.js';
+import { publish, reject as rejectOrder } from '../controllers/orders/order-moderation.controller.js';
+import { show, create } from '../controllers/orders/order-request.controller.js';
+import { show as showEdit, update as updateEdit } from '../controllers/orders/order-request-edit.controller.js';
+import { submit, complete, rework, cancel } from '../controllers/orders/order-work.controller.js';
+import { accept as acceptDelivery, request as requestDelivery, status as deliveryStatus } from '../controllers/deliveries/delivery-workflow.controller.js';
+import { order as orderReview, delivery as deliveryReview } from '../controllers/reviews/review.controller.js';
 
 const workflowRouter = Router();
 const client = requireRole(ROLES.CLIENT);

@@ -11,7 +11,7 @@ import authRouter from './routes/auth.routes.js';
 import userRouter from './routes/user.routes.js';
 import workflowRouter from './routes/workflow.routes.js';
 import { configurePassport } from './auth/passport.js';
-import { authLocals, requireRole } from './auth/middleware.js';
+import { authLocals, requireRole } from './auth/middleware/index.js';
 import { ROLES } from './auth/roles.js';
 import { date, initials, money, plural } from './lib/format.js';
 
@@ -66,7 +66,7 @@ app.use((req, res) => {
     return res.status(404).json({ message: 'Маршрут не знайдено' });
   }
 
-  return res.status(404).render('error.njk', {
+  return res.status(404).render('shared/error.njk', {
     title: 'Сторінку не знайдено',
     message: 'Перевірте адресу або поверніться до огляду платформи.',
     active: ''
@@ -80,7 +80,7 @@ app.use((error, req, res, next) => {
     return res.status(500).json({ message: 'Внутрішня помилка сервера' });
   }
 
-  return res.status(500).render('error.njk', {
+  return res.status(500).render('shared/error.njk', {
     title: 'Помилка',
     message: 'Не вдалося завантажити сторінку. Спробуйте ще раз.',
     active: ''

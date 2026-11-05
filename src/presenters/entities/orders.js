@@ -13,7 +13,7 @@ import {
   orderCategoryName,
   orderDeadline,
   orderTitle
-} from '../order-helpers.js';
+} from '../orders/order-helpers.js';
 
 export const orders = {
   key: 'orders',

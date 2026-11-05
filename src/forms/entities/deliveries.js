@@ -47,7 +47,7 @@ export const deliveries = {
         model: 'order',
         include: { project: true, delivery: true },
         orderBy: { createdAt: 'desc' },
-        optionLabel: (row) => `${row.orderNumber} · ${row.project.title}`,
+        optionLabel: (row) => `${row.orderNumber} · ${row.project?.title || row.title || 'Без проєкту'}`,
         filter: (row, record) => !row.delivery || row.delivery.id === record?.id
       }
     },

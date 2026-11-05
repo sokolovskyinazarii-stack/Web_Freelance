@@ -7,7 +7,7 @@ function isEmpty(value) {
 function normalize(field, raw) {
   if (field.type === 'number') return Number(raw);
   if (field.type === 'date') return new Date(raw);
-  if (field.valueType === 'boolean') return raw === 'true';
+  if (field.valueType === 'boolean') return raw === true || raw === 'true';
   if (field.relation) return Number(raw);
   return String(raw).trim();
 }

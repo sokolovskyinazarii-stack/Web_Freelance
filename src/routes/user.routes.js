@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { editUserForm, listUsers, newUserForm } from '../controllers/user.controller.js';
-import { createUser } from '../controllers/user-create.controller.js';
-import { updateUser } from '../controllers/user-update.controller.js';
-import { resetPassword } from '../controllers/user-password.controller.js';
+import { editUserForm, listUsers, newUserForm } from '../controllers/users/user.controller.js';
+import { createUser } from '../controllers/users/user-create.controller.js';
+import { updateUser } from '../controllers/users/user-update.controller.js';
+import { resetPassword } from '../controllers/users/user-password.controller.js';
 
 const userRouter = Router();
 

@@ -54,7 +54,7 @@ export async function renderFormPage(req, res, key, record, errors = {}, values 
     value: values ? String(values[field.name] ?? '') : field.value
   }));
 
-  res.status(status).render('form.njk', {
+  res.status(status).render('shared/form.njk', {
     title: record ? config.editTitle : config.createTitle,
     active: key,
     config,

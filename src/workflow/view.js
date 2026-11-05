@@ -9,7 +9,7 @@ export function renderWorkflowError(res, error, active = '') {
         ? 'Запис не знайдено'
         : 'Дія неможлива';
 
-  return res.status(status).render('error.njk', {
+  return res.status(status).render('shared/error.njk', {
     title,
     message: error.message || 'Не вдалося виконати дію.',
     active

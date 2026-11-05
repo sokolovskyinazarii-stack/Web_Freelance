@@ -9,7 +9,7 @@ import {
   statusBadge,
   text
 } from '../cells.js';
-import { orderTitle } from '../order-helpers.js';
+import { orderTitle } from '../orders/order-helpers.js';
 
 export const freelancers = {
   key: 'freelancers',

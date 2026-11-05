@@ -1,15 +1,15 @@
 import { Router } from 'express';
-import { dashboardPage } from '../controllers/dashboard.controller.js';
-import { completeDelivery, detailPage, listPage } from '../controllers/page.controller.js';
+import { dashboardPage } from '../controllers/pages/dashboard.controller.js';
+import { completeDelivery, detailPage, listPage } from '../controllers/pages/page.controller.js';
 import {
   createRecord,
   deleteRecord,
   editForm,
   newForm,
   updateRecord
-} from '../controllers/form.controller.js';
+} from '../controllers/forms/form.controller.js';
 import { entities } from '../presenters/entities/index.js';
-import { requireAuth, requireRole } from '../auth/middleware.js';
+import { requireAuth, requireRole } from '../auth/middleware/index.js';
 import { ROLES } from '../auth/roles.js';
 
 const pageRouter = Router();
