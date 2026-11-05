@@ -1,0 +1,103 @@
+{% extends "layout.njk" %}
+{% import "macros/table.njk" as table %}
+
+{% block content %}
+<section class="page-head">
+  <h1>Огляд</h1>
+</section>
+
+<section class="stat-grid">
+  {% for stat in stats %}
+    <article class="stat-card">
+      <span class="stat-label">{{ stat.label }}</span>
+      <strong class="stat-value">{{ stat.value }}</strong>
+      <span class="stat-note">{{ stat.note }}</span>
+    </article>
+  {% endfor %}
+</section>
+
+<div class="dashboard-grid">
+  <section class="panel">
+    <header class="panel-head">
+      <h3>Замовлення за статусами</h3>
+      <span class="tag">{{ totals.orders }}</span>
+    </header>
+    <div class="panel-body status-list">
+      {% for status in statuses %}
+        <div class="status-row">
+          <div class="status-head">
+            <span><i style="--tone:{{ status.color }}"></i>{{ status.name }}</span>
+            <strong>{{ status.count }}</strong>
+          </div>
+          <div class="bar">
+            <span style="width:{{ status.width }}%;background:{{ status.color }}"></span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="panel">
+    <header class="panel-head">
+      <h3>Фрілансери</h3>
+      <a class="link-arrow" href="/freelancers">Усі</a>
+    </header>
+    <div class="panel-body rank-list">
+      {% for freelancer in freelancers %}
+        <a class="rank-row" href="/freelancers/{{ freelancer.id }}">
+          <span class="avatar avatar-violet">{{ freelancer.fullName | initials }}</span>
+          <span class="rank-copy">
+            <strong>{{ freelancer.fullName }}</strong>
+            <small>{{ freelancer.specialty }}</small>
+          </span>
+          <span class="rank-meta">
+            <span class="rating">★ {{ freelancer.rating }}</span>
+            <small>{{ freelancer._count.orders }} {{ freelancer._count.orders | plural('замовлення', 'замовлення', 'замовлень') }}</small>
+          </span>
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+
+<section class="panel recent-panel">
+  <header class="panel-head">
+    <h3>Останні замовлення</h3>
+    <a class="link-arrow" href="/orders">Усі замовлення</a>
+  </header>
+  <div class="table-wrap">{{ table.render(recentTable) | safe }}</div>
+</section>
+
+<div class="dashboard-grid">
+  <section class="panel">
+    <header class="panel-head">
+      <h3>Категорії</h3>
+      <a class="link-arrow" href="/categories">Усі</a>
+    </header>
+    <div class="panel-body category-list">
+      {% for category in categories %}
+        <a class="category-row" href="/categories/{{ category.id }}">
+          <div class="category-head">
+            <strong>{{ category.name }}</strong>
+            <span>{{ category._count.projects }} {{ category._count.projects | plural('проєкт', 'проєкти', 'проєктів') }}</span>
+          </div>
+          <div class="bar"><span style="width:{{ category.width }}%"></span></div>
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="panel">
+    <header class="panel-head">
+      <h3>Доставки</h3>
+      <a class="link-arrow" href="/deliveries">Усі</a>
+    </header>
+    <div class="panel-body logistics-grid">
+      <div class="logistics-tile"><span>Очікують</span><strong>{{ deliveryBreakdown.pending or 0 }}</strong></div>
+      <div class="logistics-tile"><span>У дорозі</span><strong>{{ deliveryBreakdown.in_transit or 0 }}</strong></div>
+      <div class="logistics-tile"><span>Доставлено</span><strong>{{ deliveryBreakdown.delivered or 0 }}</strong></div>
+      <div class="logistics-tile"><span>Кур’єри</span><strong>{{ totals.couriers }}</strong></div>
+    </div>
+  </section>
+</div>
+{% endblock %}

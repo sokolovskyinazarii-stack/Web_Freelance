@@ -1,0 +1,29 @@
+{% import "macros/ui.njk" as ui %}
+
+{% macro render(table, empty) %}
+{% if table.rows.length %}
+<table class="data-table">
+  <thead>
+    <tr>
+      {% for column in table.columns %}
+        <th class="{{ 'align-right' if column.align == 'right' else '' }}">{{ column.label }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in table.rows %}
+      <tr tabindex="0" data-href="{{ row.href }}">
+        {% for cell in row.cells %}
+          <td class="{{ 'align-right' if cell.align == 'right' else '' }}">{{ ui.cell(cell) | safe }}</td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="empty-state">
+  <strong>Нічого не знайдено</strong>
+  <p>{{ empty or 'Спробуйте змінити пошуковий запит.' }}</p>
+</div>
+{% endif %}
+{% endmacro %}

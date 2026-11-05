@@ -1,0 +1,23 @@
+<header class="site-header">
+  <a class="brand" href="/">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" fill="none">
+        <circle cx="7.5" cy="8.5" r="3.2" fill="currentColor"/>
+        <circle cx="24.5" cy="9.5" r="3.2" fill="currentColor"/>
+        <circle cx="16" cy="24.5" r="3.2" fill="currentColor"/>
+        <path d="M10.2 10.6 13.8 20.8M21.8 12.2 18.2 21.2M10.6 8.7 21.4 9.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <span class="brand-name">FreelanceHub</span>
+  </a>
+
+  <button class="menu-toggle" id="menu-toggle" aria-label="Меню" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <nav class="nav" id="nav" aria-label="Головна навігація">
+    {% for item in navItems %}
+      <a class="nav-link{% if active == item.key %} active{% endif %}" href="{{ item.href }}">{{ item.label }}</a>
+    {% endfor %}
+  </nav>
+</header>

@@ -1,6 +1,6 @@
 import { prisma } from '../db/client.js';
 
-export async function overview(req, res) {
+export async function getOverviewData() {
   const [
     freelancers,
     customers,
@@ -62,7 +62,7 @@ export async function overview(req, res) {
     return result;
   }, {});
 
-  return res.json({
+  return {
     totals: {
       freelancers,
       customers,
@@ -85,5 +85,9 @@ export async function overview(req, res) {
     recentOrders,
     topFreelancers,
     categories: categoryLoad
-  });
+  };
+}
+
+export async function overview(req, res) {
+  res.json(await getOverviewData());
 }

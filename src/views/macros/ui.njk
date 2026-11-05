@@ -1,0 +1,36 @@
+{% macro avatar(item) %}
+<span class="avatar avatar-{{ item.accent }} {{ item.size }}">{{ item.name | initials }}</span>
+{% endmacro %}
+
+{% macro searchIcon() %}
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+  <circle cx="11" cy="11" r="7"></circle>
+  <path d="m20 20-3.5-3.5"></path>
+</svg>
+{% endmacro %}
+
+{% macro cell(item) %}
+{% if item.type == 'text' %}{{ item.value }}
+{% elif item.type == 'mono' %}<span class="cell-mono">{{ item.value }}</span>
+{% elif item.type == 'money' %}{{ item.value | money }}{{ item.suffix }}
+{% elif item.type == 'date' %}{{ item.value | date }}
+{% elif item.type == 'person' %}
+<div class="person">
+  <span class="avatar avatar-{{ item.accent }}">{{ item.name | initials }}</span>
+  <span class="person-text">
+    <strong>{{ item.name }}</strong>
+    <small>{{ item.meta }}</small>
+  </span>
+</div>
+{% elif item.type == 'badge' %}
+<span class="badge" style="--tone:{{ item.tone }}">{{ item.label }}</span>
+{% elif item.type == 'rating' %}
+<span class="rating">★ {{ item.value }}</span>
+{% elif item.type == 'tag' %}
+<span class="tag">{{ item.value }}</span>
+{% elif item.type == 'paragraph' %}
+<p class="detail-text">{{ item.value }}</p>
+{% elif item.type == 'avatar' %}
+<span class="avatar avatar-{{ item.accent }} {{ item.size }}">{{ item.name | initials }}</span>
+{% endif %}
+{% endmacro %}
