@@ -14,11 +14,17 @@
   {% include "partials/header.njk" %}
 
   <main class="main">
-    <div class="view">
+    <div class="view" id="view">
       {% block content %}{% endblock %}
     </div>
   </main>
 
+  {% include "partials/delete-modal.njk" %}
+
   <script src="/js/ui.js"></script>
+  <script src="/js/select.js"></script>
+  <script src="/js/stepper.js"></script>
+  <script src="/js/modal.js"></script>
+  <script src="/js/ajax.js"></script>
 </body>
 </html>

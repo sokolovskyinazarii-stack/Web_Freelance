@@ -1,0 +1,24 @@
+<div class="modal" id="delete-modal" hidden>
+  <div class="modal-backdrop" data-close-modal></div>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="delete-title">
+    <h3 id="delete-title">Видалити запис?</h3>
+    <p>Запис <strong id="delete-name"></strong> буде видалено без можливості відновлення.</p>
+
+    <div class="modal-warning" id="delete-warning" hidden>
+      <strong>Є пов’язані записи:</strong>
+      <ul id="delete-related"></ul>
+      <p>Щоб видалити цей запис, підтвердьте видалення всіх пов’язаних записів.</p>
+      <label class="checkbox">
+        <input type="checkbox" id="cascade-check" name="cascade" value="1" form="delete-form">
+        <span>Видалити всі пов’язані записи</span>
+      </label>
+    </div>
+
+    <form method="post" action="" id="delete-form">
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close-modal>Скасувати</button>
+        <button type="submit" class="btn btn-danger" id="delete-submit" disabled>Видалити</button>
+      </div>
+    </form>
+  </div>
+</div>

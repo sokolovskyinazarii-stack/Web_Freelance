@@ -32,3 +32,17 @@
   background: var(--surface-2);
   color: var(--text);
 }
+
+.btn-danger {
+  background: var(--rose);
+  color: #0b0e13;
+}
+
+.btn-danger:hover {
+  background: #ff8fa3;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

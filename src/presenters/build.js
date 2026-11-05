@@ -1,5 +1,8 @@
-export function buildTable(columns, rows, resource) {
+export function buildTable(columns, rows, resource, options = {}) {
   return {
+    resource,
+    editable: Boolean(options.editable),
+    deletable: Boolean(options.deletable),
     columns: columns.map((column) => ({
       label: column.label,
       align: column.align || ''
@@ -7,6 +10,8 @@ export function buildTable(columns, rows, resource) {
     rows: rows.map((row) => ({
       id: row.id,
       href: `/${resource}/${row.id}`,
+      editHref: `/${resource}/${row.id}/edit`,
+      deleteTitle: options.title ? options.title(row) : '',
       cells: columns.map((column) => ({
         ...column.cell(row),
         align: column.align || ''
@@ -19,7 +24,11 @@ export function buildList(entity, rows, query) {
   return {
     searchHint: entity.list.searchHint,
     query,
-    tableData: buildTable(entity.list.columns, rows, entity.key)
+    tableData: buildTable(entity.list.columns, rows, entity.key, {
+      editable: true,
+      deletable: true,
+      title: (row) => entity.detail.title(row)
+    })
   };
 }
 

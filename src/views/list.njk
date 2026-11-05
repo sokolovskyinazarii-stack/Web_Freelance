@@ -3,14 +3,21 @@
 {% import "macros/ui.njk" as ui %}
 
 {% block content %}
+{% if flash %}
+  <div class="alert alert-{{ flash.type }}">{{ flash.text }}</div>
+{% endif %}
+
 <section class="page-head">
   <h1>{{ title }}</h1>
-  <form class="page-tools" method="get" action="">
-    <label class="search">
-      {{ ui.searchIcon() | safe }}
-      <input type="search" name="q" value="{{ query }}" placeholder="{{ searchHint }}" autocomplete="off">
-    </label>
-  </form>
+  <div class="page-tools">
+    <a class="btn btn-primary" href="/{{ active }}/new">Створити</a>
+    <form class="search-form" method="get" action="">
+      <label class="search">
+        {{ ui.searchIcon() | safe }}
+        <input type="search" name="q" value="{{ query }}" placeholder="{{ searchHint }}" autocomplete="off">
+      </label>
+    </form>
+  </div>
 </section>
 
 <section class="panel table-panel">

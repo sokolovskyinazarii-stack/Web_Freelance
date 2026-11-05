@@ -7,7 +7,7 @@ toggle?.addEventListener('click', () => {
 
 document.addEventListener('click', (event) => {
   const row = event.target.closest('[data-href]');
-  if (row) {
+  if (row && !event.target.closest('a, button')) {
     window.location.href = row.dataset.href;
     return;
   }
@@ -19,7 +19,7 @@ document.addEventListener('click', (event) => {
 });
 
 document.addEventListener('keydown', (event) => {
-  if (event.key !== 'Enter') return;
+  if (event.key !== 'Enter' || event.target.closest('a, button')) return;
   const row = event.target.closest('tr[data-href]');
   if (row) window.location.href = row.dataset.href;
 });

@@ -63,6 +63,10 @@
     flex: 1;
   }
 
+  .search-form {
+    flex: 1;
+  }
+
   .search input {
     width: 100%;
   }
@@ -96,6 +100,14 @@
 
   .field-grid {
     grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-panel {
+    padding: 18px;
   }
 }
 

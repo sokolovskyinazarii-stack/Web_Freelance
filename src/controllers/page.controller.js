@@ -2,6 +2,7 @@ import { prisma } from '../db/client.js';
 import { resources } from '../api/resources.js';
 import { entities } from '../presenters/entities/index.js';
 import { buildDetail, buildList } from '../presenters/build.js';
+import { flashMessage } from '../lib/flash.js';
 
 function notFound(res, active) {
   return res.status(404).render('error.njk', {
@@ -27,6 +28,7 @@ export function listPage(key) {
     res.render('list.njk', {
       title: entity.list.title,
       active: key,
+      flash: flashMessage(req.query),
       ...buildList(entity, filtered, query)
     });
   };
@@ -53,6 +55,8 @@ export function detailPage(key) {
 
     return res.render('detail.njk', {
       active: key,
+      id,
+      flash: flashMessage(req.query),
       ...buildDetail(entity, row)
     });
   };

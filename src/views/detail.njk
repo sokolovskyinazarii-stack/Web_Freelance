@@ -9,6 +9,10 @@
   <span>{{ title }}</span>
 </nav>
 
+{% if flash %}
+  <div class="alert alert-{{ flash.type }}">{{ flash.text }}</div>
+{% endif %}
+
 <section class="detail-hero accent-{{ accent }}">
   <div class="detail-identity">
     {{ ui.avatar(avatar) | safe }}
@@ -17,7 +21,13 @@
       <p>{{ subtitle }}</p>
     </div>
   </div>
-  <div class="detail-side">{{ ui.cell(badge) | safe }}</div>
+  <div class="detail-side">
+    {{ ui.cell(badge) | safe }}
+    <div class="detail-actions">
+      <a class="btn btn-ghost" href="/{{ active }}/{{ id }}/edit">Редагувати</a>
+      <button class="btn btn-danger" type="button" data-delete data-resource="{{ active }}" data-id="{{ id }}" data-title="{{ title }}">Видалити</button>
+    </div>
+  </div>
 </section>
 
 <section class="metric-grid">
