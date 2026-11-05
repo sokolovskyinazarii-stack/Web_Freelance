@@ -62,7 +62,7 @@ export const orders = [
     projectId: 6,
     customerId: 3,
     freelancerId: 4,
-    statusId: 1,
+    statusId: 2,
     createdAt: '2026-10-18T10:00:00.000Z'
   },
   {
@@ -106,7 +106,7 @@ export const orders = [
     projectId: 2,
     customerId: 2,
     freelancerId: 2,
-    statusId: 1,
+    statusId: 2,
     createdAt: '2026-10-30T09:15:00.000Z'
   }
 ];

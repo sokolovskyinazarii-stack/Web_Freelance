@@ -26,6 +26,7 @@ export const deliveries = {
       default: 'pending',
       placeholder: 'Оберіть статус',
       options: [
+        { value: 'offered', label: 'Очікує кур’єра' },
         { value: 'pending', label: 'Очікує' },
         { value: 'in_transit', label: 'У дорозі' },
         { value: 'delivered', label: 'Доставлено' },
@@ -52,9 +53,8 @@ export const deliveries = {
     },
     {
       name: 'courierId',
-      label: 'Кур’єр',
+      label: 'Кур’єр (необов’язково)',
       type: 'select',
-      required: true,
       placeholder: 'Оберіть кур’єра',
       relation: {
         model: 'courier',

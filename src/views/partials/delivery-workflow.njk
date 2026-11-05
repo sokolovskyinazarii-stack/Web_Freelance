@@ -1,0 +1,63 @@
+{% if workflow.canAccept or workflow.canComplete or workflow.canUpdateStatus or workflow.canReview or workflow.reviews.length %}
+<section class="panel workflow-panel">
+  <header class="panel-head">
+    <h3>Дії з доставкою</h3>
+  </header>
+  <div class="panel-body workflow-body">
+    {% if workflow.canAccept %}
+      <form method="post" class="ajax-form" action="/deliveries/{{ id }}/accept">
+        <button class="btn btn-primary" type="submit">Прийняти доставку</button>
+      </form>
+    {% endif %}
+
+    {% if workflow.canComplete %}
+      <form method="post" class="ajax-form" action="/deliveries/{{ id }}/complete">
+        <button class="btn btn-primary" type="submit">Позначити доставленою</button>
+      </form>
+    {% endif %}
+
+    {% if workflow.canUpdateStatus %}
+      <div class="workflow-actions">
+        <form method="post" class="ajax-form" action="/deliveries/{{ id }}/status">
+          <input type="hidden" name="status" value="in_transit">
+          <button class="btn btn-ghost" type="submit">У дорозі</button>
+        </form>
+        <form method="post" class="ajax-form" action="/deliveries/{{ id }}/status">
+          <input type="hidden" name="status" value="delivered">
+          <button class="btn btn-primary" type="submit">Доставлено</button>
+        </form>
+        <form method="post" class="ajax-form" action="/deliveries/{{ id }}/status">
+          <input type="hidden" name="status" value="failed">
+          <button class="btn btn-ghost" type="submit">Не доставлено</button>
+        </form>
+      </div>
+    {% endif %}
+
+    {% if workflow.canReview %}
+      <h4 class="workflow-title">Відгук про доставку</h4>
+      <form method="post" class="workflow-form ajax-form" action="/deliveries/{{ id }}/review">
+        <select name="rating">
+          <option value="5">5 — відмінно</option>
+          <option value="4">4 — добре</option>
+          <option value="3">3 — нормально</option>
+          <option value="2">2 — погано</option>
+          <option value="1">1 — жахливо</option>
+        </select>
+        <textarea name="comment" rows="2" placeholder="Коментар"></textarea>
+        <button class="btn btn-primary" type="submit">Залишити відгук</button>
+      </form>
+    {% endif %}
+
+    {% if workflow.reviews.length %}
+      <div class="review-list">
+        {% for review in workflow.reviews %}
+          <article class="review-card">
+            <strong>{{ review.author.fullName }} · {{ review.rating }}/5</strong>
+            <p>{{ review.comment or 'Без коментаря' }}</p>
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}

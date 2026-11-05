@@ -8,6 +8,7 @@ import {
   statusBadge,
   text
 } from '../cells.js';
+import { orderTitle } from '../order-helpers.js';
 
 export const statuses = {
   key: 'statuses',
@@ -45,8 +46,8 @@ export const statuses = {
         items: (row) => row.orders,
         columns: [
           { label: 'Номер', cell: (row) => mono(row.orderNumber) },
-          { label: 'Проєкт', cell: (row) => person(row.project.title, row.customer.companyName, 'blue') },
-          { label: 'Фрілансер', cell: (row) => text(row.freelancer.fullName) },
+          { label: 'Замовлення', cell: (row) => person(orderTitle(row), row.customer.companyName, 'blue') },
+          { label: 'Фрілансер', cell: (row) => text(row.freelancer?.fullName || '—') },
           { label: 'Сума', align: 'right', cell: (row) => moneyCell(row.amount) },
           { label: 'Створено', cell: (row) => dateCell(row.createdAt) }
         ]

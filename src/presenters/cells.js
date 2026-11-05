@@ -1,4 +1,5 @@
 const deliveryStates = {
+  offered: ['Очікує кур’єра', '#fbbf24'],
   pending: ['Очікує', '#fbbf24'],
   in_transit: ['У дорозі', '#22d3ee'],
   delivered: ['Доставлено', '#4ade80'],

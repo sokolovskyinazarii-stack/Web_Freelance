@@ -12,6 +12,8 @@
   <div class="page-tools">
     {% if canManage %}
       <a class="btn btn-primary" href="/{{ active }}/new">Створити</a>
+    {% elif canCreateOrder %}
+      <a class="btn btn-primary" href="/orders/request">Створити замовлення</a>
     {% endif %}
     <form class="search-form" method="get" action="">
       <label class="search">

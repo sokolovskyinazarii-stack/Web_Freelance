@@ -31,11 +31,6 @@
         <a class="btn btn-ghost" href="/{{ active }}/{{ id }}/edit">Редагувати</a>
         <button class="btn btn-danger" type="button" data-delete data-resource="{{ active }}" data-id="{{ id }}" data-title="{{ title }}">Видалити</button>
       {% endif %}
-      {% if canCompleteDelivery %}
-        <form method="post" action="/deliveries/{{ id }}/complete" class="ajax-form">
-          <button class="btn btn-primary" type="submit">Позначити доставленою</button>
-        </form>
-      {% endif %}
     </div>
   </div>
 </section>
@@ -63,6 +58,14 @@
     {% endfor %}
   </dl>
 </section>
+
+{% if active == 'orders' and workflow %}
+  {% include "partials/order-workflow.njk" %}
+{% endif %}
+
+{% if active == 'deliveries' and workflow %}
+  {% include "partials/delivery-workflow.njk" %}
+{% endif %}
 
 {% for relation in relations %}
   <section class="panel relation-panel">

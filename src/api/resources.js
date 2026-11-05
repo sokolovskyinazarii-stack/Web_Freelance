@@ -56,10 +56,13 @@ export const resources = {
     orderBy: { createdAt: 'desc' },
     include: {
       project: { include: { category: true } },
+      category: true,
       customer: true,
       freelancer: true,
       status: true,
-      delivery: { include: { courier: true } }
+      delivery: { include: { courier: true } },
+      applications: { include: { freelancer: true }, orderBy: { createdAt: 'asc' } },
+      reviews: { include: { author: true }, orderBy: { createdAt: 'desc' } }
     }
   },
   statuses: {
@@ -80,12 +83,14 @@ export const resources = {
       order: {
         include: {
           project: true,
+          category: true,
           customer: true,
           freelancer: true,
           status: true
         }
       },
-      courier: true
+      courier: true,
+      reviews: { include: { author: true }, orderBy: { createdAt: 'desc' } }
     }
   },
   couriers: {

@@ -41,6 +41,7 @@ export async function getOverviewData() {
       orderBy: { createdAt: 'desc' },
       include: {
         project: { include: { category: true } },
+        category: true,
         customer: true,
         freelancer: true,
         status: true

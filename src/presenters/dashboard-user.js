@@ -2,13 +2,14 @@ import { prisma } from '../db/client.js';
 import { money } from '../lib/format.js';
 import { buildTable } from './build.js';
 import { deliveryBadge, moneyCell, mono, person, statusBadge, text } from './cells.js';
+import { orderCategoryName, orderTitle } from './order-helpers.js';
 
 function orderColumns() {
   return [
     { label: 'Номер', cell: (row) => mono(row.orderNumber) },
     {
-      label: 'Проєкт',
-      cell: (row) => person(row.project.title, row.project.category.name, 'blue')
+      label: 'Замовлення',
+      cell: (row) => person(orderTitle(row), orderCategoryName(row), 'blue')
     },
     { label: 'Статус', cell: (row) => statusBadge(row.status) },
     { label: 'Сума', align: 'right', cell: (row) => moneyCell(row.amount) }
@@ -29,7 +30,7 @@ async function clientDashboard(user) {
       take: 6,
       where: { customerId },
       orderBy: { createdAt: 'desc' },
-      include: { project: { include: { category: true } }, status: true }
+      include: { project: { include: { category: true } }, category: true, status: true }
     })
   ]);
 
@@ -60,7 +61,7 @@ async function freelancerDashboard(user) {
       take: 6,
       where: { freelancerId },
       orderBy: { createdAt: 'desc' },
-      include: { project: { include: { category: true } }, status: true }
+      include: { project: { include: { category: true } }, category: true, status: true }
     })
   ]);
 
@@ -95,7 +96,7 @@ async function courierDashboard(user) {
     { label: 'Трек-номер', cell: (row) => mono(row.trackingNumber) },
     {
       label: 'Замовлення',
-      cell: (row) => person(row.order.project.title, row.order.orderNumber, 'blue')
+      cell: (row) => person(orderTitle(row.order), row.order.orderNumber, 'blue')
     },
     { label: 'Адреса', cell: (row) => text(`${row.city}, ${row.address}`) },
     { label: 'Статус', cell: (row) => deliveryBadge(row.status) },

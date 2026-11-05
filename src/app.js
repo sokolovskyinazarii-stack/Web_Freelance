@@ -9,6 +9,7 @@ import apiRouter from './routes/api.routes.js';
 import pageRouter from './routes/page.routes.js';
 import authRouter from './routes/auth.routes.js';
 import userRouter from './routes/user.routes.js';
+import workflowRouter from './routes/workflow.routes.js';
 import { configurePassport } from './auth/passport.js';
 import { authLocals, requireRole } from './auth/middleware.js';
 import { ROLES } from './auth/roles.js';
@@ -55,6 +56,7 @@ app.use(express.static(publicDir));
 app.use('/', authRouter);
 app.use('/api', requireRole(ROLES.ADMIN), apiRouter);
 app.use('/users', requireRole(ROLES.ADMIN), userRouter);
+app.use('/', workflowRouter);
 app.use('/', pageRouter);
 
 app.get('/favicon.ico', (req, res) => res.status(204).end());

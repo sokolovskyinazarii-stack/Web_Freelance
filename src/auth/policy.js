@@ -2,6 +2,18 @@ import { ROLES } from './roles.js';
 
 const publicResources = new Set(['freelancers', 'projects', 'categories']);
 
+export function courierCity(courier) {
+  return courier?.zone?.split('·')[0].trim() || '';
+}
+
+export function courierMatches(courier, delivery) {
+  const city = courierCity(courier);
+  if (!city) return false;
+  return [delivery.city, delivery.order?.customer?.city, delivery.order?.freelancer?.city]
+    .filter(Boolean)
+    .includes(city);
+}
+
 export function canViewList(role, resource) {
   if (role === ROLES.ADMIN) return true;
   if (publicResources.has(resource)) return true;
@@ -11,14 +23,19 @@ export function canViewList(role, resource) {
 }
 
 export function scopeWhere(role, resource, user) {
-  if (role === ROLES.ADMIN) return {};
-  if (publicResources.has(resource)) return {};
+  if (role === ROLES.ADMIN || publicResources.has(resource)) return {};
   if (!user) return null;
 
   if (resource === 'orders') {
     if (role === ROLES.CLIENT) return user.customer ? { customerId: user.customer.id } : null;
     if (role === ROLES.FREELANCER) {
-      return user.freelancer ? { freelancerId: user.freelancer.id } : null;
+      if (!user.freelancer) return null;
+      return {
+        OR: [
+          { freelancerId: user.freelancer.id },
+          { status: { code: 'open' } }
+        ]
+      };
     }
   }
 
@@ -30,7 +47,22 @@ export function scopeWhere(role, resource, user) {
       return user.freelancer ? { order: { freelancerId: user.freelancer.id } } : null;
     }
     if (role === ROLES.COURIER) {
-      return user.courier ? { courierId: user.courier.id } : null;
+      if (!user.courier) return null;
+      const city = courierCity(user.courier);
+      return {
+        OR: [
+          { courierId: user.courier.id },
+          {
+            courierId: null,
+            status: 'offered',
+            OR: [
+              { city },
+              { order: { customer: { city } } },
+              { order: { freelancer: { city } } }
+            ]
+          }
+        ]
+      };
     }
   }
 
@@ -52,13 +84,22 @@ export function canViewRecord(role, resource, record, user) {
 
   if (resource === 'orders') {
     if (role === ROLES.CLIENT) return user.customer?.id === record.customerId;
-    if (role === ROLES.FREELANCER) return user.freelancer?.id === record.freelancerId;
+    if (role === ROLES.FREELANCER) {
+      return user.freelancer?.id === record.freelancerId || record.status?.code === 'open';
+    }
   }
 
   if (resource === 'deliveries') {
     if (role === ROLES.CLIENT) return user.customer?.id === record.order?.customerId;
     if (role === ROLES.FREELANCER) return user.freelancer?.id === record.order?.freelancerId;
-    if (role === ROLES.COURIER) return user.courier?.id === record.courierId;
+    if (role === ROLES.COURIER) {
+      return (
+        user.courier?.id === record.courierId ||
+        (record.courierId === null &&
+          record.status === 'offered' &&
+          courierMatches(user.courier, record))
+      );
+    }
   }
 
   if (resource === 'couriers') {

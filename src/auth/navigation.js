@@ -34,6 +34,14 @@ export function getNavItems(role) {
   if (role === ROLES.COURIER) {
     return [
       { key: 'overview', label: 'Огляд', href: '/' },
+      { key: 'deliveries', label: 'Доставки', href: '/deliveries' }
+    ];
+  }
+
+  if (role === ROLES.FREELANCER) {
+    return [
+      ...publicItems,
+      { key: 'orders', label: 'Замовлення', href: '/orders' },
       { key: 'deliveries', label: 'Мої доставки', href: '/deliveries' }
     ];
   }

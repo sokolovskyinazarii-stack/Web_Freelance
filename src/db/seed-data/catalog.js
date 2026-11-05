@@ -45,6 +45,14 @@ export const categories = [
 
 export const statuses = [
   {
+    id: 7,
+    code: 'moderation',
+    name: 'На модерації',
+    color: '#f7b955',
+    description: 'Замовлення очікує перевірки адміністратором',
+    sortOrder: 0
+  },
+  {
     id: 1,
     code: 'open',
     name: 'Відкрито',

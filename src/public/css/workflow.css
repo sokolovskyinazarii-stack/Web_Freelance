@@ -1,0 +1,84 @@
+.workflow-panel {
+  margin-top: 16px;
+}
+
+.workflow-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.workflow-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.workflow-form {
+  display: grid;
+  gap: 10px;
+}
+
+.workflow-form input,
+.workflow-form select,
+.workflow-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  outline: none;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+}
+
+.workflow-form textarea {
+  resize: vertical;
+}
+
+.workflow-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.workflow-note {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.application-list,
+.review-list {
+  display: grid;
+  gap: 10px;
+}
+
+.application-card,
+.review-card {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-2);
+}
+
+.application-card p,
+.review-card p {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.application-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+@media (max-width: 680px) {
+  .workflow-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

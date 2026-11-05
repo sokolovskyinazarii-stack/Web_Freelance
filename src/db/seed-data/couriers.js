@@ -5,7 +5,7 @@
     phone: '+380 91 849 95 68',
     email: 'daria.sereda@freelancehub.ua',
     vehicle: 'Скутер',
-    zone: 'Запоріжжя · Центр',
+    zone: 'Херсон · Центр',
     rating: 4.9,
     isActive: true,
     createdAt: '2025-06-02T09:00:00.000Z',

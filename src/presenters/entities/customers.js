@@ -8,6 +8,7 @@ import {
   statusBadge,
   text
 } from '../cells.js';
+import { orderTitle } from '../order-helpers.js';
 
 export const customers = {
   key: 'customers',
@@ -78,7 +79,7 @@ export const customers = {
         items: (row) => row.orders,
         columns: [
           { label: 'Номер', cell: (row) => mono(row.orderNumber) },
-          { label: 'Проєкт', cell: (row) => text(row.project.title) },
+          { label: 'Замовлення', cell: (row) => text(orderTitle(row)) },
           { label: 'Статус', cell: (row) => statusBadge(row.status) },
           { label: 'Сума', align: 'right', cell: (row) => moneyCell(row.amount) }
         ]

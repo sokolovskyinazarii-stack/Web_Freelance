@@ -1,0 +1,138 @@
+{% if workflow.canPublish or workflow.canCancelOrder or workflow.showApplications or workflow.canApply or workflow.myApplication or workflow.isAssignedFreelancer or workflow.canAcceptWork or workflow.canCancelFreelancer or workflow.canRequestDelivery or workflow.deliveryId or workflow.canReviewOrder or workflow.reviews.length or workflow.rejectionReason or workflow.canEditRequest %}
+<section class="panel workflow-panel">
+  <header class="panel-head">
+    <h3>Робота із замовленням</h3>
+  </header>
+  <div class="panel-body workflow-body">
+    {% if workflow.canPublish %}
+      <form method="post" class="ajax-form" action="/orders/{{ id }}/publish">
+        <button class="btn btn-primary" type="submit">Опублікувати</button>
+      </form>
+      <form method="post" class="workflow-form ajax-form" action="/orders/{{ id }}/reject">
+        <textarea name="reason" rows="2" placeholder="Причина відхилення" required minlength="5"></textarea>
+        <button class="btn btn-danger" type="submit">Відхилити</button>
+      </form>
+    {% endif %}
+
+    {% if workflow.rejectionReason %}
+      <article class="review-card">
+        <strong>Причина відхилення</strong>
+        <p>{{ workflow.rejectionReason }}</p>
+      </article>
+    {% endif %}
+
+    {% if workflow.canEditRequest %}
+      <a class="btn btn-primary" href="/orders/{{ id }}/edit-request">Редагувати та надіслати повторно</a>
+    {% endif %}
+
+    {% if workflow.canCancelOrder %}
+      <form method="post" class="ajax-form" action="/orders/{{ id }}/cancel">
+        <button class="btn btn-ghost" type="submit">Скасувати замовлення</button>
+      </form>
+    {% endif %}
+
+    {% if workflow.showApplications %}
+      <h4 class="workflow-title">Заявки фрілансерів</h4>
+      {% if workflow.applications.length %}
+        <div class="application-list">
+          {% for app in workflow.applications %}
+            <article class="application-card">
+              <div class="application-head">
+                <strong>{{ app.freelancer.fullName }}</strong>
+                <span class="badge" style="--tone:{{ app.statusTone }}">{{ app.statusLabel }}</span>
+              </div>
+              <p class="workflow-note">{{ app.freelancer.specialty }} · {{ app.freelancer.city }}</p>
+              {% if app.message %}<p>{{ app.message }}</p>{% endif %}
+              {% if app.proposedAmount %}<p class="workflow-note">Пропозиція: {{ app.proposedAmount | money }}</p>{% endif %}
+              {% if workflow.statusCode == 'open' and app.status == 'pending' %}
+                <div class="workflow-actions">
+                  <form method="post" class="ajax-form" action="/orders/{{ id }}/applications/{{ app.id }}/accept">
+                    <button class="btn btn-primary" type="submit">Обрати</button>
+                  </form>
+                  <form method="post" class="ajax-form" action="/orders/{{ id }}/applications/{{ app.id }}/reject">
+                    <button class="btn btn-ghost" type="submit">Відхилити</button>
+                  </form>
+                </div>
+              {% endif %}
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="workflow-note">Заявок ще немає.</p>
+      {% endif %}
+    {% endif %}
+
+    {% if workflow.canCancelFreelancer %}
+      <form method="post" class="ajax-form" action="/orders/{{ id }}/freelancer/cancel">
+        <button class="btn btn-ghost" type="submit">Скасувати фрілансера</button>
+      </form>
+    {% endif %}
+
+    {% if workflow.canApply %}
+      <form method="post" class="workflow-form ajax-form" action="/orders/{{ id }}/apply">
+        <textarea name="message" rows="3" placeholder="Коротко про досвід"></textarea>
+        <input name="proposedAmount" type="number" min="0" step="0.01" placeholder="Ваша ціна">
+        <button class="btn btn-primary" type="submit">Подати заявку</button>
+      </form>
+    {% elif workflow.myApplication %}
+      <p class="workflow-note">Ваша заявка: <strong>{{ workflow.myApplication.statusLabel }}</strong></p>
+    {% endif %}
+
+    {% if workflow.isAssignedFreelancer and workflow.statusCode == 'in_progress' %}
+      <form method="post" class="ajax-form" action="/orders/{{ id }}/submit">
+        <button class="btn btn-primary" type="submit">Завершити роботу</button>
+      </form>
+    {% endif %}
+
+    {% if workflow.canAcceptWork %}
+      <div class="workflow-actions">
+        <form method="post" class="ajax-form" action="/orders/{{ id }}/complete">
+          <button class="btn btn-primary" type="submit">Прийняти роботу</button>
+        </form>
+        <form method="post" class="ajax-form" action="/orders/{{ id }}/rework">
+          <button class="btn btn-ghost" type="submit">На доопрацювання</button>
+        </form>
+      </div>
+    {% endif %}
+
+    {% if workflow.canRequestDelivery %}
+      <h4 class="workflow-title">Доставка</h4>
+      <form method="post" class="workflow-form ajax-form" action="/orders/{{ id }}/delivery">
+        <input name="address" placeholder="Адреса" required>
+        <input name="city" value="{{ workflow.customerCity }}" placeholder="Місто" required>
+        <input name="cost" type="number" min="0" step="0.01" placeholder="Вартість" required>
+        <input name="estimatedAt" type="date" required>
+        <button class="btn btn-primary" type="submit">Замовити доставку</button>
+      </form>
+    {% elif workflow.deliveryId %}
+      <a class="link-arrow" href="/deliveries/{{ workflow.deliveryId }}">Переглянути доставку</a>
+    {% endif %}
+
+    {% if workflow.canReviewOrder %}
+      <h4 class="workflow-title">Відгук про замовлення</h4>
+      <form method="post" class="workflow-form ajax-form" action="/orders/{{ id }}/review">
+        <select name="rating">
+          <option value="5">5 — відмінно</option>
+          <option value="4">4 — добре</option>
+          <option value="3">3 — нормально</option>
+          <option value="2">2 — погано</option>
+          <option value="1">1 — жахливо</option>
+        </select>
+        <textarea name="comment" rows="2" placeholder="Коментар"></textarea>
+        <button class="btn btn-primary" type="submit">Залишити відгук</button>
+      </form>
+    {% endif %}
+
+    {% if workflow.reviews.length %}
+      <div class="review-list">
+        {% for review in workflow.reviews %}
+          <article class="review-card">
+            <strong>{{ review.author.fullName }} · {{ review.rating }}/5</strong>
+            <p>{{ review.comment or 'Без коментаря' }}</p>
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}

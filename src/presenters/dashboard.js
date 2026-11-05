@@ -1,6 +1,7 @@
 import { money } from '../lib/format.js';
 import { buildTable } from './build.js';
-import { moneyCell, mono, person, statusBadge } from './cells.js';
+import { moneyCell, mono, person, statusBadge, text } from './cells.js';
+import { orderCategoryName, orderTitle } from './order-helpers.js';
 
 export function buildDashboard(data) {
   const {
@@ -17,12 +18,15 @@ export function buildDashboard(data) {
   const orderColumns = [
     { label: 'Номер', cell: (row) => mono(row.orderNumber) },
     {
-      label: 'Проєкт',
-      cell: (row) => person(row.project.title, row.project.category.name, 'blue')
+      label: 'Замовлення',
+      cell: (row) => person(orderTitle(row), orderCategoryName(row), 'blue')
     },
     {
       label: 'Фрілансер',
-      cell: (row) => person(row.freelancer.fullName, row.freelancer.specialty, 'violet')
+      cell: (row) =>
+        row.freelancer
+          ? person(row.freelancer.fullName, row.freelancer.specialty, 'violet')
+          : text('—')
     },
     { label: 'Статус', cell: (row) => statusBadge(row.status) },
     { label: 'Сума', align: 'right', cell: (row) => moneyCell(row.amount) }

@@ -16,6 +16,15 @@ export const orders = {
       unique: true,
       pattern: /^ORD-\d{4}$/
     },
+    { name: 'title', label: 'Назва', type: 'text', maxLength: 255 },
+    {
+      name: 'description',
+      label: 'Опис',
+      type: 'textarea',
+      maxLength: 2000,
+      rows: 4,
+      wide: true
+    },
     { name: 'amount', label: 'Сума', type: 'number', required: true, min: 0, step: '0.01' },
     {
       name: 'currency',
@@ -30,11 +39,34 @@ export const orders = {
         { value: 'UAH', label: 'UAH — гривня' }
       ]
     },
+    { name: 'deadline', label: 'Дедлайн', type: 'date' },
     {
-      name: 'projectId',
-      label: 'Проєкт',
+      name: 'deliveryNeeded',
+      label: 'Потрібна доставка',
       type: 'select',
       required: true,
+      default: 'false',
+      valueType: 'boolean',
+      options: [
+        { value: 'false', label: 'Ні' },
+        { value: 'true', label: 'Так' }
+      ]
+    },
+    {
+      name: 'categoryId',
+      label: 'Категорія',
+      type: 'select',
+      placeholder: 'Оберіть категорію',
+      relation: {
+        model: 'category',
+        orderBy: { name: 'asc' },
+        optionLabel: (row) => row.name
+      }
+    },
+    {
+      name: 'projectId',
+      label: 'Проєкт (необов’язково)',
+      type: 'select',
       placeholder: 'Оберіть проєкт',
       relation: {
         model: 'project',
@@ -57,9 +89,8 @@ export const orders = {
     },
     {
       name: 'freelancerId',
-      label: 'Фрілансер',
+      label: 'Фрілансер (необов’язково)',
       type: 'select',
-      required: true,
       placeholder: 'Оберіть фрілансера',
       relation: {
         model: 'freelancer',

@@ -2,6 +2,8 @@ import { prisma } from '../db/client.js';
 import { resources } from '../api/resources.js';
 import { entities } from '../presenters/entities/index.js';
 import { buildDetail, buildList } from '../presenters/build.js';
+import { buildDeliveryWorkflow } from '../presenters/delivery-workflow.js';
+import { buildOrderWorkflow } from '../presenters/order-workflow.js';
 import { flashMessage } from '../lib/flash.js';
 import { getRole } from '../auth/middleware.js';
 import {
@@ -55,6 +57,7 @@ export function listPage(key) {
       title: entity.list.title,
       active: key,
       canManage: manage,
+      canCreateOrder: role === ROLES.CLIENT && key === 'orders',
       flash: flashMessage(req.query),
       ...buildList(entity, filtered, query, manage)
     });
@@ -80,6 +83,12 @@ export function detailPage(key) {
 
     const manage = canManageRole(role);
     const detail = buildDetail(entity, row);
+    const workflow =
+      key === 'orders'
+        ? buildOrderWorkflow(role, req.user, row)
+        : key === 'deliveries'
+          ? buildDeliveryWorkflow(role, req.user, row)
+          : null;
     const passwordTarget = manage && ['freelancers', 'customers', 'couriers'].includes(key)
       ? {
         resource: key,
@@ -106,6 +115,7 @@ export function detailPage(key) {
       id,
       canManage: manage,
       passwordTarget,
+      workflow,
       canCompleteDelivery: key === 'deliveries' && canCompleteDelivery(role, row, req.user),
       flash: flashMessage(req.query),
       ...detail
