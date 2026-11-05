@@ -53,6 +53,13 @@
     </div>
 
     <div class="form-actions">
+      {% if extraAction %}
+        {% if extraAction.userId %}
+          <button class="btn btn-ghost form-action-left" type="button" data-password data-resource="users" data-id="{{ extraAction.userId }}" data-user-name="{{ extraAction.userName }}">{{ extraAction.label }}</button>
+        {% else %}
+          <a class="btn btn-ghost form-action-left" href="{{ extraAction.href }}">{{ extraAction.label }}</a>
+        {% endif %}
+      {% endif %}
       <a class="btn btn-ghost" href="{{ cancelHref }}">Скасувати</a>
       <button class="btn btn-primary" type="submit">{{ submitLabel }}</button>
     </div>

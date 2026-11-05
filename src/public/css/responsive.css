@@ -19,13 +19,22 @@
   }
 }
 
-@media (max-width: 980px) {
+@media (max-width: 1320px) {
   .site-header {
     padding: 0 20px;
   }
 
   .menu-toggle {
     display: flex;
+    margin-left: 0;
+  }
+
+  .account-nav {
+    margin-left: auto;
+  }
+
+  .site-header:not(.has-account) .menu-toggle {
+    margin-left: auto;
   }
 
   .nav {
@@ -49,7 +58,9 @@
   .nav-link {
     padding: 10px 12px;
   }
+}
 
+@media (max-width: 980px) {
   .page-head {
     align-items: flex-start;
     flex-direction: column;
@@ -76,6 +87,14 @@
   .stat-grid,
   .metric-grid {
     grid-template-columns: 1fr;
+  }
+
+  .account-name {
+    display: none;
+  }
+
+  .account-chip {
+    padding: 4px;
   }
 
   .detail-hero {

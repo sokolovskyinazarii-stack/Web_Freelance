@@ -85,6 +85,10 @@
   border-top: 1px solid var(--line);
 }
 
+.form-action-left {
+  margin-right: auto;
+}
+
 .entity-form[data-loading="true"],
 #delete-form[data-loading="true"] {
   opacity: 0.7;

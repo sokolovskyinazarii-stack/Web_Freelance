@@ -10,7 +10,9 @@
 <section class="page-head">
   <h1>{{ title }}</h1>
   <div class="page-tools">
-    <a class="btn btn-primary" href="/{{ active }}/new">Створити</a>
+    {% if canManage %}
+      <a class="btn btn-primary" href="/{{ active }}/new">Створити</a>
+    {% endif %}
     <form class="search-form" method="get" action="">
       <label class="search">
         {{ ui.searchIcon() | safe }}

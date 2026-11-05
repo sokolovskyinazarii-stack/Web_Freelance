@@ -1,5 +1,6 @@
 @import url("base.css");
 @import url("layout.css");
+@import url("account.css");
 @import url("components.css");
 @import url("controls.css");
 @import url("tables.css");
@@ -15,4 +16,6 @@
 @import url("selects.css");
 @import url("checkboxes.css");
 @import url("modal.css");
+@import url("auth.css");
+@import url("password.css");
 @import url("responsive.css");

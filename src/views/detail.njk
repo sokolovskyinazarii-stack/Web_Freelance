@@ -24,8 +24,18 @@
   <div class="detail-side">
     {{ ui.cell(badge) | safe }}
     <div class="detail-actions">
-      <a class="btn btn-ghost" href="/{{ active }}/{{ id }}/edit">Редагувати</a>
-      <button class="btn btn-danger" type="button" data-delete data-resource="{{ active }}" data-id="{{ id }}" data-title="{{ title }}">Видалити</button>
+      {% if canManage %}
+        {% if passwordTarget %}
+          <button class="btn btn-ghost" type="button" data-password data-resource="{{ passwordTarget.resource }}" data-id="{{ passwordTarget.id }}" data-user-name="{{ passwordTarget.name }}">Скинути пароль</button>
+        {% endif %}
+        <a class="btn btn-ghost" href="/{{ active }}/{{ id }}/edit">Редагувати</a>
+        <button class="btn btn-danger" type="button" data-delete data-resource="{{ active }}" data-id="{{ id }}" data-title="{{ title }}">Видалити</button>
+      {% endif %}
+      {% if canCompleteDelivery %}
+        <form method="post" action="/deliveries/{{ id }}/complete" class="ajax-form">
+          <button class="btn btn-primary" type="submit">Позначити доставленою</button>
+        </form>
+      {% endif %}
     </div>
   </div>
 </section>

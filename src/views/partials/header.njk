@@ -1,4 +1,4 @@
-<header class="site-header">
+<header class="site-header{% if currentUser %} has-account{% endif %}">
   <a class="brand" href="/">
     <span class="brand-mark" aria-hidden="true">
       <svg viewBox="0 0 32 32" fill="none">
@@ -11,13 +11,31 @@
     <span class="brand-name">FreelanceHub</span>
   </a>
 
-  <button class="menu-toggle" id="menu-toggle" aria-label="Меню" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
-
   <nav class="nav" id="nav" aria-label="Головна навігація">
     {% for item in navItems %}
       <a class="nav-link{% if active == item.key %} active{% endif %}" href="{{ item.href }}">{{ item.label }}</a>
     {% endfor %}
   </nav>
+
+  {% if currentUser %}
+    <div class="account-nav">
+      <a class="account-chip{% if active == 'profile' %} active{% endif %}" href="/profile" title="Профіль">
+        <span class="avatar avatar-violet">{{ currentUser.fullName | initials }}</span>
+        <span class="account-name">{{ currentUser.fullName }}</span>
+      </a>
+
+      <form method="post" action="/logout" class="logout-form">
+        <button class="icon-button" type="submit" aria-label="Вийти з акаунта" title="Вийти">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M10 8l-4 4 4 4M6 12h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+  {% endif %}
+
+  <button class="menu-toggle" id="menu-toggle" aria-label="Меню" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </header>

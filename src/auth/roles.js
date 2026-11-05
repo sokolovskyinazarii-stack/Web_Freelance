@@ -1,0 +1,7 @@
+export const ROLES = {
+  GUEST: 'GUEST',
+  CLIENT: 'CLIENT',
+  FREELANCER: 'FREELANCER',
+  COURIER: 'COURIER',
+  ADMIN: 'ADMIN'
+};

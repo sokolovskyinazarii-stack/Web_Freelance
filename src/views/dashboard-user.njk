@@ -1,0 +1,26 @@
+{% extends "layout.njk" %}
+{% import "macros/table.njk" as table %}
+
+{% block content %}
+<section class="page-head">
+  <h1>Огляд</h1>
+</section>
+
+<section class="stat-grid">
+  {% for stat in stats %}
+    <article class="stat-card">
+      <span class="stat-label">{{ stat.label }}</span>
+      <strong class="stat-value">{{ stat.value }}</strong>
+      <span class="stat-note">{{ stat.note }}</span>
+    </article>
+  {% endfor %}
+</section>
+
+<section class="panel recent-panel">
+  <header class="panel-head">
+    <h3>{{ tableTitle }}</h3>
+    <a class="link-arrow" href="{{ tableHref }}">Усі</a>
+  </header>
+  <div class="table-wrap">{{ table.render(tableData) | safe }}</div>
+</section>
+{% endblock %}

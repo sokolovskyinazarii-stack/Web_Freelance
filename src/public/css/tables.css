@@ -93,7 +93,8 @@
 }
 
 .row-edit,
-.row-delete {
+.row-delete,
+.row-password {
   display: inline-grid;
   place-items: center;
   width: 28px;
@@ -116,8 +117,15 @@
   color: var(--rose);
 }
 
+.row-password:hover {
+  border-color: var(--amber);
+  background: color-mix(in srgb, var(--amber) 12%, transparent);
+  color: var(--amber);
+}
+
 .row-edit svg,
-.row-delete svg {
+.row-delete svg,
+.row-password svg {
   width: 14px;
   height: 14px;
 }

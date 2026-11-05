@@ -1,9 +1,17 @@
 import express from 'express';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import nunjucks from 'nunjucks';
+import session from 'express-session';
+import passport from 'passport';
 import apiRouter from './routes/api.routes.js';
 import pageRouter from './routes/page.routes.js';
+import authRouter from './routes/auth.routes.js';
+import userRouter from './routes/user.routes.js';
+import { configurePassport } from './auth/passport.js';
+import { authLocals, requireRole } from './auth/middleware.js';
+import { ROLES } from './auth/roles.js';
 import { date, initials, money, plural } from './lib/format.js';
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
@@ -22,27 +30,34 @@ nunjucksEnv.addFilter('date', date);
 nunjucksEnv.addFilter('plural', plural);
 nunjucksEnv.addFilter('initials', initials);
 
+configurePassport();
+
 app.set('view engine', 'njk');
 app.disable('x-powered-by');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || crypto.randomBytes(48).toString('hex'),
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      sameSite: 'lax',
+      maxAge: 1000 * 60 * 60 * 8
+    }
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(authLocals);
 app.use(express.static(publicDir));
-app.use('/api', apiRouter);
+app.use('/', authRouter);
+app.use('/api', requireRole(ROLES.ADMIN), apiRouter);
+app.use('/users', requireRole(ROLES.ADMIN), userRouter);
 app.use('/', pageRouter);
 
 app.get('/favicon.ico', (req, res) => res.status(204).end());
-
-app.locals.navItems = [
-  { key: 'overview', label: 'Огляд', href: '/' },
-  { key: 'freelancers', label: 'Фрілансери', href: '/freelancers' },
-  { key: 'customers', label: 'Замовники', href: '/customers' },
-  { key: 'projects', label: 'Проєкти', href: '/projects' },
-  { key: 'categories', label: 'Категорії', href: '/categories' },
-  { key: 'orders', label: 'Замовлення', href: '/orders' },
-  { key: 'statuses', label: 'Статуси', href: '/statuses' },
-  { key: 'deliveries', label: 'Доставки', href: '/deliveries' },
-  { key: 'couriers', label: 'Кур’єри', href: '/couriers' }
-];
 
 app.use((req, res) => {
   if (req.path.startsWith('/api')) {

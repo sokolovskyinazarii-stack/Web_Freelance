@@ -1,0 +1,110 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+<nav class="crumbs">
+  <a href="/profile">Профіль</a>
+  <span>/</span>
+  <span>Редагування</span>
+</nav>
+
+<section class="page-head">
+  <h1>Редагування профілю</h1>
+</section>
+
+<p class="form-note">ПІБ та email змінює лише адміністратор. Решту даних ви можете оновити самостійно.</p>
+
+{% if errors._form %}
+  <div class="alert alert-error">{{ errors._form }}</div>
+{% endif %}
+
+<div class="profile-edit-grid">
+  <section class="panel form-panel">
+    <header class="panel-head">
+      <h3>Особисті дані</h3>
+    </header>
+
+    <form method="post" action="/profile/edit" novalidate class="entity-form">
+      <div class="form-grid">
+        <div class="form-field form-field-wide">
+          <label for="account-full-name">ПІБ</label>
+          <input id="account-full-name" type="text" value="{{ user.fullName }}" disabled>
+          <p class="field-hint">Змінює лише адміністратор.</p>
+        </div>
+
+        <div class="form-field form-field-wide">
+          <label for="account-email">Email</label>
+          <input id="account-email" type="email" value="{{ user.email }}" disabled>
+          <p class="field-hint">Змінює лише адміністратор.</p>
+        </div>
+
+        {% for field in fields %}
+          <div class="form-field{% if field.wide %} form-field-wide{% endif %}">
+            <label for="field-{{ field.name }}">{{ field.label }}{% if field.required %} <span class="required-mark">*</span>{% endif %}</label>
+
+            {% if field.type == 'textarea' %}
+              <textarea id="field-{{ field.name }}" name="{{ field.name }}" rows="{{ field.rows or 4 }}">{{ field.value }}</textarea>
+            {% elif field.type == 'select' %}
+              <select id="field-{{ field.name }}" name="{{ field.name }}" data-searchable data-placeholder="Оберіть значення">
+                {% for option in field.options %}
+                  <option value="{{ option.value }}"{% if option.value == field.value %} selected{% endif %}>{{ option.label }}</option>
+                {% endfor %}
+              </select>
+            {% else %}
+              <input
+                id="field-{{ field.name }}"
+                type="{{ field.type }}"
+                name="{{ field.name }}"
+                value="{{ field.value }}"
+                {% if field.step %}step="{{ field.step }}"{% endif %}
+                {% if field.min is defined %}min="{{ field.min }}"{% endif %}
+                autocomplete="off"
+              >
+            {% endif %}
+
+            {% if errors[field.name] %}
+              <p class="field-error">{{ errors[field.name] }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="form-actions">
+        <a class="btn btn-ghost" href="/profile">Скасувати</a>
+        <button class="btn btn-primary" type="submit">Зберегти</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel form-panel">
+    <header class="panel-head">
+      <h3>Зміна пароля</h3>
+    </header>
+
+    <form method="post" action="/profile/password" novalidate class="entity-form">
+      <div class="form-grid">
+        <div class="form-field form-field-wide">
+          <label for="currentPassword">Поточний пароль <span class="required-mark">*</span></label>
+          <input id="currentPassword" type="password" name="currentPassword" autocomplete="current-password">
+          {% if passwordErrors.currentPassword %}<p class="field-error">{{ passwordErrors.currentPassword }}</p>{% endif %}
+        </div>
+
+        <div class="form-field">
+          <label for="newPassword">Новий пароль <span class="required-mark">*</span></label>
+          <input id="newPassword" type="password" name="password" autocomplete="new-password">
+          {% if passwordErrors.password %}<p class="field-error">{{ passwordErrors.password }}</p>{% endif %}
+        </div>
+
+        <div class="form-field">
+          <label for="passwordConfirm">Повторіть пароль <span class="required-mark">*</span></label>
+          <input id="passwordConfirm" type="password" name="passwordConfirm" autocomplete="new-password">
+          {% if passwordErrors.passwordConfirm %}<p class="field-error">{{ passwordErrors.passwordConfirm }}</p>{% endif %}
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Оновити пароль</button>
+      </div>
+    </form>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+{% if flash %}
+  <div class="alert alert-{{ flash.type }}">{{ flash.text }}</div>
+{% endif %}
+
+<section class="profile-hero">
+  <span class="avatar avatar-xl avatar-violet">{{ user.fullName | initials }}</span>
+  <div>
+    <h1>{{ user.fullName }}</h1>
+    <p>{{ user.email }}</p>
+  </div>
+  <div class="profile-hero-side">
+    <span class="badge" style="--tone:{{ user.role.color }}">{{ user.role.name }}</span>
+    <a class="btn btn-ghost" href="/profile/edit">Редагувати профіль</a>
+  </div>
+</section>
+
+<section class="metric-grid">
+  {% for metric in metrics %}
+    <article class="metric-card">
+      <span class="metric-label">{{ metric.label }}</span>
+      <strong>{{ metric.value }}</strong>
+    </article>
+  {% endfor %}
+</section>
+
+<div class="profile-grid">
+  <section class="panel">
+    <header class="panel-head">
+      <h3>Акаунт</h3>
+    </header>
+    <dl class="field-grid">
+      <div class="field">
+        <dt>Email</dt>
+        <dd>{{ user.email }}</dd>
+      </div>
+      <div class="field">
+        <dt>Телефон</dt>
+        <dd>{{ user.phone or '—' }}</dd>
+      </div>
+      <div class="field">
+        <dt>Статус</dt>
+        <dd>
+          <span class="badge" style="--tone:{{ '#4ade80' if user.isActive else '#98a1b1' }}">
+            {{ 'Активний' if user.isActive else 'Заблокований' }}
+          </span>
+        </dd>
+      </div>
+      <div class="field">
+        <dt>На платформі</dt>
+        <dd>{{ user.createdAt | date }}</dd>
+      </div>
+    </dl>
+  </section>
+
+  {% if user.freelancer %}
+    <section class="panel">
+      <header class="panel-head">
+        <h3>Профіль фрілансера</h3>
+      </header>
+      <dl class="field-grid">
+        <div class="field"><dt>Спеціальність</dt><dd>{{ user.freelancer.specialty }}</dd></div>
+        <div class="field"><dt>Місто</dt><dd>{{ user.freelancer.city }}</dd></div>
+        <div class="field"><dt>Ставка</dt><dd>{{ user.freelancer.hourlyRate | money }} / год</dd></div>
+        <div class="field"><dt>Рейтинг</dt><dd>{{ user.freelancer.rating }}</dd></div>
+        <div class="field field-wide"><dt>Про фахівця</dt><dd>{{ user.freelancer.bio or 'Опис ще не додано.' }}</dd></div>
+      </dl>
+    </section>
+  {% elif user.customer %}
+    <section class="panel">
+      <header class="panel-head">
+        <h3>Профіль замовника</h3>
+      </header>
+      <dl class="field-grid">
+        <div class="field"><dt>Компанія</dt><dd>{{ user.customer.companyName }}</dd></div>
+        <div class="field"><dt>Контактна особа</dt><dd>{{ user.customer.contactName }}</dd></div>
+        <div class="field"><dt>Місто</dt><dd>{{ user.customer.city }}</dd></div>
+        <div class="field"><dt>Телефон</dt><dd>{{ user.customer.phone }}</dd></div>
+      </dl>
+    </section>
+  {% elif user.courier %}
+    <section class="panel">
+      <header class="panel-head">
+        <h3>Профіль кур’єра</h3>
+      </header>
+      <dl class="field-grid">
+        <div class="field"><dt>Транспорт</dt><dd>{{ user.courier.vehicle }}</dd></div>
+        <div class="field"><dt>Зона</dt><dd>{{ user.courier.zone }}</dd></div>
+        <div class="field"><dt>Рейтинг</dt><dd>{{ user.courier.rating }}</dd></div>
+        <div class="field"><dt>Статус</dt><dd>{{ 'На лінії' if user.courier.isActive else 'Поза зміною' }}</dd></div>
+      </dl>
+    </section>
+  {% else %}
+    <section class="panel">
+      <header class="panel-head">
+        <h3>Роль</h3>
+      </header>
+      <div class="panel-body">
+        <p class="detail-text">Адміністратор платформи. Керує користувачами, проєктами, замовленнями та логістикою.</p>
+      </div>
+    </section>
+  {% endif %}
+</div>
+{% endblock %}

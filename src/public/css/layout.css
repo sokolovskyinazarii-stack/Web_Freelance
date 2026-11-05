@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  margin-left: auto;
+  margin-right: auto;
 }
 
 .nav-link {
@@ -71,7 +71,7 @@
   flex-direction: column;
   gap: 4px;
   padding: 8px;
-  margin-left: auto;
+  margin-left: 0;
   border: 1px solid var(--line);
   border-radius: 8px;
 }

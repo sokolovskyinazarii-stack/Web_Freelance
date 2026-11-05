@@ -1,0 +1,33 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+<section class="auth-wrap">
+  <div class="panel form-panel">
+    <section class="page-head">
+      <h1>Вхід</h1>
+    </section>
+
+    {% if error %}
+      <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" action="/login" novalidate class="entity-form">
+      <div class="form-grid">
+        <div class="form-field form-field-wide">
+          <label for="email">Email</label>
+          <input id="email" type="email" name="email" value="{{ email }}" autocomplete="email">
+        </div>
+        <div class="form-field form-field-wide">
+          <label for="password">Пароль</label>
+          <input id="password" type="password" name="password" autocomplete="current-password">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a class="btn btn-ghost" href="/register">Реєстрація</a>
+        <button class="btn btn-primary" type="submit">Увійти</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

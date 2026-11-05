@@ -1,0 +1,66 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+<section class="page-head">
+  <h1>Користувачі</h1>
+  <div class="page-tools">
+    <a class="btn btn-primary" href="/users/new">Створити</a>
+  </div>
+</section>
+
+<section class="panel table-panel">
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Користувач</th>
+          <th>Роль</th>
+          <th>Профіль</th>
+          <th>Статус</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr>
+            <td>
+              <div class="person">
+                <span class="avatar avatar-violet">{{ user.fullName | initials }}</span>
+                <span class="person-text">
+                  <strong>{{ user.fullName }}</strong>
+                  <small>{{ user.email }}</small>
+                </span>
+              </div>
+            </td>
+            <td>
+              <span class="badge" style="--tone:{{ user.role.color }}">{{ user.role.name }}</span>
+            </td>
+            <td>
+              {% if user.freelancer %}
+                Фрілансер: {{ user.freelancer.fullName }}
+              {% elif user.customer %}
+                Замовник: {{ user.customer.companyName }}
+              {% elif user.courier %}
+                Кур’єр: {{ user.courier.fullName }}
+              {% else %}
+                —
+              {% endif %}
+            </td>
+            <td>
+              <span class="badge" style="--tone:{{ '#4ade80' if user.isActive else '#98a1b1' }}">
+                {{ 'Активний' if user.isActive else 'Заблокований' }}
+              </span>
+            </td>
+            <td class="align-right">
+              <div class="user-actions">
+                <button class="link-button" type="button" data-password data-resource="users" data-id="{{ user.id }}" data-user-name="{{ user.fullName }}">Пароль</button>
+                <a class="link-arrow" href="/users/{{ user.id }}/edit">Редагувати</a>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

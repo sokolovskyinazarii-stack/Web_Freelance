@@ -3,12 +3,15 @@ export function buildTable(columns, rows, resource, options = {}) {
     resource,
     editable: Boolean(options.editable),
     deletable: Boolean(options.deletable),
+    password: Boolean(options.password),
     columns: columns.map((column) => ({
       label: column.label,
       align: column.align || ''
     })),
     rows: rows.map((row) => ({
       id: row.id,
+      userId: row.userId || null,
+      displayTitle: options.title ? options.title(row) : '',
       href: `/${resource}/${row.id}`,
       editHref: `/${resource}/${row.id}/edit`,
       deleteTitle: options.title ? options.title(row) : '',
@@ -20,13 +23,14 @@ export function buildTable(columns, rows, resource, options = {}) {
   };
 }
 
-export function buildList(entity, rows, query) {
+export function buildList(entity, rows, query, canManage = false) {
   return {
     searchHint: entity.list.searchHint,
     query,
     tableData: buildTable(entity.list.columns, rows, entity.key, {
-      editable: true,
-      deletable: true,
+      editable: canManage,
+      deletable: canManage,
+      password: canManage && ['freelancers', 'customers', 'couriers'].includes(entity.key),
       title: (row) => entity.detail.title(row)
     })
   };

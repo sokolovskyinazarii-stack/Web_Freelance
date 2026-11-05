@@ -1,3 +1,22 @@
+function syncHeader(doc) {
+  const header = document.querySelector('.site-header');
+  const nextHeader = doc.querySelector('.site-header');
+  if (!header || !nextHeader) return;
+
+  header.className = nextHeader.className;
+
+  const currentAccount = header.querySelector('.account-nav');
+  const nextAccount = nextHeader.querySelector('.account-nav');
+
+  if (currentAccount && nextAccount) {
+    currentAccount.replaceWith(nextAccount);
+  } else if (!currentAccount && nextAccount) {
+    header.insertBefore(nextAccount, header.querySelector('.menu-toggle'));
+  } else if (currentAccount && !nextAccount) {
+    currentAccount.remove();
+  }
+}
+
 function replaceView(html) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
   const nextView = doc.getElementById('view');
@@ -5,6 +24,7 @@ function replaceView(html) {
 
   document.getElementById('view').innerHTML = nextView.innerHTML;
   document.getElementById('nav').innerHTML = doc.getElementById('nav').innerHTML;
+  syncHeader(doc);
   document.title = doc.title;
   document.querySelectorAll('.modal:not([hidden])').forEach((modal) => {
     modal.hidden = true;
@@ -52,7 +72,7 @@ async function submitForm(form) {
 
 document.addEventListener('submit', (event) => {
   const form = event.target;
-  if (!form.matches('.entity-form, #delete-form')) return;
+  if (!form.matches('.entity-form, #delete-form, .ajax-form')) return;
   event.preventDefault();
   submitForm(form);
 });

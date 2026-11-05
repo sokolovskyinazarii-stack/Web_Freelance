@@ -8,7 +8,7 @@
       {% for column in table.columns %}
         <th class="{{ 'align-right' if column.align == 'right' else '' }}">{{ column.label }}</th>
       {% endfor %}
-      {% if table.editable or table.deletable %}<th class="row-actions"></th>{% endif %}
+      {% if table.editable or table.deletable or table.password %}<th class="row-actions"></th>{% endif %}
     </tr>
   </thead>
   <tbody>
@@ -17,9 +17,19 @@
         {% for cell in row.cells %}
           <td class="{{ 'align-right' if cell.align == 'right' else '' }}">{{ ui.cell(cell) | safe }}</td>
         {% endfor %}
-        {% if table.editable or table.deletable %}
+        {% if table.editable or table.deletable or table.password %}
           <td class="row-actions">
             <div class="row-actions-inner">
+              {% if table.password %}
+                <button class="row-password" type="button" title="Скинути пароль" aria-label="Скинути пароль"
+                  data-password data-resource="{{ table.resource }}" data-id="{{ row.id }}"
+                  data-user-name="{{ row.displayTitle }}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="7.5" cy="12" r="4"></circle>
+                    <path d="M11.5 12H21M18 12v3M15 12v2"></path>
+                  </svg>
+                </button>
+              {% endif %}
               {% if table.editable %}
                 <a class="row-edit" href="{{ row.editHref }}" title="Редагувати" aria-label="Редагувати запис">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
