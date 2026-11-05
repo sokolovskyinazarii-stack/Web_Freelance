@@ -1,0 +1,4 @@
+node_modules
+.env
+prisma/freelance.db
+prisma/freelance.db-journal
