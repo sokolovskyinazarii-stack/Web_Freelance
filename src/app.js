@@ -29,6 +29,12 @@ if (!process.env.SESSION_SECRET && isProduction) {
 app.set('trust proxy', 1);
 app.disable('x-powered-by');
 
+// Легкий health-check без сесії та бази: для Render і зовнішнього монітора.
+app.get('/healthz', (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  res.status(200).json({ status: 'ok' });
+});
+
 app.use((req, res, next) => {
   res.set('X-Content-Type-Options', 'nosniff');
   res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
