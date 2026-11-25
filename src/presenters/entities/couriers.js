@@ -34,9 +34,9 @@ export const couriers = {
     badge: (row) => activeBadge(row.isActive),
     metrics: [
       { label: 'Рейтинг', cell: (row) => rating(row.rating), hint: () => 'середня оцінка' },
-      { label: 'Доставки', cell: (row) => text(row._count.deliveries), hint: () => 'виконано' },
+      { label: 'Доставки', cell: (row) => text(row._count.deliveries), hint: () => 'призначені кур’єру' },
       { label: 'Статус', cell: (row) => activeBadge(row.isActive), hint: () => 'поточна зміна' },
-      { label: 'У команді', cell: (row) => dateCell(row.createdAt), hint: () => 'дата приєднання' }
+      { label: 'У команді', cell: (row) => dateCell(row.createdAt), hint: () => 'дата реєстрації' }
     ],
     fields: [
       { label: 'Телефон', cell: (row) => text(row.phone) },

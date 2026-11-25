@@ -34,9 +34,9 @@ export const statuses = {
     badge: (row) => statusBadge(row),
     metrics: [
       { label: 'Замовлення', cell: (row) => text(row._count.orders), hint: () => 'у цьому статусі' },
-      { label: 'Порядок', cell: (row) => text(row.sortOrder), hint: () => 'у життєвому циклі' },
-      { label: 'Код', cell: (row) => text(row.code), hint: () => 'системний ідентифікатор' },
-      { label: 'Колір', cell: (row) => badge(row.color, row.color), hint: () => 'акцент інтерфейсу' }
+      { label: 'Порядок', cell: (row) => text(row.sortOrder), hint: () => 'крок у циклі' },
+      { label: 'Код', cell: (row) => text(row.code), hint: () => 'службовий код' },
+      { label: 'Колір', cell: (row) => badge(row.color, row.color), hint: () => 'колір у списках' }
     ],
     fields: [{ label: 'Опис', wide: true, cell: (row) => text(row.description) }],
     relations: [

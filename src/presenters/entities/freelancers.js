@@ -37,8 +37,8 @@ export const freelancers = {
     metrics: [
       { label: 'Рейтинг', cell: (row) => rating(row.rating), hint: () => 'середня оцінка' },
       { label: 'Ставка', cell: (row) => moneyCell(row.hourlyRate), hint: () => 'за годину' },
-      { label: 'Проєкти', cell: (row) => text(row._count.projects), hint: () => 'у роботі та архіві' },
-      { label: 'Замовлення', cell: (row) => text(row._count.orders), hint: () => 'залучено виконавцем' }
+      { label: 'Проєкти', cell: (row) => text(row._count.projects), hint: () => 'усього проєктів' },
+      { label: 'Замовлення', cell: (row) => text(row._count.orders), hint: () => 'із цим фрілансером' }
     ],
     fields: [
       { label: 'Email', cell: (row) => text(row.email) },

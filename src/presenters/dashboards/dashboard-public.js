@@ -3,26 +3,16 @@ import { buildTable } from '../build.js';
 import { dateCell, moneyCell, person, text } from '../cells.js';
 
 export async function buildPublicDashboard() {
-  const [projects, freelancers, categories, recentProjects, topFreelancers, categoryList] =
-    await Promise.all([
-      prisma.project.count(),
-      prisma.freelancer.count(),
-      prisma.category.count(),
-      prisma.project.findMany({
-        take: 6,
-        orderBy: { createdAt: 'desc' },
-        include: { category: true, customer: true, freelancer: true }
-      }),
-      prisma.freelancer.findMany({
-        take: 5,
-        orderBy: { rating: 'desc' },
-        include: { _count: { select: { orders: true } } }
-      }),
-      prisma.category.findMany({
-        orderBy: { name: 'asc' },
-        include: { _count: { select: { projects: true } } }
-      })
-    ]);
+  const [projects, freelancers, categories, recentProjects] = await Promise.all([
+    prisma.project.count(),
+    prisma.freelancer.count(),
+    prisma.category.count(),
+    prisma.project.findMany({
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+      include: { category: true, customer: true, freelancer: true }
+    })
+  ]);
 
   const columns = [
     { label: 'Проєкт', cell: (row) => person(row.title, row.category.name, 'green') },
@@ -41,8 +31,6 @@ export async function buildPublicDashboard() {
       { label: 'Фрілансери', value: freelancers, icon: 'freelancers' },
       { label: 'Категорії', value: categories, icon: 'categories' }
     ],
-    recentTable: buildTable(columns, recentProjects, 'projects'),
-    freelancers: topFreelancers,
-    categories: categoryList
+    recentTable: buildTable(columns, recentProjects, 'projects')
   };
 }

@@ -31,12 +31,12 @@ export const customers = {
     title: (row) => row.companyName,
     subtitle: (row) => `${row.contactName} · ${row.city}`,
     avatar: (row) => avatar(row.companyName, 'cyan', 'avatar-xl'),
-    badge: () => badge('Постійний клієнт', '#86c8dd'),
+    badge: () => badge('Замовник', '#86c8dd'),
     metrics: [
-      { label: 'Проєкти', cell: (row) => text(row._count.projects), hint: () => 'опубліковано' },
-      { label: 'Замовлення', cell: (row) => text(row._count.orders), hint: () => 'усього' },
+      { label: 'Проєкти', cell: (row) => text(row._count.projects), hint: () => 'усього проєктів' },
+      { label: 'Замовлення', cell: (row) => text(row._count.orders), hint: () => 'усього замовлень' },
       {
-        label: 'Обіг',
+        label: 'Сума замовлень',
         cell: (row) => moneyCell(row.orders.reduce((sum, order) => sum + order.amount, 0)),
         hint: () => 'за всіма замовленнями'
       },

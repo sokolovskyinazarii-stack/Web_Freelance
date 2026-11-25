@@ -1,6 +1,8 @@
+import { plural } from '../lib/format.js';
+
 const deliveryStates = {
-  offered: ['Очікує кур’єра', '#fbbf24'],
-  pending: ['Очікує', '#fbbf24'],
+  offered: ['Очікує кур’єра', '#e6b567'],
+  pending: ['Очікує', '#e6b567'],
   in_transit: ['У дорозі', '#86c8dd'],
   delivered: ['Доставлено', '#8fdfb4'],
   failed: ['Не доставлено', '#ff9a86']
@@ -33,7 +35,16 @@ export function activeBadge(isActive) {
 export function deadlineBadge(value) {
   const days = Math.ceil((new Date(value).getTime() - Date.now()) / 86400000);
   if (Number.isNaN(days)) return badge('Без дедлайну');
-  if (days < 0) return badge('Прострочено', '#ff9a86');
-  if (days <= 7) return badge(`${days} дн.`, '#fbbf24');
-  return badge(`${days} дн.`, '#8a9086');
+
+  if (days < 0) {
+    const late = Math.abs(days);
+    return badge(`Прострочено на ${late} ${plural(late, 'день', 'дні', 'днів')}`, '#ff9a86');
+  }
+
+  if (days === 0) return badge('Дедлайн сьогодні', '#e6b567');
+
+  return badge(
+    `${days} ${plural(days, 'день', 'дні', 'днів')} до дедлайну`,
+    days <= 7 ? '#e6b567' : '#8a9086'
+  );
 }

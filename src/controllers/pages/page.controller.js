@@ -97,16 +97,20 @@ export function detailPage(key) {
       }
       : null;
 
+    let ordersHidden = false;
+
     if (!manage) {
       if (
         key === 'freelancers' &&
         !(role === ROLES.FREELANCER && req.user?.freelancer?.id === row.id)
       ) {
         detail.relations = detail.relations.filter((relation) => relation.title !== 'Замовлення');
+        ordersHidden = true;
       }
 
       if (key === 'projects') {
         detail.relations = detail.relations.filter((relation) => relation.title !== 'Замовлення');
+        ordersHidden = true;
       }
     }
 
@@ -116,6 +120,7 @@ export function detailPage(key) {
       canManage: manage,
       passwordTarget,
       workflow,
+      ordersHidden,
       canCompleteDelivery: key === 'deliveries' && canCompleteDelivery(role, row, req.user),
       flash: flashMessage(req.query),
       ...detail

@@ -51,7 +51,7 @@ export const deliveries = {
     avatar: (row) => avatar(row.trackingNumber, 'cyan', 'avatar-xl'),
     badge: (row) => deliveryBadge(row.status),
     metrics: [
-      { label: 'Вартість', cell: (row) => moneyCell(row.cost), hint: () => 'доставки' },
+      { label: 'Вартість', cell: (row) => moneyCell(row.cost), hint: () => 'вартість доставки' },
       { label: 'Очікується', cell: (row) => dateCell(row.estimatedAt), hint: () => 'планова дата' },
       { label: 'Доставлено', cell: (row) => dateCell(row.deliveredAt), hint: () => 'фактична дата' },
       {

@@ -39,13 +39,13 @@ export const projects = {
     avatar: (row) => avatar(row.title, 'green', 'avatar-xl'),
     badge: (row) => deadlineBadge(row.deadline),
     metrics: [
-      { label: 'Бюджет', cell: (row) => moneyCell(row.budget), hint: () => 'узгоджений кошторис' },
-      { label: 'Замовлення', cell: (row) => text(row._count.orders), hint: () => 'у межах проєкту' },
-      { label: 'Дедлайн', cell: (row) => dateCell(row.deadline), hint: () => 'кінцева дата' },
+      { label: 'Бюджет', cell: (row) => moneyCell(row.budget), hint: () => 'погоджений бюджет' },
+      { label: 'Замовлення', cell: (row) => text(row._count.orders), hint: () => 'створені за проєктом' },
+      { label: 'Дедлайн', cell: (row) => dateCell(row.deadline), hint: () => 'дата завершення' },
       {
         label: 'Ставка',
         cell: (row) => moneyCell(row.freelancer.hourlyRate, ' / год'),
-        hint: () => 'фрілансера'
+        hint: () => 'погодинна ставка виконавця'
       }
     ],
     fields: [

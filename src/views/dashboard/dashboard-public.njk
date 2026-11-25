@@ -6,10 +6,10 @@
 <div class="page-full">
   <section class="page-head" data-reveal>
     <h1>Платформа для фрілансу</h1>
-    <p class="page-lede">Проєкти, виконавці та категорії у відкритому доступі. Щоб створити замовлення або подати заявку, увійдіть.</p>
+    <p class="page-lede">Відкриті проєкти, виконавці та категорії. Для створення замовлення або подачі заявки потрібен акаунт.</p>
     <div class="page-actions">
-      <a class="btn btn-primary" href="/login">
-        Увійти
+      <a class="btn btn-primary" href="/projects">
+        Переглянути проєкти
         {{ icons.icon('arrow-right', 15) }}
       </a>
       <a class="btn btn-ghost" href="/register">Зареєструватися</a>
@@ -36,46 +36,5 @@
     </header>
     <div class="table-wrap">{{ table.render(recentTable) | safe }}</div>
   </section>
-
-  <div class="split">
-    <section class="sheet">
-      <header class="sheet-head" data-reveal>
-        <h2 class="sheet-title">{{ icons.icon('freelancers', 17) }} Фрілансери</h2>
-        <a class="link-arrow" href="/freelancers">Усі {{ icons.icon('arrow-up-right', 13) }}</a>
-      </header>
-      <div class="rank-list">
-        {% for freelancer in freelancers %}
-          <a class="rank-row" href="/freelancers/{{ freelancer.id }}" data-reveal>
-            <span class="avatar avatar-violet">{{ freelancer.fullName | initials }}</span>
-            <span class="rank-copy">
-              <strong>{{ freelancer.fullName }}</strong>
-              <small>{{ freelancer.specialty }}</small>
-            </span>
-            <span class="rank-meta">
-              <span class="rating">{{ icons.icon('star', 12) }} {{ freelancer.rating }}</span>
-              <small>{{ freelancer._count.orders }} {{ freelancer._count.orders | plural('замовлення', 'замовлення', 'замовлень') }}</small>
-            </span>
-          </a>
-        {% endfor %}
-      </div>
-    </section>
-
-    <section class="sheet">
-      <header class="sheet-head" data-reveal>
-        <h2 class="sheet-title">{{ icons.icon('categories', 17) }} Категорії</h2>
-        <a class="link-arrow" href="/categories">Усі {{ icons.icon('arrow-up-right', 13) }}</a>
-      </header>
-      <div class="category-list">
-        {% for category in categories %}
-          <a class="category-row" href="/categories/{{ category.id }}" data-reveal>
-            <div class="category-head">
-              <strong>{{ category.name }}</strong>
-              <span>{{ category._count.projects }} {{ category._count.projects | plural('проєкт', 'проєкти', 'проєктів') }}</span>
-            </div>
-          </a>
-        {% endfor %}
-      </div>
-    </section>
-  </div>
 </div>
 {% endblock %}

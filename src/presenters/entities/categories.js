@@ -1,3 +1,4 @@
+import { plural } from '../../lib/format.js';
 import {
   avatar,
   badge,
@@ -17,10 +18,10 @@ export const categories = {
   search: (row) => [row.name, row.slug, row.description].join(' '),
   list: {
     title: 'Категорії',
-    searchHint: 'Назва, slug або опис',
+    searchHint: 'Назва, код або опис',
     columns: [
       { label: 'Категорія', cell: (row) => person(row.name, row.description, 'amber') },
-      { label: 'Slug', cell: (row) => tag(row.slug) },
+      { label: 'Код', cell: (row) => tag(row.slug) },
       { label: 'Проєкти', align: 'right', cell: (row) => text(row._count.projects) }
     ]
   },
@@ -28,13 +29,13 @@ export const categories = {
     title: (row) => row.name,
     subtitle: (row) => row.description,
     avatar: (row) => avatar(row.name, 'amber', 'avatar-xl'),
-    badge: (row) => badge(row.slug, '#fbbf24'),
+    badge: (row) => badge(`${row._count.projects} ${plural(row._count.projects, 'проєкт', 'проєкти', 'проєктів')}`, '#e6b567'),
     metrics: [
-      { label: 'Проєкти', cell: (row) => text(row._count.projects), hint: () => 'у категорії' },
+      { label: 'Проєкти', cell: (row) => text(row._count.projects), hint: () => 'у цій категорії' },
       {
-        label: 'Бюджети',
+        label: 'Сума бюджетів',
         cell: (row) => moneyCell(row.projects.reduce((sum, project) => sum + project.budget, 0)),
-        hint: () => 'сумарно'
+        hint: () => 'усіх проєктів'
       },
       {
         label: 'Середній бюджет',
@@ -50,11 +51,11 @@ export const categories = {
       {
         label: 'Виконавці',
         cell: (row) => text(new Set(row.projects.map((project) => project.freelancerId)).size),
-        hint: () => 'залучені фрілансери'
+        hint: () => 'унікальні фрілансери'
       }
     ],
     fields: [
-      { label: 'Slug', cell: (row) => tag(row.slug) },
+      { label: 'Код', cell: (row) => tag(row.slug) },
       { label: 'Створено', cell: (row) => dateCell(row.createdAt) },
       { label: 'Опис', wide: true, cell: (row) => paragraph(row.description) }
     ],

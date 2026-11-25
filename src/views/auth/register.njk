@@ -2,7 +2,7 @@
 {% import "macros/icons.njk" as icons %}
 
 {% block content %}
-<div class="auth">
+<div class="auth auth-wide">
   <div class="auth-main">
     <h1 class="auth-title" data-reveal>Реєстрація</h1>
 
@@ -10,7 +10,7 @@
       <div class="alert alert-error">{{ errors._form }}</div>
     {% endif %}
 
-    <form method="post" action="/register" novalidate class="entity-form auth-form" data-reveal>
+    <form method="post" action="/register" novalidate class="entity-form auth-form auth-form-wide" data-reveal>
       <div class="form-grid">
         <div class="form-field form-field-wide">
           <label for="role">Роль</label>

@@ -60,9 +60,9 @@ export const orders = {
       {
         label: 'Бюджет',
         cell: (row) => moneyCell(orderBudget(row)),
-        hint: () => 'орієнтовний'
+        hint: () => 'бюджет проєкту'
       },
-      { label: 'Дедлайн', cell: (row) => dateCell(orderDeadline(row)), hint: () => 'бажана дата' },
+      { label: 'Дедлайн', cell: (row) => dateCell(orderDeadline(row)), hint: () => 'дата з проєкту' },
       {
         label: 'Доставка',
         cell: (row) => (row.delivery ? deliveryBadge(row.delivery.status) : text('—')),

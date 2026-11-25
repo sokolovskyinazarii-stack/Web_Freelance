@@ -73,6 +73,14 @@
       </dl>
     </section>
 
+    {% if ordersHidden %}
+      <p class="detail-note">
+        Замовлення за цим {{ 'проєктом' if active == 'projects' else 'фрілансером' }}
+        доступні {% if currentUser %}лише учасникам і адміністратору{% else %}після входу{% endif %}.
+        {% if not currentUser %}<a href="/login">Увійти</a>{% endif %}
+      </p>
+    {% endif %}
+
     {% if active == 'orders' and workflow %}
       {% include "partials/order-workflow.njk" %}
     {% endif %}
@@ -82,15 +90,17 @@
     {% endif %}
 
     {% for relation in relations %}
-      <section class="sheet relation-panel">
-        <header class="sheet-head" data-reveal>
-          <h2 class="sheet-title">{{ relation.title }}</h2>
-          <span class="sheet-meta">{{ relation.table.rows.length }}</span>
-        </header>
-        <div class="table-wrap">
-          {{ table.render(relation.table, relation.empty) | safe }}
-        </div>
-      </section>
+      {% if relation.table.rows.length %}
+        <section class="sheet relation-panel">
+          <header class="sheet-head" data-reveal>
+            <h2 class="sheet-title">{{ relation.title }}</h2>
+            <span class="sheet-meta">{{ relation.table.rows.length }}</span>
+          </header>
+          <div class="table-wrap">
+            {{ table.render(relation.table, relation.empty) | safe }}
+          </div>
+        </section>
+      {% endif %}
     {% endfor %}
   </div>
 </div>

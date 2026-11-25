@@ -25,6 +25,19 @@
   gap: 26px;
 }
 
+.auth-wide {
+  grid-template-columns: minmax(0, 640px) minmax(0, 1fr);
+}
+
+.auth-form-wide {
+  width: 100%;
+}
+
+.auth-form-wide .form-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px 30px;
+}
+
 .auth-form .form-actions {
   justify-content: stretch;
   padding-top: 0;
@@ -143,6 +156,24 @@
   margin-top: 5px;
   color: var(--muted);
   font-size: 13px;
+}
+
+.detail-note {
+  max-width: 65ch;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+  color: var(--faint);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.detail-note a {
+  color: var(--accent);
+  border-bottom: 1px solid transparent;
+}
+
+.detail-note a:hover {
+  border-bottom-color: var(--accent);
 }
 
 /* ——— Робота із замовленням ——— */
@@ -273,6 +304,10 @@
     padding: 40px 0 48px;
   }
 
+  .auth-wide {
+    grid-template-columns: minmax(0, 540px) minmax(0, 1fr);
+  }
+
   .detail-identity {
     flex-direction: row;
   }
@@ -289,6 +324,10 @@
     max-width: 440px;
     width: 100%;
     margin: 0 auto;
+  }
+
+  .auth-form-wide .form-grid {
+    grid-template-columns: 1fr;
   }
 
   .auth-art {
