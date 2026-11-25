@@ -80,7 +80,7 @@ npm run db:reset
 
 ## Розгортання на Render
 
-Сервіс reelancehub (Frankfurt, free) уже створений у Render і підключений до
+Сервіс `freelancehub` (Frankfurt, free) уже створений у Render і підключений до
 публічного репозиторію. Безплатний інстанс засинає після простою, тому перший
 запит може тривати до 50 секунд.
 
@@ -89,13 +89,26 @@ npm run db:reset
 - runtime: Node;
 - build: `npm install --include=dev && npm run build`;
 - start: `npm start`;
-- health check: `/`;
+- health check: `/healthz`;
 - region: Frankfurt;
-- змінні: `NODE_ENV`, `NODE_VERSION`, `DB_SSL`, `DATABASE_URL`,
-  `DATABASE_URL_UNPOOLED`, `SESSION_SECRET`.
+- змінні: `NODE_ENV`, `DB_SSL`, `DATABASE_URL`, `DATABASE_URL_UNPOOLED`,
+  `SESSION_SECRET`.
 
 `DATABASE_URL` і `DATABASE_URL_UNPOOLED` треба вставити з Neon, решту Render
 бере з `render.yaml` (`SESSION_SECRET` генерується автоматично).
+
+### Health check і холодний старт
+
+`GET /healthz` повертає `200 { "status": "ok" }` без звернення до бази й без сесії.
+Використовується як health check Render і для зовнішнього пінг-монітора.
+
+Render Free засинає після ~15 хвилин без запитів, тому перший запит може тривати
+30–50 секунд. Варіанти:
+
+- Render Starter (платний) — інстанс не засинає;
+- безкоштовний монітор (UptimeRobot / cron-job.org / Cloudflare Worker Cron), який
+  раз на 5 хвилин відкриває `/healthz`. Це тримає Render активним, але не будить
+  Neon, бо health-check не торкається бази.
 
 Після першого деплою база вже засіяна локальною командою `db:reset`; повторно
 сіяти на Render не потрібно.
