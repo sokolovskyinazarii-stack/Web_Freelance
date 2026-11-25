@@ -41,7 +41,7 @@
       )
     : null;
 
-  function prepare(root) {
+  function prepare(root, options = {}) {
     const targets = Array.from(root.querySelectorAll("[data-reveal]"));
 
     const groups = new Map();
@@ -51,6 +51,15 @@
       const parent = element.parentElement;
       if (!groups.has(parent)) groups.set(parent, []);
       groups.get(parent).push(element);
+    }
+
+    // AJAX-перехід: контент уже на сторінці, тому не запускаємо появу з нуля.
+    if (options.instant) {
+      targets.forEach((element) => {
+        element.removeAttribute("data-reveal");
+        element.classList.add("is-visible");
+      });
+      return;
     }
 
     for (const list of groups.values()) {

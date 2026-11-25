@@ -17,6 +17,11 @@ function syncHeader(doc) {
   }
 }
 
+function adjacentAlert(element) {
+  const previous = element?.previousElementSibling;
+  return previous?.classList?.contains('alert') ? previous : null;
+}
+
 function replaceView(html) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
   const nextView = doc.getElementById('view');
@@ -33,9 +38,63 @@ function replaceView(html) {
   document.body.classList.remove('modal-open', 'nav-open');
   document.getElementById('menu-toggle')?.setAttribute('aria-expanded', 'false');
 
-  window.initReveal?.(view);
+  // Після AJAX-переходу контент показуємо одразу: без ефекту перезавантаження.
+  window.initReveal?.(view, { instant: true });
   window.initSearchableSelects?.();
   window.initSteppers?.();
+  return true;
+}
+
+function findMatchingForm(doc, form) {
+  const action = form.getAttribute('action');
+  return Array.from(doc.querySelectorAll('form')).find(
+    (candidate) =>
+      candidate.getAttribute('action') === action &&
+      candidate.querySelector('[type="submit"]')
+  );
+}
+
+function updateFormInPlace(form, html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const nextForm = findMatchingForm(doc, form);
+  if (!nextForm) return false;
+
+  const scrollY = window.scrollY;
+
+  const oldAlert = adjacentAlert(form);
+  const newAlert = adjacentAlert(nextForm);
+  if (newAlert) {
+    if (oldAlert) oldAlert.replaceWith(newAlert);
+    else form.parentNode.insertBefore(newAlert, form);
+  } else if (oldAlert) {
+    oldAlert.remove();
+  }
+
+  // Нова форма вже в потоці сторінки — не ховаємо її під reveal-анімацію.
+  nextForm.removeAttribute('data-reveal');
+  nextForm.querySelectorAll('[data-reveal]').forEach((element) => element.removeAttribute('data-reveal'));
+  nextForm.classList.add('is-visible');
+
+  form.replaceWith(nextForm);
+  window.scrollTo({ top: scrollY, behavior: 'auto' });
+
+  window.initSearchableSelects?.();
+  window.initSteppers?.();
+
+  const firstError = nextForm.querySelector('.field-error');
+  const field = firstError?.closest('.form-field');
+  const control = field?.querySelector('input, select, textarea');
+  const errorTarget = firstError || adjacentAlert(nextForm);
+
+  if (control) control.focus({ preventScroll: true });
+
+  if (errorTarget) {
+    const rect = errorTarget.getBoundingClientRect();
+    if (rect.top < 90 || rect.bottom > window.innerHeight - 16) {
+      errorTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
   return true;
 }
 
@@ -47,10 +106,22 @@ async function submitForm(form) {
   try {
     const response = await fetch(form.action, {
       method: 'POST',
-      headers: { 'X-Requested-With': 'fetch' },
+      headers: {
+        'X-Requested-With': 'fetch',
+        Accept: 'text/html'
+      },
       body: new URLSearchParams(new FormData(form))
     });
     const html = await response.text();
+    const finalUrl = response.url || window.location.href;
+    const samePage = new URL(finalUrl, window.location.href).pathname === window.location.pathname;
+    const samePageError = response.redirected && samePage && /[?&]error=/.test(new URL(finalUrl).search);
+
+    // Помилки валідності не перемальовують сторінку: оновлюємо лише форму.
+    if ((response.status === 422 || samePageError) && updateFormInPlace(form, html)) {
+      if (response.redirected) history.replaceState({}, '', finalUrl);
+      return;
+    }
 
     if (!replaceView(html)) throw new Error('view');
 
@@ -59,12 +130,11 @@ async function submitForm(form) {
       history[method]({}, '', response.url);
     }
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (response.ok) {
-      window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
-    } else {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+
+    if (!response.ok) {
       const firstError = document.querySelector('.field-error, .alert-error');
-      firstError?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
+      firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   } catch (error) {
     console.error('AJAX submit failed', error);
