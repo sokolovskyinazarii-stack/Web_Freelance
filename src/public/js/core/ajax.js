@@ -42,6 +42,7 @@ function replaceView(html) {
   window.initReveal?.(view, { instant: true });
   window.initSearchableSelects?.();
   window.initSteppers?.();
+  window.initDatePickers?.();
   return true;
 }
 
@@ -80,6 +81,7 @@ function updateFormInPlace(form, html) {
 
   window.initSearchableSelects?.();
   window.initSteppers?.();
+  window.initDatePickers?.();
 
   const firstError = nextForm.querySelector('.field-error');
   const field = firstError?.closest('.form-field');

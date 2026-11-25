@@ -1,16 +1,7 @@
-import crypto from 'node:crypto';
 import { prisma } from '../../db/client.js';
+import { generateOrderNumber } from '../../services/identifiers.js';
 import { WorkflowError } from '../error.js';
 import { ORDER_STATUS } from '../status.js';
-
-async function generateOrderNumber() {
-  for (let attempt = 0; attempt < 20; attempt += 1) {
-    const number = `ORD-${crypto.randomInt(1000, 9999)}`;
-    const existing = await prisma.order.findUnique({ where: { orderNumber: number } });
-    if (!existing) return number;
-  }
-  return `ORD-${Date.now().toString().slice(-6)}`;
-}
 
 export async function createClientOrder(customerId, data) {
   const status = await prisma.status.findUnique({ where: { code: ORDER_STATUS.MODERATION } });

@@ -1,5 +1,4 @@
 import { prisma } from '../../db/client.js';
-import { money } from '../../lib/format.js';
 import { buildTable } from '../build.js';
 import { deliveryBadge, moneyCell, mono, person, statusBadge, text } from '../cells.js';
 import { orderCategoryName, orderTitle } from '../orders/order-helpers.js';
@@ -17,30 +16,15 @@ function orderColumns() {
 }
 
 async function clientDashboard(user) {
-  const customerId = user.customer.id;
-  const [projects, orders, deliveries, spent, recentOrders] = await Promise.all([
-    prisma.project.count({ where: { customerId } }),
-    prisma.order.count({ where: { customerId } }),
-    prisma.delivery.count({ where: { order: { customerId } } }),
-    prisma.order.aggregate({
-      _sum: { amount: true },
-      where: { customerId, status: { code: { not: 'cancelled' } } }
-    }),
-    prisma.order.findMany({
-      take: 6,
-      where: { customerId },
-      orderBy: { createdAt: 'desc' },
-      include: { project: { include: { category: true } }, category: true, status: true }
-    })
-  ]);
+  const recentOrders = await prisma.order.findMany({
+    take: 6,
+    where: { customerId: user.customer.id },
+    orderBy: { createdAt: 'desc' },
+    include: { project: { include: { category: true } }, category: true, status: true }
+  });
 
   return {
-    stats: [
-      { label: 'Проєкти', value: projects, icon: 'projects' },
-      { label: 'Замовлення', value: orders, icon: 'orders' },
-      { label: 'Доставки', value: deliveries, icon: 'deliveries' },
-      { label: 'Сума', value: money(spent._sum.amount || 0), icon: 'wallet', note: 'без скасованих' }
-    ],
+    dashboardNote: 'Останні замовлення, які ви створили.',
     tableTitle: 'Останні замовлення',
     tableHref: '/orders',
     tableData: buildTable(orderColumns(), recentOrders, 'orders')
@@ -48,30 +32,15 @@ async function clientDashboard(user) {
 }
 
 async function freelancerDashboard(user) {
-  const freelancerId = user.freelancer.id;
-  const [projects, orders, deliveries, earned, recentOrders] = await Promise.all([
-    prisma.project.count({ where: { freelancerId } }),
-    prisma.order.count({ where: { freelancerId } }),
-    prisma.delivery.count({ where: { order: { freelancerId } } }),
-    prisma.order.aggregate({
-      _sum: { amount: true },
-      where: { freelancerId, status: { code: { not: 'cancelled' } } }
-    }),
-    prisma.order.findMany({
-      take: 6,
-      where: { freelancerId },
-      orderBy: { createdAt: 'desc' },
-      include: { project: { include: { category: true } }, category: true, status: true }
-    })
-  ]);
+  const recentOrders = await prisma.order.findMany({
+    take: 6,
+    where: { freelancerId: user.freelancer.id },
+    orderBy: { createdAt: 'desc' },
+    include: { project: { include: { category: true } }, category: true, status: true }
+  });
 
   return {
-    stats: [
-      { label: 'Проєкти', value: projects, icon: 'projects' },
-      { label: 'Замовлення', value: orders, icon: 'orders' },
-      { label: 'Доставки', value: deliveries, icon: 'deliveries' },
-      { label: 'Дохід', value: money(earned._sum.amount || 0), icon: 'wallet', note: 'без скасованих' }
-    ],
+    dashboardNote: 'Замовлення, де ви є виконавцем.',
     tableTitle: 'Останні замовлення',
     tableHref: '/orders',
     tableData: buildTable(orderColumns(), recentOrders, 'orders')
@@ -79,18 +48,12 @@ async function freelancerDashboard(user) {
 }
 
 async function courierDashboard(user) {
-  const courierId = user.courier.id;
-  const [deliveries, completed, inTransit, recentDeliveries] = await Promise.all([
-    prisma.delivery.count({ where: { courierId } }),
-    prisma.delivery.count({ where: { courierId, status: 'delivered' } }),
-    prisma.delivery.count({ where: { courierId, status: 'in_transit' } }),
-    prisma.delivery.findMany({
-      take: 6,
-      where: { courierId },
-      orderBy: { createdAt: 'desc' },
-      include: { order: { include: { project: true } } }
-    })
-  ]);
+  const recentDeliveries = await prisma.delivery.findMany({
+    take: 6,
+    where: { courierId: user.courier.id },
+    orderBy: { createdAt: 'desc' },
+    include: { order: { include: { project: true } } }
+  });
 
   const columns = [
     { label: 'Трек-номер', cell: (row) => mono(row.trackingNumber) },
@@ -104,12 +67,7 @@ async function courierDashboard(user) {
   ];
 
   return {
-    stats: [
-      { label: 'Доставки', value: deliveries, icon: 'deliveries' },
-      { label: 'Виконано', value: completed, icon: 'check' },
-      { label: 'У дорозі', value: inTransit, icon: 'couriers' },
-      { label: 'Рейтинг', value: user.courier.rating.toFixed(1), icon: 'star', note: 'середня оцінка' }
-    ],
+    dashboardNote: 'Доставки, призначені вам.',
     tableTitle: 'Останні доставки',
     tableHref: '/deliveries',
     tableData: buildTable(columns, recentDeliveries, 'deliveries')
@@ -122,7 +80,6 @@ export async function buildUserDashboard(role, user) {
   if (role === 'COURIER' && user.courier) return courierDashboard(user);
 
   return {
-    stats: [],
     tableTitle: 'Дані',
     tableHref: '/',
     tableData: buildTable([], [], '')

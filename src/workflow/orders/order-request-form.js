@@ -43,7 +43,7 @@ export function buildFields(categories, values = {}) {
       type: 'number',
       required: true,
       min: 0,
-      step: '0.01',
+      step: '1',
       value: values.amount ?? ''
     },
     {

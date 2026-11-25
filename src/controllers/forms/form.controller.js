@@ -42,7 +42,8 @@ export function createRecord(key) {
         return renderFormPage(req, res, key, null, errors, req.body, 422);
       }
 
-      const created = await prisma[config.model].create({ data });
+      const prepared = config.prepareCreate ? await config.prepareCreate(data) : data;
+      const created = await prisma[config.model].create({ data: prepared });
       return res.redirect(303, `/${key}/${created.id}?created=1`);
     } catch (error) {
       const localized = localizePrismaError(error, config);

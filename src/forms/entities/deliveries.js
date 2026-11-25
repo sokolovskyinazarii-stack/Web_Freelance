@@ -1,3 +1,5 @@
+import { generateTrackingNumber } from '../../services/identifiers.js';
+
 export const deliveries = {
   key: 'deliveries',
   model: 'delivery',
@@ -5,17 +7,8 @@ export const deliveries = {
   singular: 'Доставка',
   createTitle: 'Створити доставку',
   editTitle: 'Редагувати доставку',
+  prepareCreate: async (data) => ({ ...data, trackingNumber: await generateTrackingNumber() }),
   fields: [
-    {
-      name: 'trackingNumber',
-      label: 'Трек-номер',
-      type: 'text',
-      required: true,
-      minLength: 8,
-      maxLength: 20,
-      unique: true,
-      pattern: /^TRK-\d{4}$/
-    },
     { name: 'address', label: 'Адреса', type: 'text', required: true, minLength: 5, maxLength: 255 },
     { name: 'city', label: 'Місто', type: 'text', required: true, minLength: 2, maxLength: 100 },
     {
@@ -33,7 +26,7 @@ export const deliveries = {
         { value: 'failed', label: 'Не доставлено' }
       ]
     },
-    { name: 'cost', label: 'Вартість', type: 'number', required: true, min: 0, step: '0.01' },
+    { name: 'cost', label: 'Вартість', type: 'number', required: true, min: 0, step: '1' },
     { name: 'estimatedAt', label: 'Очікувана дата', type: 'date', required: true },
     { name: 'deliveredAt', label: 'Фактична дата доставки', type: 'date' },
     {

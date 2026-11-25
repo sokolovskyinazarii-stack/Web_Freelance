@@ -3,16 +3,11 @@ import { buildTable } from '../build.js';
 import { dateCell, moneyCell, person, text } from '../cells.js';
 
 export async function buildPublicDashboard() {
-  const [projects, freelancers, categories, recentProjects] = await Promise.all([
-    prisma.project.count(),
-    prisma.freelancer.count(),
-    prisma.category.count(),
-    prisma.project.findMany({
-      take: 5,
-      orderBy: { createdAt: 'desc' },
-      include: { category: true, customer: true, freelancer: true }
-    })
-  ]);
+  const recentProjects = await prisma.project.findMany({
+    take: 5,
+    orderBy: { createdAt: 'desc' },
+    include: { category: true, customer: true, freelancer: true }
+  });
 
   const columns = [
     { label: 'Проєкт', cell: (row) => person(row.title, row.category.name, 'green') },
@@ -26,11 +21,6 @@ export async function buildPublicDashboard() {
   ];
 
   return {
-    stats: [
-      { label: 'Проєкти', value: projects, icon: 'projects' },
-      { label: 'Фрілансери', value: freelancers, icon: 'freelancers' },
-      { label: 'Категорії', value: categories, icon: 'categories' }
-    ],
     recentTable: buildTable(columns, recentProjects, 'projects')
   };
 }

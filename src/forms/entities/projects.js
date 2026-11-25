@@ -17,7 +17,7 @@ export const projects = {
       rows: 4,
       wide: true
     },
-    { name: 'budget', label: 'Бюджет', type: 'number', required: true, min: 0, step: '0.01' },
+    { name: 'budget', label: 'Бюджет', type: 'number', required: true, min: 0, step: '1' },
     { name: 'deadline', label: 'Дедлайн', type: 'date', required: true },
     {
       name: 'categoryId',

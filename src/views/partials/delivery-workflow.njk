@@ -8,7 +8,7 @@
   <div class="workflow-body">
     {% if workflow.canAccept %}
       <div class="workflow-actions">
-        <form method="post" class="ajax-form" action="/deliveries/{{ id }}/accept">
+        <form method="post" class="ajax-form" novalidate action="/deliveries/{{ id }}/accept">
           <button class="btn btn-primary" type="submit">{{ icons.icon('check', 15) }} Прийняти доставку</button>
         </form>
       </div>
@@ -16,7 +16,7 @@
 
     {% if workflow.canComplete %}
       <div class="workflow-actions">
-        <form method="post" class="ajax-form" action="/deliveries/{{ id }}/complete">
+        <form method="post" class="ajax-form" novalidate action="/deliveries/{{ id }}/complete">
           <button class="btn btn-primary" type="submit">{{ icons.icon('check', 15) }} Позначити доставленою</button>
         </form>
       </div>
@@ -24,15 +24,15 @@
 
     {% if workflow.canUpdateStatus %}
       <div class="workflow-actions">
-        <form method="post" class="ajax-form" action="/deliveries/{{ id }}/status">
+        <form method="post" class="ajax-form" novalidate action="/deliveries/{{ id }}/status">
           <input type="hidden" name="status" value="in_transit">
           <button class="btn btn-ghost" type="submit">У дорозі</button>
         </form>
-        <form method="post" class="ajax-form" action="/deliveries/{{ id }}/status">
+        <form method="post" class="ajax-form" novalidate action="/deliveries/{{ id }}/status">
           <input type="hidden" name="status" value="delivered">
           <button class="btn btn-primary" type="submit">{{ icons.icon('check', 15) }} Доставлено</button>
         </form>
-        <form method="post" class="ajax-form" action="/deliveries/{{ id }}/status">
+        <form method="post" class="ajax-form" novalidate action="/deliveries/{{ id }}/status">
           <input type="hidden" name="status" value="failed">
           <button class="btn btn-ghost" type="submit">Не доставлено</button>
         </form>
@@ -41,7 +41,7 @@
 
     {% if workflow.canReview %}
       <h4 class="workflow-title">Відгук про доставку</h4>
-      <form method="post" class="workflow-form ajax-form" action="/deliveries/{{ id }}/review">
+      <form method="post" class="workflow-form ajax-form" novalidate action="/deliveries/{{ id }}/review">
         <select name="rating">
           <option value="5">5 — відмінно</option>
           <option value="4">4 — добре</option>

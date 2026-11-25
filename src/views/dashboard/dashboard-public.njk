@@ -16,19 +16,6 @@
     </div>
   </section>
 
-  <section class="figures" aria-label="Показники платформи">
-    {% for stat in stats %}
-      <article class="figure" data-reveal>
-        <div class="figure-head">
-          <span class="figure-icon">{{ icons.icon(stat.icon or 'chart', 16) }}</span>
-          <span class="figure-label">{{ stat.label }}</span>
-        </div>
-        <strong class="figure-value">{{ stat.value }}</strong>
-        {% if stat.note %}<span class="figure-note">{{ stat.note }}</span>{% endif %}
-      </article>
-    {% endfor %}
-  </section>
-
   <section class="sheet">
     <header class="sheet-head" data-reveal>
       <h2 class="sheet-title">{{ icons.icon('projects', 17) }} Останні проєкти</h2>

@@ -1,3 +1,5 @@
+import { generateOrderNumber } from '../../services/identifiers.js';
+
 export const orders = {
   key: 'orders',
   model: 'order',
@@ -5,17 +7,8 @@ export const orders = {
   singular: 'Замовлення',
   createTitle: 'Створити замовлення',
   editTitle: 'Редагувати замовлення',
+  prepareCreate: async (data) => ({ ...data, orderNumber: await generateOrderNumber() }),
   fields: [
-    {
-      name: 'orderNumber',
-      label: 'Номер замовлення',
-      type: 'text',
-      required: true,
-      minLength: 8,
-      maxLength: 20,
-      unique: true,
-      pattern: /^ORD-\d{4}$/
-    },
     { name: 'title', label: 'Назва', type: 'text', maxLength: 255 },
     {
       name: 'description',
@@ -25,7 +18,7 @@ export const orders = {
       rows: 4,
       wide: true
     },
-    { name: 'amount', label: 'Сума', type: 'number', required: true, min: 0, step: '0.01' },
+    { name: 'amount', label: 'Сума', type: 'number', required: true, min: 0, step: '1' },
     {
       name: 'currency',
       label: 'Валюта',

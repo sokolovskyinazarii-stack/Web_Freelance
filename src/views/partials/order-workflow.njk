@@ -8,12 +8,12 @@
   <div class="workflow-body">
     {% if workflow.canPublish %}
       <div class="workflow-actions">
-        <form method="post" class="ajax-form" action="/orders/{{ id }}/publish">
+        <form method="post" class="ajax-form" novalidate action="/orders/{{ id }}/publish">
           <button class="btn btn-primary" type="submit">{{ icons.icon('check', 15) }} Опублікувати</button>
         </form>
       </div>
-      <form method="post" class="workflow-form ajax-form" action="/orders/{{ id }}/reject">
-        <textarea name="reason" rows="2" placeholder="Причина відхилення" required minlength="5"></textarea>
+      <form method="post" class="workflow-form ajax-form" novalidate action="/orders/{{ id }}/reject">
+        <textarea name="reason" rows="2" placeholder="Причина відхилення"></textarea>
         <div class="workflow-actions">
           <button class="btn btn-danger" type="submit">{{ icons.icon('close', 15) }} Відхилити</button>
         </div>
@@ -35,7 +35,7 @@
 
     {% if workflow.canCancelOrder %}
       <div class="workflow-actions">
-        <form method="post" class="ajax-form" action="/orders/{{ id }}/cancel">
+        <form method="post" class="ajax-form" novalidate action="/orders/{{ id }}/cancel">
           <button class="btn btn-ghost" type="submit">{{ icons.icon('close', 15) }} Скасувати замовлення</button>
         </form>
       </div>
@@ -56,10 +56,10 @@
               {% if app.proposedAmount %}<p class="workflow-note">Пропозиція: {{ app.proposedAmount | money }}</p>{% endif %}
               {% if workflow.statusCode == 'open' and app.status == 'pending' %}
                 <div class="workflow-actions">
-                  <form method="post" class="ajax-form" action="/orders/{{ id }}/applications/{{ app.id }}/accept">
+                  <form method="post" class="ajax-form" novalidate action="/orders/{{ id }}/applications/{{ app.id }}/accept">
                     <button class="btn btn-primary" type="submit">Обрати</button>
                   </form>
-                  <form method="post" class="ajax-form" action="/orders/{{ id }}/applications/{{ app.id }}/reject">
+                  <form method="post" class="ajax-form" novalidate action="/orders/{{ id }}/applications/{{ app.id }}/reject">
                     <button class="btn btn-ghost" type="submit">Відхилити</button>
                   </form>
                 </div>
@@ -74,16 +74,16 @@
 
     {% if workflow.canCancelFreelancer %}
       <div class="workflow-actions">
-        <form method="post" class="ajax-form" action="/orders/{{ id }}/freelancer/cancel">
+        <form method="post" class="ajax-form" novalidate action="/orders/{{ id }}/freelancer/cancel">
           <button class="btn btn-ghost" type="submit">Скасувати фрілансера</button>
         </form>
       </div>
     {% endif %}
 
     {% if workflow.canApply %}
-      <form method="post" class="workflow-form ajax-form" action="/orders/{{ id }}/apply">
+      <form method="post" class="workflow-form ajax-form" novalidate action="/orders/{{ id }}/apply">
         <textarea name="message" rows="3" placeholder="Коротко про досвід"></textarea>
-        <input name="proposedAmount" type="number" min="0" step="0.01" placeholder="Ваша ціна">
+        <input name="proposedAmount" type="number" min="0" step="1" placeholder="Ваша ціна">
         <div class="workflow-actions">
           <button class="btn btn-primary" type="submit">{{ icons.icon('arrow-right', 15) }} Подати заявку</button>
         </div>
@@ -94,7 +94,7 @@
 
     {% if workflow.isAssignedFreelancer and workflow.statusCode == 'in_progress' %}
       <div class="workflow-actions">
-        <form method="post" class="ajax-form" action="/orders/{{ id }}/submit">
+        <form method="post" class="ajax-form" novalidate action="/orders/{{ id }}/submit">
           <button class="btn btn-primary" type="submit">{{ icons.icon('check', 15) }} Завершити роботу</button>
         </form>
       </div>
@@ -102,10 +102,10 @@
 
     {% if workflow.canAcceptWork %}
       <div class="workflow-actions">
-        <form method="post" class="ajax-form" action="/orders/{{ id }}/complete">
+        <form method="post" class="ajax-form" novalidate action="/orders/{{ id }}/complete">
           <button class="btn btn-primary" type="submit">{{ icons.icon('check', 15) }} Прийняти роботу</button>
         </form>
-        <form method="post" class="ajax-form" action="/orders/{{ id }}/rework">
+        <form method="post" class="ajax-form" novalidate action="/orders/{{ id }}/rework">
           <button class="btn btn-ghost" type="submit">{{ icons.icon('refresh', 15) }} На доопрацювання</button>
         </form>
       </div>
@@ -113,11 +113,11 @@
 
     {% if workflow.canRequestDelivery %}
       <h4 class="workflow-title">Доставка</h4>
-      <form method="post" class="workflow-form ajax-form" action="/orders/{{ id }}/delivery">
-        <input name="address" placeholder="Адреса" required>
-        <input name="city" value="{{ workflow.customerCity }}" placeholder="Місто" required>
-        <input name="cost" type="number" min="0" step="0.01" placeholder="Вартість" required>
-        <input name="estimatedAt" type="date" required>
+      <form method="post" class="workflow-form ajax-form" novalidate action="/orders/{{ id }}/delivery">
+        <input name="address" placeholder="Адреса">
+        <input name="city" value="{{ workflow.customerCity }}" placeholder="Місто">
+        <input name="cost" type="number" min="0" step="1" placeholder="Вартість">
+        <input name="estimatedAt" type="date">
         <div class="workflow-actions">
           <button class="btn btn-primary" type="submit">{{ icons.icon('deliveries', 15) }} Замовити доставку</button>
         </div>
@@ -128,7 +128,7 @@
 
     {% if workflow.canReviewOrder %}
       <h4 class="workflow-title">Відгук про замовлення</h4>
-      <form method="post" class="workflow-form ajax-form" action="/orders/{{ id }}/review">
+      <form method="post" class="workflow-form ajax-form" novalidate action="/orders/{{ id }}/review">
         <select name="rating">
           <option value="5">5 — відмінно</option>
           <option value="4">4 — добре</option>

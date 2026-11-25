@@ -1,17 +1,8 @@
-import crypto from 'node:crypto';
 import { prisma } from '../../db/client.js';
+import { generateTrackingNumber } from '../../services/identifiers.js';
 import { courierMatches } from '../../auth/policy/index.js';
 import { WorkflowError } from '../error.js';
 import { DELIVERY_STATUS, ORDER_STATUS } from '../status.js';
-
-async function generateTrackingNumber() {
-  for (let attempt = 0; attempt < 20; attempt += 1) {
-    const number = `TRK-${crypto.randomInt(1000, 9999)}`;
-    const existing = await prisma.delivery.findUnique({ where: { trackingNumber: number } });
-    if (!existing) return number;
-  }
-  return `TRK-${Date.now().toString().slice(-6)}`;
-}
 
 export async function requestDelivery(order, customer, data) {
   if (order.customerId !== customer.id) throw new WorkflowError(403, 'Це не ваше замовлення');

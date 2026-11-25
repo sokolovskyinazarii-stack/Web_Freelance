@@ -6,19 +6,7 @@
 <div class="page-full">
   <section class="page-head" data-reveal>
     <h1>Огляд</h1>
-  </section>
-
-  <section class="figures" aria-label="Ваші показники">
-    {% for stat in stats %}
-      <article class="figure" data-reveal>
-        <div class="figure-head">
-          <span class="figure-icon">{{ icons.icon(stat.icon or 'chart', 16) }}</span>
-          <span class="figure-label">{{ stat.label }}</span>
-        </div>
-        <strong class="figure-value">{{ stat.value }}</strong>
-        {% if stat.note %}<span class="figure-note">{{ stat.note }}</span>{% endif %}
-      </article>
-    {% endfor %}
+    {% if dashboardNote %}<p class="page-lede">{{ dashboardNote }}</p>{% endif %}
   </section>
 
   <section class="sheet">

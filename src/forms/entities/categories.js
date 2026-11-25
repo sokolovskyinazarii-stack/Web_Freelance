@@ -9,7 +9,7 @@ export const categories = {
     { name: 'name', label: 'Назва', type: 'text', required: true, minLength: 2, maxLength: 100, unique: true },
     {
       name: 'slug',
-      label: 'Slug',
+      label: 'Код',
       type: 'text',
       required: true,
       minLength: 2,

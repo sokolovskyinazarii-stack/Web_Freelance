@@ -25,7 +25,7 @@ export const freelancers = {
       type: 'number',
       required: true,
       min: 0,
-      step: '0.01'
+      step: '1'
     },
     {
       name: 'rating',
