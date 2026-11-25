@@ -30,16 +30,41 @@ if (!process.env.SESSION_SECRET && isProduction) {
 app.set('trust proxy', 1);
 app.disable('x-powered-by');
 
-// Health-check для Render і монітора: легкий запит до PostgreSQL будить Neon.
+// Health-check для Render і монітора: пінг кожні 5 хвилин,
+// а запит до PostgreSQL — не частіше ніж раз на 3 години.
+const DB_WARM_INTERVAL_MS = Number(process.env.DB_WARM_INTERVAL_MS) || 3 * 60 * 60 * 1000;
+let dbCheckedAt = 0;
+let dbCheckPromise = null;
+
+async function checkDatabase() {
+  if (Date.now() - dbCheckedAt < DB_WARM_INTERVAL_MS) return true;
+  if (!dbCheckPromise) {
+    dbCheckPromise = prisma.$queryRaw`SELECT 1`
+      .then(() => {
+        dbCheckedAt = Date.now();
+        return true;
+      })
+      .catch(() => false)
+      .finally(() => {
+        dbCheckPromise = null;
+      });
+  }
+  return dbCheckPromise;
+}
+
 app.get('/healthz', async (req, res) => {
   res.set('Cache-Control', 'no-store');
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-    res.status(200).json({ status: 'ok', db: 'ok' });
-  } catch {
-    console.error('[healthz] database check failed');
-    res.status(503).json({ status: 'degraded', db: 'error' });
+  const dbOk = await checkDatabase();
+
+  if (!dbOk) {
+    return res.status(503).json({ status: 'degraded', db: 'error' });
   }
+
+  return res.status(200).json({
+    status: 'ok',
+    db: 'ok',
+    dbCheckedAt: new Date(dbCheckedAt).toISOString()
+  });
 });
 
 app.use((req, res, next) => {
