@@ -2,7 +2,7 @@ export function orderTitle(row) {
   return row.title || row.project?.title || row.orderNumber;
 }
 
-export function orderCategory(row) {
+function orderCategory(row) {
   return row.category || row.project?.category || null;
 }
 

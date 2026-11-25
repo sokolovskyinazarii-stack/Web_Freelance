@@ -2,7 +2,7 @@ import { ROLES } from '../roles.js';
 
 const publicResources = new Set(['freelancers', 'projects', 'categories']);
 
-export function courierCity(courier) {
+function courierCity(courier) {
   return courier?.zone?.split('·')[0].trim() || '';
 }
 

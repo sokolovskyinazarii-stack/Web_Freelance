@@ -1,6 +1,6 @@
 import generator from 'generate-password';
 
-export const PASSWORD_MIN_LENGTH = 12;
+const PASSWORD_MIN_LENGTH = 12;
 
 /**
  * Криптографічно стійкий пароль: 20 символів, великі й малі літери,
