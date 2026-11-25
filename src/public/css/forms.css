@@ -1,0 +1,417 @@
+/* ——— Форми ——— */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px 36px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.form-field-wide {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 180ms var(--ease-out);
+}
+
+.form-field:focus-within label {
+  color: var(--accent);
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select,
+.workflow-form input,
+.workflow-form textarea,
+.workflow-form select {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+  transition: border-color 180ms var(--ease-out), background 180ms var(--ease-out);
+}
+
+.form-field input,
+.form-field select,
+.workflow-form input,
+.workflow-form select {
+  height: 40px;
+  padding: 0 2px;
+}
+
+.form-field textarea,
+.workflow-form textarea {
+  min-height: 96px;
+  padding: 9px 2px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder,
+.workflow-form input::placeholder,
+.workflow-form textarea::placeholder {
+  color: var(--faint);
+}
+
+.form-field input:hover,
+.form-field textarea:hover,
+.workflow-form input:hover,
+.workflow-form textarea:hover {
+  border-bottom-color: var(--muted);
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus,
+.workflow-form input:focus,
+.workflow-form textarea:focus,
+.workflow-form select:focus {
+  border-bottom-color: var(--accent);
+}
+
+.form-field input:disabled {
+  border-bottom-style: dashed;
+  color: var(--faint);
+  cursor: not-allowed;
+}
+
+.form-field input[type="color"] {
+  height: 44px;
+  padding: 6px 2px;
+}
+
+.form-note {
+  max-width: 62ch;
+  margin-bottom: 28px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.field-hint {
+  color: var(--faint);
+  font-size: 11.5px;
+}
+
+.field-error {
+  color: var(--danger);
+  font-size: 11.5px;
+}
+
+.required-mark {
+  color: var(--accent);
+}
+
+.entity-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 26px;
+  margin-top: 34px;
+  border-top: 1px solid var(--line);
+}
+
+.form-action-left {
+  margin-right: auto;
+}
+
+.entity-form[data-loading="true"],
+#delete-form[data-loading="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.form-panel {
+  padding: 0;
+}
+
+@media (max-width: 760px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .form-actions {
+    flex-wrap: wrap;
+    justify-content: stretch;
+  }
+
+  .form-actions .btn {
+    flex: 1;
+  }
+
+  .form-action-left {
+    margin-right: 0;
+    flex-basis: 100%;
+  }
+}
+
+/* ——— Вибір зі списку ——— */
+
+.searchable-select {
+  position: relative;
+  width: 100%;
+}
+
+.searchable-select .searchable-native {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  height: 40px;
+  padding: 0 2px;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+  text-align: left;
+  transition: border-color 180ms var(--ease-out);
+}
+
+.select-trigger::after {
+  color: var(--accent);
+  font-size: 12px;
+  content: "▾";
+  transition: transform 200ms var(--ease-out);
+}
+
+.select-trigger[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+
+.select-trigger.empty {
+  color: var(--faint);
+}
+
+.select-trigger:hover {
+  border-bottom-color: var(--muted);
+}
+
+.select-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.select-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.select-menu {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 8px);
+  right: 0;
+  left: 0;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  background: #10140f;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transform-origin: top center;
+  transition: opacity 140ms var(--ease-out), transform 140ms var(--ease-out),
+    display 140ms allow-discrete;
+}
+
+.select-menu[hidden] {
+  display: none;
+  opacity: 0;
+  transform: translateY(-4px) scale(0.985);
+}
+
+@starting-style {
+  .select-menu:not([hidden]) {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.985);
+  }
+}
+
+.select-search {
+  width: 100%;
+  height: 40px;
+  padding: 0 14px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.select-options {
+  max-height: 232px;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.select-option {
+  display: block;
+  width: 100%;
+  padding: 9px 11px;
+  border-radius: 2px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: left;
+  transition: background 130ms var(--ease-out), color 130ms var(--ease-out);
+}
+
+.select-option:hover,
+.select-option.selected {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+.select-option.selected::after {
+  color: var(--accent);
+  content: " ✓";
+}
+
+.select-option.empty-option {
+  color: var(--faint);
+}
+
+.select-empty {
+  padding: 14px;
+  color: var(--faint);
+  font-size: 12px;
+  text-align: center;
+}
+
+/* ——— Числові кроки ——— */
+
+.number-stepper {
+  position: relative;
+}
+
+.number-stepper input[type="number"] {
+  padding-right: 34px;
+  -moz-appearance: textfield;
+}
+
+.number-stepper input[type="number"]::-webkit-inner-spin-button,
+.number-stepper input[type="number"]::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+.number-actions {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  bottom: 7px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+}
+
+.number-step {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 18px;
+  color: var(--muted);
+  transition: color 140ms var(--ease-out);
+}
+
+.number-step:hover {
+  color: var(--accent);
+}
+
+.number-step svg {
+  width: 9px;
+  height: 9px;
+}
+
+.form-field input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.75) sepia(0.4) saturate(2) hue-rotate(330deg);
+  opacity: 0.65;
+}
+
+/* ——— Прапорці ——— */
+
+input[type="checkbox"] {
+  position: relative;
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  flex: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color 150ms var(--ease-out), background 150ms var(--ease-out);
+}
+
+input[type="checkbox"]:hover {
+  border-color: var(--muted);
+}
+
+input[type="checkbox"]:checked {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+input[type="checkbox"]:checked::after {
+  position: absolute;
+  top: 1px;
+  left: 5px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--accent-ink);
+  border-width: 0 1.5px 1.5px 0;
+  content: "";
+  transform: rotate(45deg);
+}
+
+input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+input[type="checkbox"]:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

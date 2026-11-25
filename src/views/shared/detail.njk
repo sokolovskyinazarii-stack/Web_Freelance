@@ -3,27 +3,27 @@
 {% import "macros/ui.njk" as ui %}
 
 {% block content %}
-<nav class="crumbs">
-  <a href="/{{ active }}">{{ label }}</a>
-  <span>/</span>
-  <span>{{ title }}</span>
-</nav>
+<div class="page">
+  <aside class="rail">
+    <nav class="crumbs" aria-label="Навігаційний ланцюжок">
+      <a href="/{{ active }}">{{ label }}</a>
+      <span>/</span>
+      <span>{{ title }}</span>
+    </nav>
 
-{% if flash %}
-  <div class="alert alert-{{ flash.type }}">{{ flash.text }}</div>
-{% endif %}
-
-<section class="detail-hero accent-{{ accent }}">
-  <div class="detail-identity">
-    {{ ui.avatar(avatar) | safe }}
-    <div>
-      <h1>{{ title }}</h1>
-      <p>{{ subtitle }}</p>
+    <div class="detail-identity">
+      {{ ui.avatar(avatar) | safe }}
+      <div>
+        <h1>{{ title }}</h1>
+        <p>{{ subtitle }}</p>
+      </div>
     </div>
-  </div>
-  <div class="detail-side">
-    {{ ui.cell(badge) | safe }}
-    <div class="detail-actions">
+
+    {% if badge.type != 'rating' %}
+      {{ ui.cell(badge) | safe }}
+    {% endif %}
+
+    <div class="rail-actions rail-actions-stack">
       {% if canManage %}
         {% if passwordTarget %}
           <button class="btn btn-ghost" type="button" data-password data-resource="{{ passwordTarget.resource }}" data-id="{{ passwordTarget.id }}" data-user-name="{{ passwordTarget.name }}">Скинути пароль</button>
@@ -32,50 +32,57 @@
         <button class="btn btn-danger" type="button" data-delete data-resource="{{ active }}" data-id="{{ id }}" data-title="{{ title }}">Видалити</button>
       {% endif %}
     </div>
-  </div>
-</section>
+  </aside>
 
-<section class="metric-grid">
-  {% for metric in metrics %}
-    <article class="metric-card">
-      <span class="metric-label">{{ metric.label }}</span>
-      <strong>{{ ui.cell(metric.cell) | safe }}</strong>
-      {% if metric.hint %}<small>{{ metric.hint }}</small>{% endif %}
-    </article>
-  {% endfor %}
-</section>
+  <div class="column">
+    {% if flash %}
+      <div class="alert alert-{{ flash.type }}">{{ flash.text }}</div>
+    {% endif %}
 
-<section class="panel detail-panel">
-  <header class="panel-head">
-    <h3>Дані</h3>
-  </header>
-  <dl class="field-grid">
-    {% for field in fields %}
-      <div class="field{% if field.wide %} field-wide{% endif %}">
-        <dt>{{ field.label }}</dt>
-        <dd>{{ ui.cell(field.cell) | safe }}</dd>
-      </div>
+    <section class="metric-grid">
+      {% for metric in metrics %}
+        <article class="metric-card">
+          <span class="metric-label">{{ metric.label }}</span>
+          <strong>{{ ui.cell(metric.cell) | safe }}</strong>
+          {% if metric.hint %}<small>{{ metric.hint }}</small>{% endif %}
+        </article>
+      {% endfor %}
+    </section>
+
+    <section class="sheet">
+      <header class="sheet-head">
+        <h2 class="sheet-title"><i>01</i> Дані</h2>
+        <span class="sheet-meta">{{ fields.length }} полів</span>
+      </header>
+      <dl class="field-grid">
+        {% for field in fields %}
+          <div class="field{% if field.wide %} field-wide{% endif %}">
+            <dt>{{ field.label }}</dt>
+            <dd>{{ ui.cell(field.cell) | safe }}</dd>
+          </div>
+        {% endfor %}
+      </dl>
+    </section>
+
+    {% if active == 'orders' and workflow %}
+      {% include "partials/order-workflow.njk" %}
+    {% endif %}
+
+    {% if active == 'deliveries' and workflow %}
+      {% include "partials/delivery-workflow.njk" %}
+    {% endif %}
+
+    {% for relation in relations %}
+      <section class="sheet relation-panel">
+        <header class="sheet-head">
+          <h2 class="sheet-title">{{ relation.title }}</h2>
+          <span class="sheet-meta">{{ relation.table.rows.length }}</span>
+        </header>
+        <div class="table-wrap">
+          {{ table.render(relation.table, relation.empty) | safe }}
+        </div>
+      </section>
     {% endfor %}
-  </dl>
-</section>
-
-{% if active == 'orders' and workflow %}
-  {% include "partials/order-workflow.njk" %}
-{% endif %}
-
-{% if active == 'deliveries' and workflow %}
-  {% include "partials/delivery-workflow.njk" %}
-{% endif %}
-
-{% for relation in relations %}
-  <section class="panel relation-panel">
-    <header class="panel-head">
-      <h3>{{ relation.title }}</h3>
-      <span>{{ relation.table.rows.length }}</span>
-    </header>
-    <div class="table-wrap">
-      {{ table.render(relation.table, relation.empty) | safe }}
-    </div>
-  </section>
-{% endfor %}
+  </div>
+</div>
 {% endblock %}

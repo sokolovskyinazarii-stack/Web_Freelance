@@ -2,25 +2,87 @@
 {% import "macros/table.njk" as table %}
 
 {% block content %}
-<section class="page-head">
-  <h1>Платформа для фрілансу</h1>
-</section>
+<div class="page-full">
+  <section class="page-head">
+    <p class="eyebrow">Відкритий огляд</p>
+    <div class="page-head-row">
+      <h1>Робота, <em>зафіксована</em>.</h1>
+      <p class="lede">FreelanceHub зводить замовників, фрілансерів і кур’єрів в один журнал: від заявки до підтвердженої доставки. Увійдіть, щоб побачити свій потік.</p>
+    </div>
+    <div class="rail-actions">
+      <a class="btn btn-primary" href="/login">Увійти</a>
+      <a class="btn btn-ghost" href="/register">Створити акаунт</a>
+    </div>
+  </section>
 
-<section class="stat-grid stat-grid-three">
-  {% for stat in stats %}
-    <article class="stat-card">
-      <span class="stat-label">{{ stat.label }}</span>
-      <strong class="stat-value">{{ stat.value }}</strong>
-      <span class="stat-note">{{ stat.note }}</span>
-    </article>
-  {% endfor %}
-</section>
+  <section class="figures" aria-label="Показники платформи">
+    {% for stat in stats %}
+      <article class="figure">
+        <span class="figure-label">{{ stat.label }}</span>
+        <strong class="figure-value">{{ stat.value }}</strong>
+        <span class="figure-note">{{ stat.note }}</span>
+      </article>
+    {% endfor %}
+  </section>
 
-<section class="panel recent-panel">
-  <header class="panel-head">
-    <h3>Останні проєкти</h3>
-    <a class="link-arrow" href="/projects">Усі проєкти</a>
-  </header>
-  <div class="table-wrap">{{ table.render(recentTable) | safe }}</div>
-</section>
+  <section class="sheet">
+    <header class="sheet-head">
+      <h2 class="sheet-title"><i>01</i> Останні проєкти</h2>
+      <a class="link-arrow" href="/projects">Усі проєкти</a>
+    </header>
+    <div class="table-wrap">{{ table.render(recentTable) | safe }}</div>
+  </section>
+
+  <div class="split">
+    <section class="sheet">
+      <header class="sheet-head">
+        <h2 class="sheet-title"><i>02</i> Як це працює</h2>
+      </header>
+      <ol class="steps">
+        <li class="step">
+          <b>01</b>
+          <div>
+            <strong>Замовлення</strong>
+            <p>Замовник описує задачу, бюджет і дедлайн. Адміністратор перевіряє заявку.</p>
+          </div>
+        </li>
+        <li class="step">
+          <b>02</b>
+          <div>
+            <strong>Заявки</strong>
+            <p>Фрілансери пропонують ціну й термін. Замовник обирає виконавця.</p>
+          </div>
+        </li>
+        <li class="step">
+          <b>03</b>
+          <div>
+            <strong>Робота</strong>
+            <p>Статуси фіксують кожен крок — від «в роботі» до «виконано».</p>
+          </div>
+        </li>
+        <li class="step">
+          <b>04</b>
+          <div>
+            <strong>Доставка</strong>
+            <p>Кур’єр приймає доставку та підтверджує вручення в журналі.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="sheet">
+      <header class="sheet-head">
+        <h2 class="sheet-title"><i>03</i> Що всередині</h2>
+      </header>
+      <div class="spec-list">
+        <div class="spec"><span>Застосунок</span><b>Express 5 · Nunjucks</b></div>
+        <div class="spec"><span>Дані</span><b>PostgreSQL · Prisma</b></div>
+        <div class="spec"><span>Сесії</span><b>connect-pg-simple</b></div>
+        <div class="spec"><span>Доступ</span><b>Passport · bcrypt</b></div>
+        <div class="spec"><span>API</span><b>/api · лише адмін</b></div>
+        <div class="spec"><span>Хостинг</span><b>Neon · Vercel</b></div>
+      </div>
+    </section>
+  </div>
+</div>
 {% endblock %}

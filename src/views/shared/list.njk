@@ -3,30 +3,42 @@
 {% import "macros/ui.njk" as ui %}
 
 {% block content %}
-{% if flash %}
-  <div class="alert alert-{{ flash.type }}">{{ flash.text }}</div>
-{% endif %}
+<div class="page">
+  <aside class="rail">
+    <p class="eyebrow">Розділ</p>
+    <h1>{{ title }}</h1>
+    <p class="lede">{{ searchHint }}</p>
 
-<section class="page-head">
-  <h1>{{ title }}</h1>
-  <div class="page-tools">
-    {% if canManage %}
-      <a class="btn btn-primary" href="/{{ active }}/new">Створити</a>
-    {% elif canCreateOrder %}
-      <a class="btn btn-primary" href="/orders/request">Створити замовлення</a>
+    <div class="rail-actions">
+      {% if canManage %}
+        <a class="btn btn-primary" href="/{{ active }}/new">Створити</a>
+      {% elif canCreateOrder %}
+        <a class="btn btn-primary" href="/orders/request">Створити замовлення</a>
+      {% endif %}
+      <form class="search-form" method="get" action="" role="search">
+        <label class="search">
+          {{ ui.searchIcon() | safe }}
+          <input type="search" name="q" value="{{ query }}" placeholder="{{ searchHint }}" autocomplete="off" aria-label="{{ searchHint }}">
+        </label>
+      </form>
+    </div>
+
+    <div class="rail-meta">
+      <span>Записів: <b>{{ tableData.rows.length }}</b></span>
+      <span>Рядок відкриває деталі</span>
+    </div>
+  </aside>
+
+  <div class="column">
+    {% if flash %}
+      <div class="alert alert-{{ flash.type }}">{{ flash.text }}</div>
     {% endif %}
-    <form class="search-form" method="get" action="">
-      <label class="search">
-        {{ ui.searchIcon() | safe }}
-        <input type="search" name="q" value="{{ query }}" placeholder="{{ searchHint }}" autocomplete="off">
-      </label>
-    </form>
-  </div>
-</section>
 
-<section class="panel table-panel">
-  <div class="table-wrap">
-    {{ table.render(tableData) | safe }}
+    <section class="sheet">
+      <div class="table-wrap">
+        {{ table.render(tableData) | safe }}
+      </div>
+    </section>
   </div>
-</section>
+</div>
 {% endblock %}

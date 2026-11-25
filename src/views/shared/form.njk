@@ -2,67 +2,71 @@
 {% import "macros/ui.njk" as ui %}
 
 {% block content %}
-<nav class="crumbs">
-  <a href="/{{ active }}">{{ config.label }}</a>
-  <span>/</span>
-  <span>{{ title }}</span>
-</nav>
+<div class="page">
+  <aside class="rail">
+    <nav class="crumbs" aria-label="Навігаційний ланцюжок">
+      <a href="/{{ active }}">{{ config.label }}</a>
+      <span>/</span>
+      <span>{{ title }}</span>
+    </nav>
 
-<section class="page-head">
-  <h1>{{ title }}</h1>
-</section>
+    <p class="eyebrow">Форма запису</p>
+    <h1>{{ title }}</h1>
+    <p class="lede">Поля з позначкою <span class="required-mark">*</span> обов’язкові. Зміни зберігаються в PostgreSQL.</p>
+  </aside>
 
-{% if errors._form %}
-  <div class="alert alert-error">{{ errors._form }}</div>
-{% endif %}
+  <div class="column">
+    {% if errors._form %}
+      <div class="alert alert-error">{{ errors._form }}</div>
+    {% endif %}
 
-<section class="panel form-panel">
-  <form method="post" action="{{ action }}" novalidate class="entity-form">
-    <div class="form-grid">
-      {% for field in fields %}
-        <div class="form-field{% if field.wide %} form-field-wide{% endif %}">
-          <label for="field-{{ field.name }}">{{ field.label }}{% if field.required %} <span class="required-mark">*</span>{% endif %}</label>
+    <form method="post" action="{{ action }}" novalidate class="entity-form">
+      <div class="form-grid">
+        {% for field in fields %}
+          <div class="form-field{% if field.wide %} form-field-wide{% endif %}">
+            <label for="field-{{ field.name }}">{{ field.label }}{% if field.required %} <span class="required-mark">*</span>{% endif %}</label>
 
-          {% if field.type == 'textarea' %}
-            <textarea id="field-{{ field.name }}" name="{{ field.name }}" rows="{{ field.rows or 4 }}">{{ field.value }}</textarea>
-          {% elif field.type == 'select' %}
-            <select id="field-{{ field.name }}" name="{{ field.name }}" data-searchable data-placeholder="{{ field.placeholder or 'Оберіть значення' }}">
-              <option value="">Не вибрано</option>
-              {% for option in field.options %}
-                <option value="{{ option.value }}"{% if option.value == field.value %} selected{% endif %}>{{ option.label }}</option>
-              {% endfor %}
-            </select>
+            {% if field.type == 'textarea' %}
+              <textarea id="field-{{ field.name }}" name="{{ field.name }}" rows="{{ field.rows or 4 }}">{{ field.value }}</textarea>
+            {% elif field.type == 'select' %}
+              <select id="field-{{ field.name }}" name="{{ field.name }}" data-searchable data-placeholder="{{ field.placeholder or 'Оберіть значення' }}">
+                <option value="">Не вибрано</option>
+                {% for option in field.options %}
+                  <option value="{{ option.value }}"{% if option.value == field.value %} selected{% endif %}>{{ option.label }}</option>
+                {% endfor %}
+              </select>
+            {% else %}
+              <input
+                id="field-{{ field.name }}"
+                type="{{ field.type }}"
+                name="{{ field.name }}"
+                value="{{ field.value }}"
+                {% if field.step %}step="{{ field.step }}"{% endif %}
+                {% if field.min is defined %}min="{{ field.min }}"{% endif %}
+                {% if field.max is defined %}max="{{ field.max }}"{% endif %}
+                autocomplete="off"
+              >
+            {% endif %}
+
+            {% if errors[field.name] %}
+              <p class="field-error">{{ errors[field.name] }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="form-actions">
+        {% if extraAction %}
+          {% if extraAction.userId %}
+            <button class="btn btn-ghost form-action-left" type="button" data-password data-resource="users" data-id="{{ extraAction.userId }}" data-user-name="{{ extraAction.userName }}">{{ extraAction.label }}</button>
           {% else %}
-            <input
-              id="field-{{ field.name }}"
-              type="{{ field.type }}"
-              name="{{ field.name }}"
-              value="{{ field.value }}"
-              {% if field.step %}step="{{ field.step }}"{% endif %}
-              {% if field.min is defined %}min="{{ field.min }}"{% endif %}
-              {% if field.max is defined %}max="{{ field.max }}"{% endif %}
-              autocomplete="off"
-            >
+            <a class="btn btn-ghost form-action-left" href="{{ extraAction.href }}">{{ extraAction.label }}</a>
           {% endif %}
-
-          {% if errors[field.name] %}
-            <p class="field-error">{{ errors[field.name] }}</p>
-          {% endif %}
-        </div>
-      {% endfor %}
-    </div>
-
-    <div class="form-actions">
-      {% if extraAction %}
-        {% if extraAction.userId %}
-          <button class="btn btn-ghost form-action-left" type="button" data-password data-resource="users" data-id="{{ extraAction.userId }}" data-user-name="{{ extraAction.userName }}">{{ extraAction.label }}</button>
-        {% else %}
-          <a class="btn btn-ghost form-action-left" href="{{ extraAction.href }}">{{ extraAction.label }}</a>
         {% endif %}
-      {% endif %}
-      <a class="btn btn-ghost" href="{{ cancelHref }}">Скасувати</a>
-      <button class="btn btn-primary" type="submit">{{ submitLabel }}</button>
-    </div>
-  </form>
-</section>
+        <a class="btn btn-ghost" href="{{ cancelHref }}">Скасувати</a>
+        <button class="btn btn-primary" type="submit">{{ submitLabel }}</button>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}

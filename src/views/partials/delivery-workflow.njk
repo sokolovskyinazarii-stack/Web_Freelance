@@ -1,19 +1,24 @@
 {% if workflow.canAccept or workflow.canComplete or workflow.canUpdateStatus or workflow.canReview or workflow.reviews.length %}
-<section class="panel workflow-panel">
-  <header class="panel-head">
-    <h3>Дії з доставкою</h3>
+<section class="sheet workflow-panel">
+  <header class="sheet-head">
+    <h2 class="sheet-title"><i>02</i> Дії з доставкою</h2>
   </header>
-  <div class="panel-body workflow-body">
+
+  <div class="workflow-body">
     {% if workflow.canAccept %}
-      <form method="post" class="ajax-form" action="/deliveries/{{ id }}/accept">
-        <button class="btn btn-primary" type="submit">Прийняти доставку</button>
-      </form>
+      <div class="workflow-actions">
+        <form method="post" class="ajax-form" action="/deliveries/{{ id }}/accept">
+          <button class="btn btn-primary" type="submit">Прийняти доставку</button>
+        </form>
+      </div>
     {% endif %}
 
     {% if workflow.canComplete %}
-      <form method="post" class="ajax-form" action="/deliveries/{{ id }}/complete">
-        <button class="btn btn-primary" type="submit">Позначити доставленою</button>
-      </form>
+      <div class="workflow-actions">
+        <form method="post" class="ajax-form" action="/deliveries/{{ id }}/complete">
+          <button class="btn btn-primary" type="submit">Позначити доставленою</button>
+        </form>
+      </div>
     {% endif %}
 
     {% if workflow.canUpdateStatus %}
@@ -44,7 +49,9 @@
           <option value="1">1 — жахливо</option>
         </select>
         <textarea name="comment" rows="2" placeholder="Коментар"></textarea>
-        <button class="btn btn-primary" type="submit">Залишити відгук</button>
+        <div class="workflow-actions">
+          <button class="btn btn-primary" type="submit">Залишити відгук</button>
+        </div>
       </form>
     {% endif %}
 

@@ -7,9 +7,9 @@ const labels = {
 };
 
 function tone(status) {
-  if (status === 'accepted') return '#4ade80';
+  if (status === 'accepted') return '#8fdfb4';
   if (status === 'pending') return '#fbbf24';
-  return '#98a1b1';
+  return '#8a9086';
 }
 
 export function buildOrderWorkflow(role, user, order) {

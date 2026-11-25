@@ -7,15 +7,37 @@
 
 - Node.js 22, ESM
 - Express 5, `express-session`
-- Prisma ORM 6, PostgreSQL
+- Prisma ORM 6, PostgreSQL 18 (Neon)
 - Nunjucks
 - Passport (`passport-local`), `bcryptjs`
 - `connect-pg-simple` для сесій у PostgreSQL
 - `generate-password` для генерації паролів
 - `dotenv`
 
-SQLite у проєкті більше не використовується. Застосунок працює лише з PostgreSQL
-і читає `DATABASE_URL` зі змінних середовища.
+## База даних — лише Neon
+
+Проєкт працює **тільки** з хмарною PostgreSQL у Neon. Локальної бази, SQLite-файлу
+чи резервного підключення немає: якщо `DATABASE_URL` не заданий, застосунок не стартує
+в production, а локальний запуск не має куди писати.
+
+- `DATABASE_URL` — pooled-рядок Neon для застосунку й сесій;
+- `DATABASE_URL_UNPOOLED` — прямий рядок для `prisma db push` / `prisma generate`;
+- `DB_SSL=true` — Neon вимагає TLS.
+
+Обидва рядки беруться з консолі Neon (Connection details → Pooled / Direct).
+`.env` не комітиться; у репозиторії є лише `.env.example`.
+
+## Стек інтерфейсу
+
+Новий візуальний напрям — «операційний журнал»: темне чорнило, кістяний текст,
+мідний акцент, серифні заголовки `Instrument Serif`, текст `Instrument Sans`,
+цифри `JetBrains Mono`. Замість карток — аркуші з волосяними лініями, замість
+бокової панелі — рухома «рейка» з назвою розділу та діями.
+
+- CSS: `src/public/css/{base,layout,components,forms,overlays,pages}.css`;
+- рух: власні криві `cubic-bezier`, press-стан `scale(0.97)`, поява сторінки одним
+  кадром, `@starting-style` для меню й модалок, повага до `prefers-reduced-motion`;
+- числа — `font-variant-numeric: tabular-nums`, текст — не ширше 65ch.
 
 ## Ролі
 
@@ -41,28 +63,33 @@ SQLite у проєкті більше не використовується. З�
 - У `src/db/seed-data/users.js` паролі лежать у відкритому вигляді, у базу потрапляють
   як bcrypt-хеші з cost 12.
 - Нові паролі у формі перевіряються на довжину (12+), літеру й цифру.
-- Скидання пароля в адмінці генерує новий 20-символьний пароль.
+- Скидання пароля в адмінці генерує новий 20-символьний пароль і показує його один раз.
 
 ## Запуск
 
 ```bash
 npm install
 cp .env.example .env
-# заповніть DATABASE_URL, DATABASE_URL_UNPOOLED і SESSION_SECRET
+# вставте DATABASE_URL і DATABASE_URL_UNPOOLED з Neon, додайте SESSION_SECRET
 npm run db:reset
 npm start
 ```
 
 Сайт: `http://localhost:4000`.
 
-`npm run db:reset` виконує `prisma db push --force-reset`, створює схему й додає
-демонстраційні дані. Під час старту сервер не змінює схему й не сідить базу.
+`npm run db:reset` виконує `prisma db push --force-reset` **проти Neon**, створює схему
+й додає демонстраційні дані. Це видаляє всі наявні записи в цій базі — не запускайте
+команду на базі з реальними даними. Під час старту сервер не змінює схему й не сідить базу.
+
+Якщо `db:reset` не потрібен, достатньо `npm run build` (Prisma Client) і `npm start`
+на вже засіяній базі.
 
 ## База даних
 
-- `prisma/schema.prisma` — моделі Prisma для PostgreSQL;
+- `prisma/schema.prisma` — моделі Prisma для PostgreSQL, `Session` для сесій;
 - `src/db/seed-data/*` — демонстраційні дані;
 - `src/db/seed.js` — сід із bcrypt-хешами;
+- `src/db/sequences.js` — синхронізація послідовностей після сіду з явними `id`;
 - `scripts/db-reset.mjs` — повне перестворення бази.
 
 Після явних `id` у сіді послідовності PostgreSQL синхронізуються, тому нові записи
@@ -101,12 +128,17 @@ npm start
 ## Розгортання
 
 `api/index.js` експортує Express-застосунок як serverless-функцію, `vercel.json`
-спрямовує всі запити на неї. У середовищі розгортання потрібно задати:
+спрямовує всі запити на неї та включає `src/**/*` у функцію. У Vercel треба задати:
 
-- `DATABASE_URL` — рядок підключення PostgreSQL (pooled);
-- `DATABASE_URL_UNPOOLED` — пряме підключення для Prisma;
+- `DATABASE_URL` — pooled-рядок Neon;
+- `DATABASE_URL_UNPOOLED` — прямий рядок Neon;
 - `SESSION_SECRET` — довгий випадковий рядок;
-- `DB_SSL=true`.
+- `DB_SSL=true`;
+- `NODE_ENV=production`.
+
+`npm run build` виконує `prisma generate`; `postinstall` робить те саме під час
+встановлення залежностей. Prisma Client зібраний із `binaryTargets`
+`["native", "rhel-openssl-3.0.x"]` для runtime Vercel.
 
 ## Структура
 

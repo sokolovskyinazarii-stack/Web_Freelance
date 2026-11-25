@@ -1,11 +1,12 @@
 {% extends "layout.njk" %}
 
 {% block content %}
-<section class="panel">
-  <div class="empty-state">
-    <strong>{{ title }}</strong>
+<div class="page-full">
+  <section class="state">
+    <p class="eyebrow">Помилка</p>
+    <h1>{{ title }}</h1>
     <p>{{ message }}</p>
     <a class="btn btn-primary" href="/">На головну</a>
-  </div>
-</section>
+  </section>
+</div>
 {% endblock %}

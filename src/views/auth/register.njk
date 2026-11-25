@@ -1,11 +1,20 @@
 {% extends "layout.njk" %}
 
 {% block content %}
-<section class="auth-wrap">
-  <div class="panel form-panel">
-    <section class="page-head">
-      <h1>Реєстрація</h1>
-    </section>
+<div class="auth">
+  <aside class="auth-aside">
+    <p class="eyebrow">Новий акаунт</p>
+    <h1>Долучитися<br>до <em>журналу</em>.</h1>
+    <p class="lede">Оберіть роль — замовник або фрілансер — і заповніть профіль. Решта даних підтягнеться у вашу панель.</p>
+
+    <div class="auth-roles" aria-hidden="true">
+      <div class="auth-role"><b>01</b> Замовник <span>Створює замовлення</span></div>
+      <div class="auth-role"><b>02</b> Фрілансер <span>Подає заявки</span></div>
+    </div>
+  </aside>
+
+  <div class="auth-main">
+    <h2>Реєстрація</h2>
 
     {% if errors._form %}
       <div class="alert alert-error">{{ errors._form }}</div>
@@ -65,6 +74,11 @@
         <button class="btn btn-primary" type="submit">Зареєструватися</button>
       </div>
     </form>
+
+    <div class="auth-foot">
+      <span>Мінімум 12 символів</span>
+      <span>Літера + цифра</span>
+    </div>
   </div>
-</section>
+</div>
 {% endblock %}

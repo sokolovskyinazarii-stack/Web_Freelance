@@ -1,6 +1,6 @@
 function syncHeader(doc) {
-  const header = document.querySelector('.site-header');
-  const nextHeader = doc.querySelector('.site-header');
+  const header = document.querySelector('.masthead');
+  const nextHeader = doc.querySelector('.masthead');
   if (!header || !nextHeader) return;
 
   header.className = nextHeader.className;
@@ -22,7 +22,8 @@ function replaceView(html) {
   const nextView = doc.getElementById('view');
   if (!nextView) return false;
 
-  document.getElementById('view').innerHTML = nextView.innerHTML;
+  const view = document.getElementById('view');
+  view.innerHTML = nextView.innerHTML;
   document.getElementById('nav').innerHTML = doc.getElementById('nav').innerHTML;
   syncHeader(doc);
   document.title = doc.title;
@@ -31,6 +32,12 @@ function replaceView(html) {
   });
   document.body.classList.remove('modal-open', 'nav-open');
   document.getElementById('menu-toggle')?.setAttribute('aria-expanded', 'false');
+
+  // Одна поява на контейнер: перезапускаємо анімацію після заміни вмісту.
+  view.classList.add('is-replaying');
+  void view.offsetWidth;
+  view.classList.remove('is-replaying');
+
   window.initSearchableSelects?.();
   window.initSteppers?.();
   return true;

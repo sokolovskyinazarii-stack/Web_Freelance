@@ -1,7 +1,7 @@
 export const roles = [
-  { id: 1, code: 'GUEST', name: 'Відвідувач', color: '#98a1b1' },
-  { id: 2, code: 'CLIENT', name: 'Замовник', color: '#22d3ee' },
-  { id: 3, code: 'FREELANCER', name: 'Фрілансер', color: '#6d8f00' },
-  { id: 4, code: 'COURIER', name: 'Кур’єр', color: '#4ade80' },
-  { id: 5, code: 'ADMIN', name: 'Адміністратор', color: '#fb7185' }
+  { id: 1, code: 'GUEST', name: 'Відвідувач', color: '#8a9086' },
+  { id: 2, code: 'CLIENT', name: 'Замовник', color: '#86c8dd' },
+  { id: 3, code: 'FREELANCER', name: 'Фрілансер', color: '#e8703a' },
+  { id: 4, code: 'COURIER', name: 'Кур’єр', color: '#8fdfb4' },
+  { id: 5, code: 'ADMIN', name: 'Адміністратор', color: '#e6b567' }
 ];

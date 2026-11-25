@@ -22,7 +22,7 @@ export const statuses = {
       label: 'Колір',
       type: 'color',
       required: true,
-      default: '#22d3ee',
+      default: '#86c8dd',
       pattern: /^#[0-9a-fA-F]{6}$/
     },
     {

@@ -1,11 +1,23 @@
 {% extends "layout.njk" %}
 
 {% block content %}
-<section class="auth-wrap">
-  <div class="panel form-panel">
-    <section class="page-head">
-      <h1>Вхід</h1>
-    </section>
+<div class="auth">
+  <aside class="auth-aside">
+    <p class="eyebrow">Вхід до журналу</p>
+    <h1>Кожна година<br>має <em>запис</em>.</h1>
+    <p class="lede">Замовлення, заявки, статуси та доставки зберігаються в одному потоці. Увійдіть, щоб продовжити з того місця, де зупинилися.</p>
+
+    <div class="auth-roles" aria-hidden="true">
+      <div class="auth-role"><b>01</b> Замовник <span>Замовлення</span></div>
+      <div class="auth-role"><b>02</b> Фрілансер <span>Заявки</span></div>
+      <div class="auth-role"><b>03</b> Кур’єр <span>Доставки</span></div>
+      <div class="auth-role"><b>04</b> Адміністратор <span>Довідники</span></div>
+    </div>
+  </aside>
+
+  <div class="auth-main">
+    <h2>Вхід</h2>
+    <p class="auth-note">Введіть email і пароль, які видав адміністратор платформи.</p>
 
     {% if error %}
       <div class="alert alert-error">{{ error }}</div>
@@ -28,6 +40,11 @@
         <button class="btn btn-primary" type="submit">Увійти</button>
       </div>
     </form>
+
+    <div class="auth-foot">
+      <span>Сесія · 8 годин</span>
+      <span>Пароль · bcrypt cost 12</span>
+    </div>
   </div>
-</section>
+</div>
 {% endblock %}

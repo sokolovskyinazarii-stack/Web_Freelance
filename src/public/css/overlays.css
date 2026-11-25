@@ -1,0 +1,174 @@
+/* ——— Модальні вікна ——— */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 1;
+  transition: opacity 220ms var(--ease-out), display 220ms allow-discrete;
+}
+
+.modal[hidden] {
+  display: none;
+  opacity: 0;
+}
+
+@starting-style {
+  .modal:not([hidden]) {
+    opacity: 0;
+  }
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 5, 3, 0.72);
+  backdrop-filter: blur(3px);
+  opacity: 1;
+  transition: opacity 220ms var(--ease-out);
+}
+
+.modal[hidden] .modal-backdrop {
+  opacity: 0;
+}
+
+.modal-dialog {
+  position: relative;
+  width: min(500px, 100%);
+  padding: 30px;
+  border: 1px solid var(--line-strong);
+  border-top: 2px solid var(--accent);
+  border-radius: 3px;
+  background: #0e120d;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.65);
+  /* Модалка не прив'язана до тригера — трансформується від центру. */
+  transform-origin: center;
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  transition: transform 240ms var(--ease-out), opacity 200ms var(--ease-out);
+}
+
+.modal[hidden] .modal-dialog {
+  opacity: 0;
+  transform: scale(0.97) translateY(8px);
+}
+
+@starting-style {
+  .modal:not([hidden]) .modal-dialog {
+    opacity: 0;
+    transform: scale(0.97) translateY(8px);
+  }
+}
+
+.modal-dialog h3 {
+  font-size: 27px;
+  line-height: 1.1;
+}
+
+.modal-dialog > p {
+  max-width: 52ch;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.modal-warning {
+  padding: 16px;
+  margin-top: 20px;
+  border: 1px solid rgba(230, 181, 103, 0.3);
+  border-radius: 2px;
+  background: rgba(230, 181, 103, 0.06);
+}
+
+.modal-warning strong {
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.modal-warning ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 18px;
+  margin: 10px 0;
+  color: var(--text);
+  font-size: 12.5px;
+}
+
+.modal-warning p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 12px;
+  color: var(--text);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.checkbox input {
+  margin-top: 1px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.password-dialog {
+  width: min(440px, 100%);
+}
+
+.password-modal-user {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.password-reveal {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.password-reveal code {
+  flex: 1;
+  min-width: 220px;
+  padding: 13px 16px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 2px;
+  background: rgba(240, 238, 227, 0.03);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  word-break: break-all;
+}
+
+[data-copy].copied {
+  border-color: var(--mint);
+  background: rgba(143, 223, 180, 0.12);
+  color: var(--mint);
+}

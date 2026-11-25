@@ -48,7 +48,7 @@ export const statuses = [
     id: 7,
     code: 'moderation',
     name: 'На модерації',
-    color: '#f7b955',
+    color: '#e6b567',
     description: 'Замовлення очікує перевірки адміністратором',
     sortOrder: 0
   },
@@ -56,7 +56,7 @@ export const statuses = [
     id: 1,
     code: 'open',
     name: 'Відкрито',
-    color: '#3dd6f5',
+    color: '#86c8dd',
     description: 'Замовлення опубліковано, виконавець ще не підтверджений',
     sortOrder: 1
   },
@@ -64,7 +64,7 @@ export const statuses = [
     id: 2,
     code: 'in_progress',
     name: 'В роботі',
-    color: '#6d8f00',
+    color: '#e8703a',
     description: 'Фрілансер виконує узгоджений обсяг робіт',
     sortOrder: 2
   },
@@ -72,7 +72,7 @@ export const statuses = [
     id: 3,
     code: 'review',
     name: 'На перевірці',
-    color: '#f7b955',
+    color: '#e6b567',
     description: 'Результат передано замовнику на фінальну перевірку',
     sortOrder: 3
   },
@@ -80,7 +80,7 @@ export const statuses = [
     id: 4,
     code: 'completed',
     name: 'Виконано',
-    color: '#3ddc97',
+    color: '#8fdfb4',
     description: 'Роботу прийнято, оплату зафіксовано',
     sortOrder: 4
   },
@@ -88,7 +88,7 @@ export const statuses = [
     id: 5,
     code: 'cancelled',
     name: 'Скасовано',
-    color: '#ff6b8a',
+    color: '#ff9a86',
     description: 'Замовлення закрито без виконання',
     sortOrder: 5
   },
@@ -96,7 +96,7 @@ export const statuses = [
     id: 6,
     code: 'delivery',
     name: 'Доставка',
-    color: '#5aa9ff',
+    color: '#a3b8ff',
     description: 'Матеріали або обладнання передані кур’єру',
     sortOrder: 6
   }

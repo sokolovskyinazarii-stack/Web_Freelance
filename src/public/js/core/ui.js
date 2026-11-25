@@ -12,7 +12,7 @@ document.addEventListener('click', (event) => {
     return;
   }
 
-  if (!event.target.closest('.site-header')) {
+  if (!event.target.closest('.masthead')) {
     document.body.classList.remove('nav-open');
     toggle?.setAttribute('aria-expanded', 'false');
   }

@@ -31,7 +31,7 @@ export const customers = {
     title: (row) => row.companyName,
     subtitle: (row) => `${row.contactName} · ${row.city}`,
     avatar: (row) => avatar(row.companyName, 'cyan', 'avatar-xl'),
-    badge: () => badge('Постійний клієнт', '#22d3ee'),
+    badge: () => badge('Постійний клієнт', '#86c8dd'),
     metrics: [
       { label: 'Проєкти', cell: (row) => text(row._count.projects), hint: () => 'опубліковано' },
       { label: 'Замовлення', cell: (row) => text(row._count.orders), hint: () => 'усього' },

@@ -1,19 +1,20 @@
-<header class="site-header{% if currentUser %} has-account{% endif %}">
-  <a class="brand" href="/">
-    <span class="brand-mark" aria-hidden="true">
+<header class="masthead{% if currentUser %} has-account{% endif %}">
+  <a class="wordmark" href="/" aria-label="FreelanceHub — на головну">
+    <span class="wordmark-mark" aria-hidden="true">
       <svg viewBox="0 0 32 32" fill="none">
-        <circle cx="7.5" cy="8.5" r="3.2" fill="currentColor"/>
-        <circle cx="24.5" cy="9.5" r="3.2" fill="currentColor"/>
-        <circle cx="16" cy="24.5" r="3.2" fill="currentColor"/>
-        <path d="M10.2 10.6 13.8 20.8M21.8 12.2 18.2 21.2M10.6 8.7 21.4 9.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="16" cy="16" r="10" stroke="currentColor" stroke-width="1.8"/>
+        <circle cx="16" cy="16" r="3" fill="currentColor"/>
+        <path d="M16 1.5v5M16 25.5v5M1.5 16h5M25.5 16h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
       </svg>
     </span>
-    <span class="brand-name">FreelanceHub</span>
+    <span class="wordmark-text">Freelance<i>Hub</i></span>
   </a>
 
-  <nav class="nav" id="nav" aria-label="Головна навігація">
+  <nav class="masthead-nav" id="nav" aria-label="Головна навігація">
     {% for item in navItems %}
-      <a class="nav-link{% if active == item.key %} active{% endif %}" href="{{ item.href }}">{{ item.label }}</a>
+      <a class="nav-link{% if active == item.key %} active{% endif %}" href="{{ item.href }}"{% if active == item.key %} aria-current="page"{% endif %}>
+        <span class="nav-index">{% if loop.index < 10 %}0{{ loop.index }}{% else %}{{ loop.index }}{% endif %}</span>{{ item.label }}
+      </a>
     {% endfor %}
   </nav>
 
@@ -21,14 +22,17 @@
     <div class="account-nav">
       <a class="account-chip{% if active == 'profile' %} active{% endif %}" href="/profile" title="Профіль">
         <span class="avatar avatar-violet">{{ currentUser.fullName | initials }}</span>
-        <span class="account-name">{{ currentUser.fullName }}</span>
+        <span class="account-copy">
+          <span class="account-name">{{ currentUser.fullName }}</span>
+          <span class="account-role">{{ currentUser.role.name }}</span>
+        </span>
       </a>
 
       <form method="post" action="/logout" class="logout-form">
         <button class="icon-button" type="submit" aria-label="Вийти з акаунта" title="Вийти">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M10 8l-4 4 4 4M6 12h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M10 8l-4 4 4 4M6 12h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </form>
