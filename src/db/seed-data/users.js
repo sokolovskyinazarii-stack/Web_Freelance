@@ -2,7 +2,7 @@ export const demoUsers = [
   {
     id: 1,
     email: 'admin@freelancehub.ua',
-    password: 'Admin123!',
+    password: '2ye6{%A;baD%&aQ8Gp?q',
     fullName: 'Лев Крамарчук',
     phone: '+380 98 182 84 61',
     roleId: 5,
@@ -11,7 +11,7 @@ export const demoUsers = [
   {
     id: 2,
     email: 'lev.kravchenko@freelancehub.ua',
-    password: 'Freelancer123!',
+    password: '>/msQ+Qr1pQ(5+r&9{K.',
     fullName: 'Лев Кравченко',
     phone: '+380 92 613 72 13',
     roleId: 3,
@@ -20,7 +20,7 @@ export const demoUsers = [
   {
     id: 3,
     email: 'roman.shevchuk@freelancehub.ua',
-    password: 'Client123!',
+    password: 'PZ]%TPh>3.gYS3XkQZQh',
     fullName: 'Роман Шевчук',
     phone: '+380 96 114 97 59',
     roleId: 2,
@@ -29,7 +29,7 @@ export const demoUsers = [
   {
     id: 4,
     email: 'daria.sereda@freelancehub.ua',
-    password: 'Courier123!',
+    password: 'tD{;eB7"9<Y#t^5"dFVR',
     fullName: 'Дар’я Середа',
     phone: '+380 91 849 95 68',
     roleId: 4,

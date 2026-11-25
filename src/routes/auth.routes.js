@@ -17,14 +17,17 @@ import {
 const authRouter = Router();
 
 authRouter.get('/login', requireGuest, showLogin);
-authRouter.post(
-  '/login',
-  requireGuest,
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login?error=1'
-  })
-);
+authRouter.post('/login', requireGuest, (req, res, next) => {
+  passport.authenticate('local', (error, user, info) => {
+    if (error) return next(error);
+    if (!user) return res.redirect(303, '/login?error=1');
+
+    return req.logIn(user, (loginError) => {
+      if (loginError) return next(loginError);
+      return res.redirect(303, '/');
+    });
+  })(req, res, next);
+});
 authRouter.get('/register', requireGuest, showRegister);
 authRouter.post('/register', requireGuest, register);
 authRouter.post('/logout', requireAuth, logout);

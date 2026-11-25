@@ -45,7 +45,7 @@ export async function createUser(req, res) {
       });
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const passwordHash = await bcrypt.hash(password, 12);
 
     await prisma.$transaction(async (tx) => {
       const user = await tx.user.create({
@@ -61,7 +61,7 @@ export async function createUser(req, res) {
       await createProfile(tx, role, user, values);
     });
 
-    return res.redirect('/users');
+    return res.redirect(303, '/users');
   } catch (error) {
     return renderUserForm(res, {
       title: 'Створити користувача',

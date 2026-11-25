@@ -12,7 +12,7 @@ export function requireAuth(req, res, next) {
     return res.status(401).json({ message: 'Потрібна авторизація' });
   }
 
-  return res.redirect(`/login?next=${encodeURIComponent(req.originalUrl)}`);
+  return res.redirect(303, `/login?next=${encodeURIComponent(req.originalUrl)}`);
 }
 
 export function requireRole(...roles) {
@@ -33,7 +33,7 @@ export function requireRole(...roles) {
 }
 
 export function requireGuest(req, res, next) {
-  if (req.isAuthenticated()) return res.redirect('/profile');
+  if (req.isAuthenticated()) return res.redirect(303, '/profile');
   return next();
 }
 

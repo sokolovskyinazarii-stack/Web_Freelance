@@ -8,11 +8,12 @@ import { couriers } from './seed-data/couriers.js';
 import { projects } from './seed-data/projects.js';
 import { orders } from './seed-data/orders.js';
 import { deliveries } from './seed-data/deliveries.js';
+import { resetSequences } from './sequences.js';
 
 export async function seed() {
   const users = demoUsers.map(({ password, ...user }) => ({
     ...user,
-    passwordHash: bcrypt.hashSync(password, 10)
+    passwordHash: bcrypt.hashSync(password, 12)
   }));
 
   await prisma.$transaction([
@@ -28,5 +29,6 @@ export async function seed() {
     prisma.delivery.createMany({ data: deliveries })
   ]);
 
+  await resetSequences();
   console.log('[db] Демонстраційні дані та акаунти додано');
 }

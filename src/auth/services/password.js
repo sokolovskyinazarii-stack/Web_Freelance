@@ -1,26 +1,34 @@
-import crypto from 'node:crypto';
+import generator from 'generate-password';
 
-const lower = 'abcdefghijkmnopqrstuvwxyz';
-const upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-const digits = '23456789';
-const symbols = '!@#$%^&*';
-const all = `${lower}${upper}${digits}${symbols}`;
+export const PASSWORD_MIN_LENGTH = 12;
 
-function pick(chars) {
-  return chars[crypto.randomInt(0, chars.length)];
+/**
+ * Криптографічно стійкий пароль: 20 символів, великі й малі літери,
+ * цифри та символи, без схожих символів (0/O, 1/l).
+ */
+export function generatePassword(length = 20) {
+  return generator.generate({
+    length,
+    numbers: true,
+    symbols: true,
+    uppercase: true,
+    lowercase: true,
+    strict: true,
+    excludeSimilarCharacters: true
+  });
 }
 
-export function generatePassword(length = 14) {
-  const result = [pick(lower), pick(upper), pick(digits), pick(symbols)];
-
-  while (result.length < length) {
-    result.push(pick(all));
+/** Повертає текст помилки або null, якщо пароль достатньо надійний. */
+export function passwordProblem(password) {
+  const value = String(password || '');
+  if (value.length < PASSWORD_MIN_LENGTH) {
+    return `Пароль має містити щонайменше ${PASSWORD_MIN_LENGTH} символів.`;
   }
-
-  for (let index = result.length - 1; index > 0; index -= 1) {
-    const swapIndex = crypto.randomInt(0, index + 1);
-    [result[index], result[swapIndex]] = [result[swapIndex], result[index]];
+  if (!/[A-Za-zА-Яа-яІіЇїЄєҐґ]/.test(value)) {
+    return 'Пароль має містити хоча б одну літеру.';
   }
-
-  return result.join('');
+  if (!/\d/.test(value)) {
+    return 'Пароль має містити хоча б одну цифру.';
+  }
+  return null;
 }

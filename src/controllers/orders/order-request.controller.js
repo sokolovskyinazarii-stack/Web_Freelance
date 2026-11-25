@@ -24,7 +24,7 @@ export async function create(req, res) {
   try {
     if (!req.user.customer) throw new WorkflowError(403, 'Профіль замовника не знайдено');
     const order = await createClientOrder(req.user.customer.id, data);
-    return res.redirect(`/orders/${order.id}?created=1`);
+    return res.redirect(303, `/orders/${order.id}?created=1`);
   } catch (error) {
     return renderWorkflowError(res, error, 'orders');
   }

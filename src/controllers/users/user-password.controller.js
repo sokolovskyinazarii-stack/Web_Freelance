@@ -50,8 +50,8 @@ export async function resetPassword(req, res) {
     return res.status(409).json({ message: 'Акаунт з таким email має іншу роль' });
   }
 
-  const password = generatePassword(14);
-  const passwordHash = await bcrypt.hash(password, 10);
+  const password = generatePassword(20);
+  const passwordHash = await bcrypt.hash(password, 12);
   let savedUser = user;
   let created = false;
 

@@ -72,7 +72,7 @@ export async function updateUser(req, res) {
       }
     });
 
-    return res.redirect('/users');
+    return res.redirect(303, '/users');
   } catch (error) {
     return renderUserForm(res, {
       title: 'Редагувати користувача',

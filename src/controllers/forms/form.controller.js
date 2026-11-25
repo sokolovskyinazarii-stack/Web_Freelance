@@ -43,7 +43,7 @@ export function createRecord(key) {
       }
 
       const created = await prisma[config.model].create({ data });
-      return res.redirect(`/${key}/${created.id}?created=1`);
+      return res.redirect(303, `/${key}/${created.id}?created=1`);
     } catch (error) {
       const localized = localizePrismaError(error, config);
       const errors = { _form: localized.message };
@@ -71,7 +71,7 @@ export function updateRecord(key) {
       }
 
       await prisma[config.model].update({ where: { id }, data });
-      return res.redirect(`/${key}/${id}?updated=1`);
+      return res.redirect(303, `/${key}/${id}?updated=1`);
     } catch (error) {
       const localized = localizePrismaError(error, config);
       const errors = { _form: localized.message };
@@ -96,7 +96,7 @@ export function deleteRecord(key) {
       const total = relatedTotal(related);
 
       if (total > 0 && req.body.cascade !== '1') {
-        return res.redirect(`/${key}/${id}?error=related`);
+        return res.redirect(303, `/${key}/${id}?error=related`);
       }
 
       if (total > 0) {
@@ -105,10 +105,10 @@ export function deleteRecord(key) {
         await prisma[config.model].delete({ where: { id } });
       }
 
-      return res.redirect(`/${key}?deleted=1`);
+      return res.redirect(303, `/${key}?deleted=1`);
     } catch (error) {
       console.error(error);
-      return res.redirect(`/${key}/${id}?error=db`);
+      return res.redirect(303, `/${key}/${id}?error=db`);
     }
   };
 }

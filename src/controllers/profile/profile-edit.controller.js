@@ -71,7 +71,7 @@ export async function updateProfile(req, res) {
       }
     });
 
-    return res.redirect('/profile?updated=1');
+    return res.redirect(303, '/profile?updated=1');
   } catch (error) {
     return renderEdit(req, res, {
       values,
@@ -102,8 +102,8 @@ export async function changePassword(req, res) {
 
   await prisma.user.update({
     where: { id: user.id },
-    data: { passwordHash: await bcrypt.hash(password, 10) }
+    data: { passwordHash: await bcrypt.hash(password, 12) }
   });
 
-  return res.redirect('/profile?password=1');
+  return res.redirect(303, '/profile?password=1');
 }

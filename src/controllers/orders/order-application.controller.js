@@ -21,7 +21,7 @@ export async function apply(req, res) {
       message: String(req.body.message || '').trim() || null,
       proposedAmount
     });
-    return res.redirect(`/orders/${req.params.id}?applied=1`);
+    return res.redirect(303, `/orders/${req.params.id}?applied=1`);
   } catch (error) {
     return renderWorkflowError(res, error, 'orders');
   }
@@ -35,7 +35,7 @@ export async function accept(req, res) {
       Number(req.params.applicationId),
       req.user.customer.id
     );
-    return res.redirect(`/orders/${req.params.id}?accepted=1`);
+    return res.redirect(303, `/orders/${req.params.id}?accepted=1`);
   } catch (error) {
     return renderWorkflowError(res, error, 'orders');
   }
@@ -49,7 +49,7 @@ export async function reject(req, res) {
       Number(req.params.applicationId),
       req.user.customer.id
     );
-    return res.redirect(`/orders/${req.params.id}?applicationRejected=1`);
+    return res.redirect(303, `/orders/${req.params.id}?applicationRejected=1`);
   } catch (error) {
     return renderWorkflowError(res, error, 'orders');
   }
@@ -59,7 +59,7 @@ export async function cancelFreelancerHandler(req, res) {
   try {
     if (!req.user.customer) throw new WorkflowError(403, 'Профіль замовника не знайдено');
     await cancelFreelancer(Number(req.params.id), req.user.customer.id);
-    return res.redirect(`/orders/${req.params.id}?freelancerCancelled=1`);
+    return res.redirect(303, `/orders/${req.params.id}?freelancerCancelled=1`);
   } catch (error) {
     return renderWorkflowError(res, error, 'orders');
   }

@@ -1,3 +1,5 @@
+import { passwordProblem } from '../services/password.js';
+
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phonePattern = /^[+\d\s()-]{10,20}$/;
 
@@ -20,7 +22,8 @@ export function validateRegistration(body) {
   if (!emailPattern.test(values.email)) errors.email = 'Введіть коректну email-адресу.';
   if (!phonePattern.test(values.phone)) errors.phone = 'Введіть коректний номер телефону.';
   if (values.city.length < 2) errors.city = 'Вкажіть місто.';
-  if (password.length < 8) errors.password = 'Пароль має містити щонайменше 8 символів.';
+  const passwordError = passwordProblem(password);
+  if (passwordError) errors.password = passwordError;
   if (password !== passwordConfirm) errors.passwordConfirm = 'Паролі не збігаються.';
 
   return { errors, values, password };
@@ -45,7 +48,8 @@ export function validateUserForm(body, isEdit) {
     if (!phonePattern.test(values.phone)) errors.phone = 'Введіть коректний номер телефону.';
     if (values.city.length < 2) errors.city = 'Вкажіть місто.';
     if (!values.roleId) errors.roleId = 'Оберіть роль.';
-    if (password.length < 8) errors.password = 'Пароль має містити щонайменше 8 символів.';
+    const passwordError = passwordProblem(password);
+    if (passwordError) errors.password = passwordError;
   }
 
   return { errors, values, password };
@@ -99,7 +103,8 @@ export function validatePasswordChange(body) {
   const passwordConfirm = String(body.passwordConfirm || '');
 
   if (!current) errors.currentPassword = 'Введіть поточний пароль.';
-  if (password.length < 8) errors.password = 'Пароль має містити щонайменше 8 символів.';
+  const passwordError = passwordProblem(password);
+  if (passwordError) errors.password = passwordError;
   if (password !== passwordConfirm) errors.passwordConfirm = 'Паролі не збігаються.';
   if (current && current === password) {
     errors.password = 'Новий пароль має відрізнятися від поточного.';

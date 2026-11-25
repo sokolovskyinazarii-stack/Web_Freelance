@@ -13,7 +13,7 @@ async function start() {
       console.log('----------------------------------------------------');
       console.log(' FreelanceHub запущено');
       console.log(` Сайт: http://localhost:${PORT}`);
-      console.log(` База даних: ${process.env.DATABASE_URL || 'file:./freelance.db'}`);
+      console.log(' База даних: PostgreSQL');
       console.log('----------------------------------------------------');
     });
   } catch (error) {

@@ -76,7 +76,7 @@ export async function update(req, res) {
     }
 
     await updateClientOrder(order.id, req.user.customer.id, data);
-    return res.redirect(`/orders/${order.id}?resubmitted=1`);
+    return res.redirect(303, `/orders/${order.id}?resubmitted=1`);
   } catch (error) {
     return renderWorkflowError(res, error, 'orders');
   }

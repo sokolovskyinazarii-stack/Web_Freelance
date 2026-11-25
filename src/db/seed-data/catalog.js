@@ -64,7 +64,7 @@ export const statuses = [
     id: 2,
     code: 'in_progress',
     name: 'В роботі',
-    color: '#8b7cff',
+    color: '#6d8f00',
     description: 'Фрілансер виконує узгоджений обсяг робіт',
     sortOrder: 2
   },

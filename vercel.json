@@ -1,0 +1,14 @@
+{
+  "regions": ["fra1"],
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "src/**/*"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api/index.js"
+    }
+  ]
+}

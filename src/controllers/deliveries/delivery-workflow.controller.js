@@ -33,7 +33,7 @@ export async function request(req, res) {
       estimatedAt: estimated
     });
 
-    return res.redirect(`/deliveries/${delivery.id}?deliveryRequested=1`);
+    return res.redirect(303, `/deliveries/${delivery.id}?deliveryRequested=1`);
   } catch (error) {
     return renderWorkflowError(res, error, 'orders');
   }
@@ -43,7 +43,7 @@ export async function accept(req, res) {
   try {
     if (!req.user.courier) throw new WorkflowError(403, 'Профіль кур’єра не знайдено');
     await acceptDelivery(Number(req.params.id), req.user.courier);
-    return res.redirect(`/deliveries/${req.params.id}?deliveryAccepted=1`);
+    return res.redirect(303, `/deliveries/${req.params.id}?deliveryAccepted=1`);
   } catch (error) {
     return renderWorkflowError(res, error, 'deliveries');
   }
@@ -64,7 +64,7 @@ export async function status(req, res) {
     }
 
     await updateDeliveryStatus(delivery.id, String(req.body.status || ''));
-    return res.redirect(`/deliveries/${delivery.id}?deliveryUpdated=1`);
+    return res.redirect(303, `/deliveries/${delivery.id}?deliveryUpdated=1`);
   } catch (error) {
     return renderWorkflowError(res, error, 'deliveries');
   }

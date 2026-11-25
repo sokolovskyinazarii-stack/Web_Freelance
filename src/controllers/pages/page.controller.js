@@ -138,5 +138,5 @@ export async function completeDelivery(req, res) {
     data: { status: 'delivered', deliveredAt: new Date() }
   });
 
-  return res.redirect(`/deliveries/${id}?completed=1`);
+  return res.redirect(303, `/deliveries/${id}?completed=1`);
 }

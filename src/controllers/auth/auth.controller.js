@@ -51,7 +51,7 @@ export async function register(req, res, next) {
     const role = await prisma.role.findUnique({ where: { code: values.role } });
     if (!role) throw new Error('Роль не знайдено');
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const passwordHash = await bcrypt.hash(password, 12);
 
     const user = await prisma.$transaction(async (tx) => {
       const created = await tx.user.create({
@@ -97,7 +97,7 @@ export async function register(req, res, next) {
 
     return req.login(user, (error) => {
       if (error) return next(error);
-      return res.redirect('/profile');
+      return res.redirect(303, '/profile');
     });
   } catch (error) {
     return next(error);
@@ -107,7 +107,7 @@ export async function register(req, res, next) {
 export function logout(req, res, next) {
   req.logout((error) => {
     if (error) return next(error);
-    return res.redirect('/');
+    return res.redirect(303, '/');
   });
 }
 

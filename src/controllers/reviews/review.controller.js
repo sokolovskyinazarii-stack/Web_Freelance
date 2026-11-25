@@ -12,7 +12,7 @@ export async function order(req, res) {
       req.body.rating,
       String(req.body.comment || '').trim()
     );
-    return res.redirect(`/orders/${req.params.id}?reviewed=1`);
+    return res.redirect(303, `/orders/${req.params.id}?reviewed=1`);
   } catch (error) {
     return renderWorkflowError(res, error, 'orders');
   }
@@ -26,7 +26,7 @@ export async function delivery(req, res) {
       req.body.rating,
       String(req.body.comment || '').trim()
     );
-    return res.redirect(`/deliveries/${req.params.id}?reviewed=1`);
+    return res.redirect(303, `/deliveries/${req.params.id}?reviewed=1`);
   } catch (error) {
     return renderWorkflowError(res, error, 'deliveries');
   }
