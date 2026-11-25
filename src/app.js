@@ -15,6 +15,7 @@ import { configurePassport } from './auth/passport.js';
 import { authLocals, requireRole } from './auth/middleware/index.js';
 import { ROLES } from './auth/roles.js';
 import { date, initials, money, plural } from './lib/format.js';
+import { prisma } from './db/client.js';
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(currentDir, 'public');
@@ -29,10 +30,16 @@ if (!process.env.SESSION_SECRET && isProduction) {
 app.set('trust proxy', 1);
 app.disable('x-powered-by');
 
-// Легкий health-check без сесії та бази: для Render і зовнішнього монітора.
-app.get('/healthz', (req, res) => {
+// Health-check для Render і монітора: легкий запит до PostgreSQL будить Neon.
+app.get('/healthz', async (req, res) => {
   res.set('Cache-Control', 'no-store');
-  res.status(200).json({ status: 'ok' });
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.status(200).json({ status: 'ok', db: 'ok' });
+  } catch {
+    console.error('[healthz] database check failed');
+    res.status(503).json({ status: 'degraded', db: 'error' });
+  }
 });
 
 app.use((req, res, next) => {
