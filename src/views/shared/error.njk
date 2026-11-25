@@ -1,12 +1,15 @@
 {% extends "layout.njk" %}
+{% import "macros/icons.njk" as icons %}
 
 {% block content %}
 <div class="page-full">
-  <section class="state">
-    <p class="eyebrow">Помилка</p>
+  <section class="state" data-reveal>
     <h1>{{ title }}</h1>
     <p>{{ message }}</p>
-    <a class="btn btn-primary" href="/">На головну</a>
+    <a class="btn btn-primary" href="/">
+      На головну
+      {{ icons.icon('arrow-right', 15) }}
+    </a>
   </section>
 </div>
 {% endblock %}

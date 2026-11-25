@@ -1,6 +1,7 @@
 {% extends "layout.njk" %}
 {% import "macros/table.njk" as table %}
 {% import "macros/ui.njk" as ui %}
+{% import "macros/icons.njk" as icons %}
 
 {% block content %}
 <div class="page">
@@ -11,7 +12,7 @@
       <span>{{ title }}</span>
     </nav>
 
-    <div class="detail-identity">
+    <div class="detail-identity" data-reveal>
       {{ ui.avatar(avatar) | safe }}
       <div>
         <h1>{{ title }}</h1>
@@ -20,28 +21,37 @@
     </div>
 
     {% if badge.type != 'rating' %}
-      {{ ui.cell(badge) | safe }}
+      <div data-reveal>{{ ui.cell(badge) | safe }}</div>
     {% endif %}
 
-    <div class="rail-actions rail-actions-stack">
+    <div class="rail-actions rail-actions-stack" data-reveal>
       {% if canManage %}
         {% if passwordTarget %}
-          <button class="btn btn-ghost" type="button" data-password data-resource="{{ passwordTarget.resource }}" data-id="{{ passwordTarget.id }}" data-user-name="{{ passwordTarget.name }}">Скинути пароль</button>
+          <button class="btn btn-ghost" type="button" data-password data-resource="{{ passwordTarget.resource }}" data-id="{{ passwordTarget.id }}" data-user-name="{{ passwordTarget.name }}">
+            {{ icons.icon('key', 15) }}
+            Скинути пароль
+          </button>
         {% endif %}
-        <a class="btn btn-ghost" href="/{{ active }}/{{ id }}/edit">Редагувати</a>
-        <button class="btn btn-danger" type="button" data-delete data-resource="{{ active }}" data-id="{{ id }}" data-title="{{ title }}">Видалити</button>
+        <a class="btn btn-ghost" href="/{{ active }}/{{ id }}/edit">
+          {{ icons.icon('edit', 15) }}
+          Редагувати
+        </a>
+        <button class="btn btn-danger" type="button" data-delete data-resource="{{ active }}" data-id="{{ id }}" data-title="{{ title }}">
+          {{ icons.icon('trash', 15) }}
+          Видалити
+        </button>
       {% endif %}
     </div>
   </aside>
 
   <div class="column">
     {% if flash %}
-      <div class="alert alert-{{ flash.type }}">{{ flash.text }}</div>
+      <div class="alert alert-{{ flash.type }}" data-reveal>{{ flash.text }}</div>
     {% endif %}
 
     <section class="metric-grid">
       {% for metric in metrics %}
-        <article class="metric-card">
+        <article class="metric-card" data-reveal>
           <span class="metric-label">{{ metric.label }}</span>
           <strong>{{ ui.cell(metric.cell) | safe }}</strong>
           {% if metric.hint %}<small>{{ metric.hint }}</small>{% endif %}
@@ -50,9 +60,8 @@
     </section>
 
     <section class="sheet">
-      <header class="sheet-head">
-        <h2 class="sheet-title"><i>01</i> Дані</h2>
-        <span class="sheet-meta">{{ fields.length }} полів</span>
+      <header class="sheet-head" data-reveal>
+        <h2 class="sheet-title">{{ icons.icon('orders', 17) }} Деталі</h2>
       </header>
       <dl class="field-grid">
         {% for field in fields %}
@@ -74,7 +83,7 @@
 
     {% for relation in relations %}
       <section class="sheet relation-panel">
-        <header class="sheet-head">
+        <header class="sheet-head" data-reveal>
           <h2 class="sheet-title">{{ relation.title }}</h2>
           <span class="sheet-meta">{{ relation.table.rows.length }}</span>
         </header>

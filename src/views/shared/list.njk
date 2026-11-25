@@ -1,37 +1,38 @@
 {% extends "layout.njk" %}
 {% import "macros/table.njk" as table %}
-{% import "macros/ui.njk" as ui %}
+{% import "macros/icons.njk" as icons %}
 
 {% block content %}
 <div class="page">
   <aside class="rail">
-    <p class="eyebrow">Розділ</p>
-    <h1>{{ title }}</h1>
-    <p class="lede">{{ searchHint }}</p>
+    <h1 data-reveal>{{ title }}</h1>
 
-    <div class="rail-actions">
+    <div class="rail-actions" data-reveal>
       {% if canManage %}
-        <a class="btn btn-primary" href="/{{ active }}/new">Створити</a>
+        <a class="btn btn-primary" href="/{{ active }}/new">
+          {{ icons.icon('plus', 15) }}
+          Створити
+        </a>
       {% elif canCreateOrder %}
-        <a class="btn btn-primary" href="/orders/request">Створити замовлення</a>
+        <a class="btn btn-primary" href="/orders/request">
+          {{ icons.icon('plus', 15) }}
+          Нове замовлення
+        </a>
       {% endif %}
       <form class="search-form" method="get" action="" role="search">
         <label class="search">
-          {{ ui.searchIcon() | safe }}
+          {{ icons.icon('search', 15) }}
           <input type="search" name="q" value="{{ query }}" placeholder="{{ searchHint }}" autocomplete="off" aria-label="{{ searchHint }}">
         </label>
       </form>
     </div>
 
-    <div class="rail-meta">
-      <span>Записів: <b>{{ tableData.rows.length }}</b></span>
-      <span>Рядок відкриває деталі</span>
-    </div>
+    <p class="rail-count">{{ tableData.rows.length }} {{ tableData.rows.length | plural('запис', 'записи', 'записів') }}</p>
   </aside>
 
   <div class="column">
     {% if flash %}
-      <div class="alert alert-{{ flash.type }}">{{ flash.text }}</div>
+      <div class="alert alert-{{ flash.type }}" data-reveal>{{ flash.text }}</div>
     {% endif %}
 
     <section class="sheet">

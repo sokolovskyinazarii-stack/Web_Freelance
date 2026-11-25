@@ -1,3 +1,4 @@
+{% import "macros/icons.njk" as icons %}
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -9,16 +10,11 @@
   <meta name="theme-color" content="#090b08">
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script src="/js/core/boot.js"></script>
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <div class="utility">
-    <span class="utility-status"><span class="utility-dot"></span> PostgreSQL · Neon</span>
-    <span class="utility-sep">/</span>
-    <span>Журнал операцій</span>
-    <span class="utility-tail">FreelanceHub · 2.0</span>
-  </div>
-
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
   {% include "partials/header.njk" %}
 
   <main class="shell">
@@ -27,8 +23,16 @@
     </div>
 
     <footer class="footer">
-      <span>FreelanceHub — навчальний проєкт</span>
-      <span>База даних і сесії — PostgreSQL (Neon)</span>
+      <span class="footer-brand">© 2026 FreelanceHub</span>
+      <nav class="footer-links" aria-label="Розділи">
+        <a href="/projects">Проєкти</a>
+        <a href="/freelancers">Фрілансери</a>
+        <a href="/categories">Категорії</a>
+      </nav>
+      <button class="footer-top" type="button" data-scroll-top>
+        Догори
+        {{ icons.icon('chevron-up', 14) }}
+      </button>
     </footer>
   </main>
 
@@ -38,6 +42,7 @@
   {% endif %}
 
   <script src="/js/core/ui.js"></script>
+  <script src="/js/core/reveal.js"></script>
   <script src="/js/ui/copy.js"></script>
   <script src="/js/ui/select.js"></script>
   <script src="/js/ui/stepper.js"></script>

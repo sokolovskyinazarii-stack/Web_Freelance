@@ -1,5 +1,6 @@
 {% extends "layout.njk" %}
 {% import "macros/ui.njk" as ui %}
+{% import "macros/icons.njk" as icons %}
 
 {% block content %}
 <div class="page">
@@ -10,9 +11,7 @@
       <span>{{ title }}</span>
     </nav>
 
-    <p class="eyebrow">Форма запису</p>
-    <h1>{{ title }}</h1>
-    <p class="lede">Поля з позначкою <span class="required-mark">*</span> обов’язкові. Зміни зберігаються в PostgreSQL.</p>
+    <h1 data-reveal>{{ title }}</h1>
   </aside>
 
   <div class="column">
@@ -20,7 +19,7 @@
       <div class="alert alert-error">{{ errors._form }}</div>
     {% endif %}
 
-    <form method="post" action="{{ action }}" novalidate class="entity-form">
+    <form method="post" action="{{ action }}" novalidate class="entity-form" data-reveal>
       <div class="form-grid">
         {% for field in fields %}
           <div class="form-field{% if field.wide %} form-field-wide{% endif %}">
@@ -58,13 +57,25 @@
       <div class="form-actions">
         {% if extraAction %}
           {% if extraAction.userId %}
-            <button class="btn btn-ghost form-action-left" type="button" data-password data-resource="users" data-id="{{ extraAction.userId }}" data-user-name="{{ extraAction.userName }}">{{ extraAction.label }}</button>
+            <button class="btn btn-ghost form-action-left" type="button" data-password data-resource="users" data-id="{{ extraAction.userId }}" data-user-name="{{ extraAction.userName }}">
+              {{ icons.icon('key', 15) }}
+              {{ extraAction.label }}
+            </button>
           {% else %}
-            <a class="btn btn-ghost form-action-left" href="{{ extraAction.href }}">{{ extraAction.label }}</a>
+            <a class="btn btn-ghost form-action-left" href="{{ extraAction.href }}">
+              {{ icons.icon('arrow-right', 15) }}
+              {{ extraAction.label }}
+            </a>
           {% endif %}
         {% endif %}
-        <a class="btn btn-ghost" href="{{ cancelHref }}">Скасувати</a>
-        <button class="btn btn-primary" type="submit">{{ submitLabel }}</button>
+        <a class="btn btn-ghost" href="{{ cancelHref }}">
+          {{ icons.icon('close', 15) }}
+          Скасувати
+        </a>
+        <button class="btn btn-primary" type="submit">
+          {{ icons.icon('save', 15) }}
+          {{ submitLabel }}
+        </button>
       </div>
     </form>
   </div>

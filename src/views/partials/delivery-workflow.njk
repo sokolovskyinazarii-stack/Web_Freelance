@@ -1,14 +1,15 @@
+{% import "macros/icons.njk" as icons %}
 {% if workflow.canAccept or workflow.canComplete or workflow.canUpdateStatus or workflow.canReview or workflow.reviews.length %}
 <section class="sheet workflow-panel">
-  <header class="sheet-head">
-    <h2 class="sheet-title"><i>02</i> Дії з доставкою</h2>
+  <header class="sheet-head" data-reveal>
+    <h2 class="sheet-title">{{ icons.icon('deliveries', 17) }} Доставка</h2>
   </header>
 
   <div class="workflow-body">
     {% if workflow.canAccept %}
       <div class="workflow-actions">
         <form method="post" class="ajax-form" action="/deliveries/{{ id }}/accept">
-          <button class="btn btn-primary" type="submit">Прийняти доставку</button>
+          <button class="btn btn-primary" type="submit">{{ icons.icon('check', 15) }} Прийняти доставку</button>
         </form>
       </div>
     {% endif %}
@@ -16,7 +17,7 @@
     {% if workflow.canComplete %}
       <div class="workflow-actions">
         <form method="post" class="ajax-form" action="/deliveries/{{ id }}/complete">
-          <button class="btn btn-primary" type="submit">Позначити доставленою</button>
+          <button class="btn btn-primary" type="submit">{{ icons.icon('check', 15) }} Позначити доставленою</button>
         </form>
       </div>
     {% endif %}
@@ -29,7 +30,7 @@
         </form>
         <form method="post" class="ajax-form" action="/deliveries/{{ id }}/status">
           <input type="hidden" name="status" value="delivered">
-          <button class="btn btn-primary" type="submit">Доставлено</button>
+          <button class="btn btn-primary" type="submit">{{ icons.icon('check', 15) }} Доставлено</button>
         </form>
         <form method="post" class="ajax-form" action="/deliveries/{{ id }}/status">
           <input type="hidden" name="status" value="failed">
@@ -50,7 +51,7 @@
         </select>
         <textarea name="comment" rows="2" placeholder="Коментар"></textarea>
         <div class="workflow-actions">
-          <button class="btn btn-primary" type="submit">Залишити відгук</button>
+          <button class="btn btn-primary" type="submit">{{ icons.icon('star', 15) }} Залишити відгук</button>
         </div>
       </form>
     {% endif %}
@@ -58,7 +59,7 @@
     {% if workflow.reviews.length %}
       <div class="review-list">
         {% for review in workflow.reviews %}
-          <article class="review-card">
+          <article class="review-card" data-reveal>
             <strong>{{ review.author.fullName }} · {{ review.rating }}/5</strong>
             <p>{{ review.comment or 'Без коментаря' }}</p>
           </article>

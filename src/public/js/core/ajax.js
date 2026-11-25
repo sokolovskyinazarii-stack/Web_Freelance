@@ -33,11 +33,7 @@ function replaceView(html) {
   document.body.classList.remove('modal-open', 'nav-open');
   document.getElementById('menu-toggle')?.setAttribute('aria-expanded', 'false');
 
-  // Одна поява на контейнер: перезапускаємо анімацію після заміни вмісту.
-  view.classList.add('is-replaying');
-  void view.offsetWidth;
-  view.classList.remove('is-replaying');
-
+  window.initReveal?.(view);
   window.initSearchableSelects?.();
   window.initSteppers?.();
   return true;
@@ -63,11 +59,12 @@ async function submitForm(form) {
       history[method]({}, '', response.url);
     }
 
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (response.ok) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
     } else {
       const firstError = document.querySelector('.field-error, .alert-error');
-      firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      firstError?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
     }
   } catch (error) {
     console.error('AJAX submit failed', error);

@@ -18,7 +18,7 @@ import { ROLES } from '../../auth/roles.js';
 function notFound(res, active) {
   return res.status(404).render('shared/error.njk', {
     title: 'Запис не знайдено',
-    message: 'Можливо, запис видалено або вказано неправильний ідентифікатор.',
+    message: 'Запис не знайдено. Можливо, його видалили.',
     active
   });
 }

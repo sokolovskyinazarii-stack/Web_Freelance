@@ -1,32 +1,30 @@
 {% extends "layout.njk" %}
+{% import "macros/icons.njk" as icons %}
 
 {% block content %}
 <div class="page">
   <aside class="rail">
-    <p class="eyebrow">Профіль</p>
-    <span class="avatar avatar-xl avatar-violet">{{ user.fullName | initials }}</span>
-    <h1>{{ user.fullName }}</h1>
-    <p class="lede">{{ user.email }}</p>
-    <span class="badge" style="--tone:{{ user.role.color }}">{{ user.role.name }}</span>
+    <span class="avatar avatar-xl avatar-violet" data-reveal>{{ user.fullName | initials }}</span>
+    <h1 data-reveal>{{ user.fullName }}</h1>
+    <p class="lede" data-reveal>{{ user.email }}</p>
+    <span class="badge" style="--tone:{{ user.role.color }}" data-reveal>{{ user.role.name }}</span>
 
-    <div class="rail-actions rail-actions-stack">
-      <a class="btn btn-ghost" href="/profile/edit">Редагувати профіль</a>
-    </div>
-
-    <div class="rail-meta">
-      <span>На платформі: <b>{{ user.createdAt | date }}</b></span>
-      <span>Статус: <b>{{ 'активний' if user.isActive else 'заблокований' }}</b></span>
+    <div class="rail-actions rail-actions-stack" data-reveal>
+      <a class="btn btn-ghost" href="/profile/edit">
+        {{ icons.icon('edit', 15) }}
+        Редагувати профіль
+      </a>
     </div>
   </aside>
 
   <div class="column">
     {% if flash %}
-      <div class="alert alert-{{ flash.type }}">{{ flash.text }}</div>
+      <div class="alert alert-{{ flash.type }}" data-reveal>{{ flash.text }}</div>
     {% endif %}
 
     <section class="metric-grid">
       {% for metric in metrics %}
-        <article class="metric-card">
+        <article class="metric-card" data-reveal>
           <span class="metric-label">{{ metric.label }}</span>
           <strong>{{ metric.value }}</strong>
         </article>
@@ -34,8 +32,8 @@
     </section>
 
     <section class="sheet">
-      <header class="sheet-head">
-        <h2 class="sheet-title"><i>01</i> Акаунт</h2>
+      <header class="sheet-head" data-reveal>
+        <h2 class="sheet-title">{{ icons.icon('users', 17) }} Акаунт</h2>
       </header>
       <dl class="field-grid">
         <div class="field">
@@ -63,8 +61,8 @@
 
     {% if user.freelancer %}
       <section class="sheet">
-        <header class="sheet-head">
-          <h2 class="sheet-title"><i>02</i> Профіль фрілансера</h2>
+        <header class="sheet-head" data-reveal>
+          <h2 class="sheet-title">{{ icons.icon('freelancers', 17) }} Профіль фрілансера</h2>
         </header>
         <dl class="field-grid">
           <div class="field"><dt>Спеціальність</dt><dd>{{ user.freelancer.specialty }}</dd></div>
@@ -76,8 +74,8 @@
       </section>
     {% elif user.customer %}
       <section class="sheet">
-        <header class="sheet-head">
-          <h2 class="sheet-title"><i>02</i> Профіль замовника</h2>
+        <header class="sheet-head" data-reveal>
+          <h2 class="sheet-title">{{ icons.icon('customers', 17) }} Профіль замовника</h2>
         </header>
         <dl class="field-grid">
           <div class="field"><dt>Компанія</dt><dd>{{ user.customer.companyName }}</dd></div>
@@ -88,8 +86,8 @@
       </section>
     {% elif user.courier %}
       <section class="sheet">
-        <header class="sheet-head">
-          <h2 class="sheet-title"><i>02</i> Профіль кур’єра</h2>
+        <header class="sheet-head" data-reveal>
+          <h2 class="sheet-title">{{ icons.icon('couriers', 17) }} Профіль кур’єра</h2>
         </header>
         <dl class="field-grid">
           <div class="field"><dt>Транспорт</dt><dd>{{ user.courier.vehicle }}</dd></div>
@@ -100,10 +98,12 @@
       </section>
     {% else %}
       <section class="sheet">
-        <header class="sheet-head">
-          <h2 class="sheet-title"><i>02</i> Роль</h2>
+        <header class="sheet-head" data-reveal>
+          <h2 class="sheet-title">{{ icons.icon('lock', 17) }} Доступ</h2>
         </header>
-        <p class="detail-text">Адміністратор платформи. Керує користувачами, проєктами, замовленнями та логістикою.</p>
+        <dl class="field-grid">
+          <div class="field"><dt>Роль</dt><dd>{{ user.role.name }}</dd></div>
+        </dl>
       </section>
     {% endif %}
   </div>

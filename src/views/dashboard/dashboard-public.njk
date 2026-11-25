@@ -1,86 +1,79 @@
 {% extends "layout.njk" %}
 {% import "macros/table.njk" as table %}
+{% import "macros/icons.njk" as icons %}
 
 {% block content %}
 <div class="page-full">
-  <section class="page-head">
-    <p class="eyebrow">Відкритий огляд</p>
-    <div class="page-head-row">
-      <h1>Робота, <em>зафіксована</em>.</h1>
-      <p class="lede">FreelanceHub зводить замовників, фрілансерів і кур’єрів в один журнал: від заявки до підтвердженої доставки. Увійдіть, щоб побачити свій потік.</p>
-    </div>
-    <div class="rail-actions">
-      <a class="btn btn-primary" href="/login">Увійти</a>
-      <a class="btn btn-ghost" href="/register">Створити акаунт</a>
+  <section class="page-head" data-reveal>
+    <h1>Платформа для фрілансу</h1>
+    <p class="page-lede">Проєкти, виконавці та категорії у відкритому доступі. Щоб створити замовлення або подати заявку, увійдіть.</p>
+    <div class="page-actions">
+      <a class="btn btn-primary" href="/login">
+        Увійти
+        {{ icons.icon('arrow-right', 15) }}
+      </a>
+      <a class="btn btn-ghost" href="/register">Зареєструватися</a>
     </div>
   </section>
 
   <section class="figures" aria-label="Показники платформи">
     {% for stat in stats %}
-      <article class="figure">
-        <span class="figure-label">{{ stat.label }}</span>
+      <article class="figure" data-reveal>
+        <div class="figure-head">
+          <span class="figure-icon">{{ icons.icon(stat.icon or 'chart', 16) }}</span>
+          <span class="figure-label">{{ stat.label }}</span>
+        </div>
         <strong class="figure-value">{{ stat.value }}</strong>
-        <span class="figure-note">{{ stat.note }}</span>
+        {% if stat.note %}<span class="figure-note">{{ stat.note }}</span>{% endif %}
       </article>
     {% endfor %}
   </section>
 
   <section class="sheet">
-    <header class="sheet-head">
-      <h2 class="sheet-title"><i>01</i> Останні проєкти</h2>
-      <a class="link-arrow" href="/projects">Усі проєкти</a>
+    <header class="sheet-head" data-reveal>
+      <h2 class="sheet-title">{{ icons.icon('projects', 17) }} Останні проєкти</h2>
+      <a class="link-arrow" href="/projects">Усі проєкти {{ icons.icon('arrow-up-right', 13) }}</a>
     </header>
     <div class="table-wrap">{{ table.render(recentTable) | safe }}</div>
   </section>
 
   <div class="split">
     <section class="sheet">
-      <header class="sheet-head">
-        <h2 class="sheet-title"><i>02</i> Як це працює</h2>
+      <header class="sheet-head" data-reveal>
+        <h2 class="sheet-title">{{ icons.icon('freelancers', 17) }} Фрілансери</h2>
+        <a class="link-arrow" href="/freelancers">Усі {{ icons.icon('arrow-up-right', 13) }}</a>
       </header>
-      <ol class="steps">
-        <li class="step">
-          <b>01</b>
-          <div>
-            <strong>Замовлення</strong>
-            <p>Замовник описує задачу, бюджет і дедлайн. Адміністратор перевіряє заявку.</p>
-          </div>
-        </li>
-        <li class="step">
-          <b>02</b>
-          <div>
-            <strong>Заявки</strong>
-            <p>Фрілансери пропонують ціну й термін. Замовник обирає виконавця.</p>
-          </div>
-        </li>
-        <li class="step">
-          <b>03</b>
-          <div>
-            <strong>Робота</strong>
-            <p>Статуси фіксують кожен крок — від «в роботі» до «виконано».</p>
-          </div>
-        </li>
-        <li class="step">
-          <b>04</b>
-          <div>
-            <strong>Доставка</strong>
-            <p>Кур’єр приймає доставку та підтверджує вручення в журналі.</p>
-          </div>
-        </li>
-      </ol>
+      <div class="rank-list">
+        {% for freelancer in freelancers %}
+          <a class="rank-row" href="/freelancers/{{ freelancer.id }}" data-reveal>
+            <span class="avatar avatar-violet">{{ freelancer.fullName | initials }}</span>
+            <span class="rank-copy">
+              <strong>{{ freelancer.fullName }}</strong>
+              <small>{{ freelancer.specialty }}</small>
+            </span>
+            <span class="rank-meta">
+              <span class="rating">{{ icons.icon('star', 12) }} {{ freelancer.rating }}</span>
+              <small>{{ freelancer._count.orders }} {{ freelancer._count.orders | plural('замовлення', 'замовлення', 'замовлень') }}</small>
+            </span>
+          </a>
+        {% endfor %}
+      </div>
     </section>
 
     <section class="sheet">
-      <header class="sheet-head">
-        <h2 class="sheet-title"><i>03</i> Що всередині</h2>
+      <header class="sheet-head" data-reveal>
+        <h2 class="sheet-title">{{ icons.icon('categories', 17) }} Категорії</h2>
+        <a class="link-arrow" href="/categories">Усі {{ icons.icon('arrow-up-right', 13) }}</a>
       </header>
-      <div class="spec-list">
-        <div class="spec"><span>Застосунок</span><b>Express 5 · Nunjucks</b></div>
-        <div class="spec"><span>Дані</span><b>PostgreSQL · Prisma</b></div>
-        <div class="spec"><span>Сесії</span><b>connect-pg-simple</b></div>
-        <div class="spec"><span>Доступ</span><b>Passport · bcrypt</b></div>
-        <div class="spec"><span>API</span><b>/api · лише адмін</b></div>
-        <div class="spec"><span>Хостинг</span><b>Neon · Vercel</b></div>
+      <div class="category-list">
+        {% for category in categories %}
+          <a class="category-row" href="/categories/{{ category.id }}" data-reveal>
+            <div class="category-head">
+              <strong>{{ category.name }}</strong>
+              <span>{{ category._count.projects }} {{ category._count.projects | plural('проєкт', 'проєкти', 'проєктів') }}</span>
+            </div>
+          </a>
+        {% endfor %}
       </div>
     </section>
   </div>

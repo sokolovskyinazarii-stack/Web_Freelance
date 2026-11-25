@@ -1,19 +1,16 @@
 {% extends "layout.njk" %}
+{% import "macros/icons.njk" as icons %}
 
 {% block content %}
 <div class="page">
   <aside class="rail">
-    <p class="eyebrow">Адміністрування</p>
-    <h1>Користувачі</h1>
-    <p class="lede">Акаунти, ролі та доступ. Пароль генерується на сервері й показується один раз.</p>
+    <h1 data-reveal>Користувачі</h1>
 
-    <div class="rail-actions">
-      <a class="btn btn-primary" href="/users/new">Створити</a>
-    </div>
-
-    <div class="rail-meta">
-      <span>Акаунтів: <b>{{ users.length }}</b></span>
-      <span>Адмін · повний доступ</span>
+    <div class="rail-actions" data-reveal>
+      <a class="btn btn-primary" href="/users/new">
+        {{ icons.icon('user-plus', 15) }}
+        Створити
+      </a>
     </div>
   </aside>
 
@@ -32,7 +29,7 @@
           </thead>
           <tbody>
             {% for user in users %}
-              <tr>
+              <tr data-reveal>
                 <td>
                   <div class="person">
                     <span class="avatar avatar-violet">{{ user.fullName | initials }}</span>
@@ -63,8 +60,14 @@
                 </td>
                 <td class="row-actions">
                   <div class="user-actions">
-                    <button class="link-button" type="button" data-password data-resource="users" data-id="{{ user.id }}" data-user-name="{{ user.fullName }}">Пароль</button>
-                    <a class="link-arrow" href="/users/{{ user.id }}/edit">Редагувати</a>
+                    <button class="link-button" type="button" data-password data-resource="users" data-id="{{ user.id }}" data-user-name="{{ user.fullName }}">
+                      {{ icons.icon('key', 13) }}
+                      Пароль
+                    </button>
+                    <a class="link-button" href="/users/{{ user.id }}/edit">
+                      {{ icons.icon('edit', 13) }}
+                      Редагувати
+                    </a>
                   </div>
                 </td>
               </tr>

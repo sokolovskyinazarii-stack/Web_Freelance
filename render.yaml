@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: freelancehub
+    runtime: node
+    plan: free
+    region: frankfurt
+    branch: main
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      - key: DB_SSL
+        value: "true"
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_URL_UNPOOLED
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true

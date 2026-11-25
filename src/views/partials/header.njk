@@ -1,4 +1,5 @@
-<header class="masthead{% if currentUser %} has-account{% endif %}">
+{% import "macros/icons.njk" as icons %}
+<header class="masthead">
   <a class="wordmark" href="/" aria-label="FreelanceHub — на головну">
     <span class="wordmark-mark" aria-hidden="true">
       <svg viewBox="0 0 32 32" fill="none">
@@ -12,10 +13,33 @@
 
   <nav class="masthead-nav" id="nav" aria-label="Головна навігація">
     {% for item in navItems %}
-      <a class="nav-link{% if active == item.key %} active{% endif %}" href="{{ item.href }}"{% if active == item.key %} aria-current="page"{% endif %}>
-        <span class="nav-index">{% if loop.index < 10 %}0{{ loop.index }}{% else %}{{ loop.index }}{% endif %}</span>{{ item.label }}
-      </a>
+      {% if not item.secondary %}
+        <a class="nav-link{% if active == item.key %} active{% endif %}" href="{{ item.href }}"{% if active == item.key %} aria-current="page"{% endif %}>
+          <span class="nav-icon">{{ icons.icon(item.icon, 15) }}</span>
+          <span class="nav-label">{{ item.label }}</span>
+        </a>
+      {% endif %}
     {% endfor %}
+
+    {% if currentRole == 'ADMIN' %}
+      <details class="nav-more" id="nav-more">
+        <summary class="nav-link nav-more-toggle{% if active in ['customers', 'statuses', 'couriers', 'users'] %} active{% endif %}">
+          <span class="nav-icon">{{ icons.icon('more', 15) }}</span>
+          <span class="nav-label">Ще</span>
+          {{ icons.icon('chevron-down', 12) }}
+        </summary>
+        <div class="nav-more-menu">
+          {% for item in navItems %}
+            {% if item.secondary %}
+              <a class="nav-more-link{% if active == item.key %} active{% endif %}" href="{{ item.href }}"{% if active == item.key %} aria-current="page"{% endif %}>
+                {{ icons.icon(item.icon, 16) }}
+                <span>{{ item.label }}</span>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </details>
+    {% endif %}
   </nav>
 
   {% if currentUser %}
@@ -29,11 +53,8 @@
       </a>
 
       <form method="post" action="/logout" class="logout-form">
-        <button class="icon-button" type="submit" aria-label="Вийти з акаунта" title="Вийти">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-            <path d="M10 8l-4 4 4 4M6 12h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <button class="icon-button" type="submit" aria-label="Вийти" title="Вийти">
+          {{ icons.icon('logout', 16) }}
         </button>
       </form>
     </div>

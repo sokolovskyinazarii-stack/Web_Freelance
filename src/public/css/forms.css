@@ -18,12 +18,9 @@
 }
 
 .form-field label {
-  color: var(--faint);
-  font-family: var(--mono);
-  font-size: 9px;
+  color: var(--muted);
+  font-size: 12.5px;
   font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
   transition: color 180ms var(--ease-out);
 }
 
@@ -45,7 +42,7 @@
   background: transparent;
   color: var(--text);
   font-size: 14px;
-  transition: border-color 180ms var(--ease-out), background 180ms var(--ease-out);
+  transition: border-color 180ms var(--ease-out);
 }
 
 .form-field input,
@@ -98,22 +95,15 @@
   padding: 6px 2px;
 }
 
-.form-note {
-  max-width: 62ch;
-  margin-bottom: 28px;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.6;
-}
 
 .field-hint {
   color: var(--faint);
-  font-size: 11.5px;
+  font-size: 12px;
 }
 
 .field-error {
   color: var(--danger);
-  font-size: 11.5px;
+  font-size: 12px;
 }
 
 .required-mark {
@@ -123,6 +113,7 @@
 .entity-form {
   display: flex;
   flex-direction: column;
+  max-width: 900px;
 }
 
 .form-actions {
@@ -145,9 +136,6 @@
   pointer-events: none;
 }
 
-.form-panel {
-  padding: 0;
-}
 
 @media (max-width: 760px) {
   .form-grid {
@@ -241,14 +229,16 @@
   left: 0;
   overflow: hidden;
   border: 1px solid var(--line-strong);
-  border-radius: 3px;
+  border-radius: 4px;
   background: #10140f;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
   opacity: 1;
   transform: translateY(0) scale(1);
   transform-origin: top center;
-  transition: opacity 140ms var(--ease-out), transform 140ms var(--ease-out),
-    display 140ms allow-discrete;
+  transition:
+    opacity 150ms var(--ease-out),
+    transform 150ms var(--ease-out),
+    display 150ms allow-discrete;
 }
 
 .select-menu[hidden] {
@@ -286,7 +276,7 @@
   display: block;
   width: 100%;
   padding: 9px 11px;
-  border-radius: 2px;
+  border-radius: 3px;
   color: var(--muted);
   font-size: 13px;
   text-align: left;
@@ -357,8 +347,8 @@
 }
 
 .number-step svg {
-  width: 9px;
-  height: 9px;
+  width: 11px;
+  height: 11px;
 }
 
 .form-field input[type="date"]::-webkit-calendar-picker-indicator {
@@ -375,7 +365,7 @@ input[type="checkbox"] {
   height: 17px;
   margin: 0;
   border: 1px solid var(--line-strong);
-  border-radius: 2px;
+  border-radius: 3px;
   outline: none;
   background: transparent;
   cursor: pointer;

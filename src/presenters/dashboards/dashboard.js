@@ -34,10 +34,10 @@ export function buildDashboard(data) {
 
   return {
     stats: [
-      { label: 'Сума замовлень', value: money(revenue), note: 'без скасованих' },
-      { label: 'Активні замовлення', value: activeOrders, note: 'у роботі та на перевірці' },
-      { label: 'Проєкти', value: totals.projects, note: 'усього' },
-      { label: 'Доставки', value: totals.deliveries, note: 'у логістиці' }
+      { label: 'Сума замовлень', value: money(revenue), icon: 'wallet', note: 'без скасованих' },
+      { label: 'Активні замовлення', value: activeOrders, icon: 'orders' },
+      { label: 'Проєкти', value: totals.projects, icon: 'projects' },
+      { label: 'Доставки', value: totals.deliveries, icon: 'deliveries' }
     ],
     statuses: statusBreakdown.map((status) => ({
       ...status,

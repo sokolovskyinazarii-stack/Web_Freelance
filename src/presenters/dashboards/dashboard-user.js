@@ -36,10 +36,10 @@ async function clientDashboard(user) {
 
   return {
     stats: [
-      { label: 'Проєкти', value: projects, note: 'ваших проєктів' },
-      { label: 'Замовлення', value: orders, note: 'усього' },
-      { label: 'Доставки', value: deliveries, note: 'за вашими замовленнями' },
-      { label: 'Сума', value: money(spent._sum.amount || 0), note: 'без скасованих' }
+      { label: 'Проєкти', value: projects, icon: 'projects' },
+      { label: 'Замовлення', value: orders, icon: 'orders' },
+      { label: 'Доставки', value: deliveries, icon: 'deliveries' },
+      { label: 'Сума', value: money(spent._sum.amount || 0), icon: 'wallet', note: 'без скасованих' }
     ],
     tableTitle: 'Останні замовлення',
     tableHref: '/orders',
@@ -67,10 +67,10 @@ async function freelancerDashboard(user) {
 
   return {
     stats: [
-      { label: 'Проєкти', value: projects, note: 'ваших проєктів' },
-      { label: 'Замовлення', value: orders, note: 'усього' },
-      { label: 'Доставки', value: deliveries, note: 'за вашими замовленнями' },
-      { label: 'Дохід', value: money(earned._sum.amount || 0), note: 'без скасованих' }
+      { label: 'Проєкти', value: projects, icon: 'projects' },
+      { label: 'Замовлення', value: orders, icon: 'orders' },
+      { label: 'Доставки', value: deliveries, icon: 'deliveries' },
+      { label: 'Дохід', value: money(earned._sum.amount || 0), icon: 'wallet', note: 'без скасованих' }
     ],
     tableTitle: 'Останні замовлення',
     tableHref: '/orders',
@@ -105,10 +105,10 @@ async function courierDashboard(user) {
 
   return {
     stats: [
-      { label: 'Доставки', value: deliveries, note: 'усього' },
-      { label: 'Виконано', value: completed, note: 'доставлено' },
-      { label: 'У дорозі', value: inTransit, note: 'зараз' },
-      { label: 'Рейтинг', value: user.courier.rating.toFixed(1), note: 'середня оцінка' }
+      { label: 'Доставки', value: deliveries, icon: 'deliveries' },
+      { label: 'Виконано', value: completed, icon: 'check' },
+      { label: 'У дорозі', value: inTransit, icon: 'couriers' },
+      { label: 'Рейтинг', value: user.courier.rating.toFixed(1), icon: 'star', note: 'середня оцінка' }
     ],
     tableTitle: 'Останні доставки',
     tableHref: '/deliveries',

@@ -1,50 +1,58 @@
 {% extends "layout.njk" %}
+{% import "macros/icons.njk" as icons %}
 
 {% block content %}
 <div class="auth">
-  <aside class="auth-aside">
-    <p class="eyebrow">Вхід до журналу</p>
-    <h1>Кожна година<br>має <em>запис</em>.</h1>
-    <p class="lede">Замовлення, заявки, статуси та доставки зберігаються в одному потоці. Увійдіть, щоб продовжити з того місця, де зупинилися.</p>
-
-    <div class="auth-roles" aria-hidden="true">
-      <div class="auth-role"><b>01</b> Замовник <span>Замовлення</span></div>
-      <div class="auth-role"><b>02</b> Фрілансер <span>Заявки</span></div>
-      <div class="auth-role"><b>03</b> Кур’єр <span>Доставки</span></div>
-      <div class="auth-role"><b>04</b> Адміністратор <span>Довідники</span></div>
-    </div>
-  </aside>
-
   <div class="auth-main">
-    <h2>Вхід</h2>
-    <p class="auth-note">Введіть email і пароль, які видав адміністратор платформи.</p>
+    <h1 class="auth-title" data-reveal>Вхід</h1>
 
     {% if error %}
       <div class="alert alert-error">{{ error }}</div>
     {% endif %}
 
-    <form method="post" action="/login" novalidate class="entity-form">
+    <form method="post" action="/login" novalidate class="entity-form auth-form" data-reveal>
       <div class="form-grid">
         <div class="form-field form-field-wide">
           <label for="email">Email</label>
-          <input id="email" type="email" name="email" value="{{ email }}" autocomplete="email">
+          <input id="email" type="email" name="email" value="{{ email }}" autocomplete="email" placeholder="name@example.com">
         </div>
         <div class="form-field form-field-wide">
           <label for="password">Пароль</label>
-          <input id="password" type="password" name="password" autocomplete="current-password">
+          <input id="password" type="password" name="password" autocomplete="current-password" placeholder="••••••••••••">
         </div>
       </div>
 
       <div class="form-actions">
-        <a class="btn btn-ghost" href="/register">Реєстрація</a>
-        <button class="btn btn-primary" type="submit">Увійти</button>
+        <button class="btn btn-primary" type="submit">
+          Увійти
+          {{ icons.icon('arrow-right', 15) }}
+        </button>
       </div>
     </form>
 
-    <div class="auth-foot">
-      <span>Сесія · 8 годин</span>
-      <span>Пароль · bcrypt cost 12</span>
-    </div>
+    <p class="auth-switch" data-reveal>Немає акаунта? <a href="/register">Зареєструватися</a></p>
+  </div>
+
+  <div class="auth-art" aria-hidden="true" data-reveal="scale">
+    <div class="art-glow"></div>
+    <svg class="art-svg" viewBox="0 0 400 400" fill="none">
+      <circle class="art-ring art-ring-1" cx="200" cy="200" r="150" stroke="currentColor" stroke-width="1"/>
+      <circle class="art-ring art-ring-2" cx="200" cy="200" r="112" stroke="currentColor" stroke-width="1"/>
+      <circle class="art-ring art-ring-3" cx="200" cy="200" r="74" stroke="currentColor" stroke-width="1"/>
+      <g class="art-orbit art-orbit-a" style="transform-origin:200px 200px">
+        <circle cx="200" cy="50" r="5" fill="currentColor"/>
+        <circle cx="200" cy="50" r="10" stroke="currentColor" stroke-width="1" opacity="0.35"/>
+      </g>
+      <g class="art-orbit art-orbit-b" style="transform-origin:200px 200px">
+        <circle cx="88" cy="200" r="3.5" fill="currentColor"/>
+        <circle cx="88" cy="200" r="8" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+      </g>
+      <g class="art-orbit art-orbit-c" style="transform-origin:200px 200px">
+        <rect x="296" y="196" width="8" height="8" transform="rotate(45 300 200)" fill="currentColor"/>
+      </g>
+      <circle class="art-core" cx="200" cy="200" r="4" fill="currentColor"/>
+      <path class="art-scan" d="M50 200h300" stroke="currentColor" stroke-width="1"/>
+    </svg>
   </div>
 </div>
 {% endblock %}

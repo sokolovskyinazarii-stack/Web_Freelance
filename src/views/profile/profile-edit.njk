@@ -1,4 +1,5 @@
 {% extends "layout.njk" %}
+{% import "macros/icons.njk" as icons %}
 
 {% block content %}
 <div class="page">
@@ -9,9 +10,7 @@
       <span>Редагування</span>
     </nav>
 
-    <p class="eyebrow">Налаштування</p>
-    <h1>Редагування <em>профілю</em></h1>
-    <p class="lede">ПІБ та email змінює лише адміністратор. Решту даних ви оновлюєте самостійно.</p>
+    <h1 data-reveal>Редагування профілю</h1>
   </aside>
 
   <div class="column">
@@ -20,11 +19,11 @@
     {% endif %}
 
     <section class="sheet">
-      <header class="sheet-head">
-        <h2 class="sheet-title"><i>01</i> Особисті дані</h2>
+      <header class="sheet-head" data-reveal>
+        <h2 class="sheet-title">{{ icons.icon('users', 17) }} Особисті дані</h2>
       </header>
 
-      <form method="post" action="/profile/edit" novalidate class="entity-form">
+      <form method="post" action="/profile/edit" novalidate class="entity-form" data-reveal>
         <div class="form-grid">
           <div class="form-field form-field-wide">
             <label for="account-full-name">ПІБ</label>
@@ -70,18 +69,24 @@
         </div>
 
         <div class="form-actions">
-          <a class="btn btn-ghost" href="/profile">Скасувати</a>
-          <button class="btn btn-primary" type="submit">Зберегти</button>
+          <a class="btn btn-ghost" href="/profile">
+            {{ icons.icon('close', 15) }}
+            Скасувати
+          </a>
+          <button class="btn btn-primary" type="submit">
+            {{ icons.icon('save', 15) }}
+            Зберегти
+          </button>
         </div>
       </form>
     </section>
 
     <section class="sheet">
-      <header class="sheet-head">
-        <h2 class="sheet-title"><i>02</i> Зміна пароля</h2>
+      <header class="sheet-head" data-reveal>
+        <h2 class="sheet-title">{{ icons.icon('lock', 17) }} Зміна пароля</h2>
       </header>
 
-      <form method="post" action="/profile/password" novalidate class="entity-form">
+      <form method="post" action="/profile/password" novalidate class="entity-form" data-reveal>
         <div class="form-grid">
           <div class="form-field form-field-wide">
             <label for="currentPassword">Поточний пароль <span class="required-mark">*</span></label>
@@ -100,10 +105,15 @@
             <input id="passwordConfirm" type="password" name="passwordConfirm" autocomplete="new-password">
             {% if passwordErrors.passwordConfirm %}<p class="field-error">{{ passwordErrors.passwordConfirm }}</p>{% endif %}
           </div>
+
+          <p class="field-hint form-field-wide">Мінімум 12 символів, хоча б одна літера й одна цифра.</p>
         </div>
 
         <div class="form-actions">
-          <button class="btn btn-primary" type="submit">Оновити пароль</button>
+          <button class="btn btn-primary" type="submit">
+            {{ icons.icon('save', 15) }}
+            Оновити пароль
+          </button>
         </div>
       </form>
     </section>

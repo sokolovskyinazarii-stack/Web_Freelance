@@ -1,26 +1,16 @@
 {% extends "layout.njk" %}
+{% import "macros/icons.njk" as icons %}
 
 {% block content %}
 <div class="auth">
-  <aside class="auth-aside">
-    <p class="eyebrow">Новий акаунт</p>
-    <h1>Долучитися<br>до <em>журналу</em>.</h1>
-    <p class="lede">Оберіть роль — замовник або фрілансер — і заповніть профіль. Решта даних підтягнеться у вашу панель.</p>
-
-    <div class="auth-roles" aria-hidden="true">
-      <div class="auth-role"><b>01</b> Замовник <span>Створює замовлення</span></div>
-      <div class="auth-role"><b>02</b> Фрілансер <span>Подає заявки</span></div>
-    </div>
-  </aside>
-
   <div class="auth-main">
-    <h2>Реєстрація</h2>
+    <h1 class="auth-title" data-reveal>Реєстрація</h1>
 
     {% if errors._form %}
       <div class="alert alert-error">{{ errors._form }}</div>
     {% endif %}
 
-    <form method="post" action="/register" novalidate class="entity-form">
+    <form method="post" action="/register" novalidate class="entity-form auth-form" data-reveal>
       <div class="form-grid">
         <div class="form-field form-field-wide">
           <label for="role">Роль</label>
@@ -34,25 +24,25 @@
 
         <div class="form-field form-field-wide">
           <label for="fullName">ПІБ</label>
-          <input id="fullName" type="text" name="fullName" value="{{ values.fullName }}" autocomplete="name">
+          <input id="fullName" type="text" name="fullName" value="{{ values.fullName }}" autocomplete="name" placeholder="Ім’я Прізвище">
           {% if errors.fullName %}<p class="field-error">{{ errors.fullName }}</p>{% endif %}
         </div>
 
         <div class="form-field">
           <label for="email">Email</label>
-          <input id="email" type="email" name="email" value="{{ values.email }}" autocomplete="email">
+          <input id="email" type="email" name="email" value="{{ values.email }}" autocomplete="email" placeholder="name@example.com">
           {% if errors.email %}<p class="field-error">{{ errors.email }}</p>{% endif %}
         </div>
 
         <div class="form-field">
           <label for="phone">Телефон</label>
-          <input id="phone" type="tel" name="phone" value="{{ values.phone }}" autocomplete="tel">
+          <input id="phone" type="tel" name="phone" value="{{ values.phone }}" autocomplete="tel" placeholder="+380">
           {% if errors.phone %}<p class="field-error">{{ errors.phone }}</p>{% endif %}
         </div>
 
         <div class="form-field form-field-wide">
           <label for="city">Місто</label>
-          <input id="city" type="text" name="city" value="{{ values.city }}" autocomplete="address-level2">
+          <input id="city" type="text" name="city" value="{{ values.city }}" autocomplete="address-level2" placeholder="Київ">
           {% if errors.city %}<p class="field-error">{{ errors.city }}</p>{% endif %}
         </div>
 
@@ -67,18 +57,41 @@
           <input id="passwordConfirm" type="password" name="passwordConfirm" autocomplete="new-password">
           {% if errors.passwordConfirm %}<p class="field-error">{{ errors.passwordConfirm }}</p>{% endif %}
         </div>
+
+        <p class="field-hint form-field-wide">Мінімум 12 символів, хоча б одна літера й одна цифра.</p>
       </div>
 
       <div class="form-actions">
-        <a class="btn btn-ghost" href="/login">Увійти</a>
-        <button class="btn btn-primary" type="submit">Зареєструватися</button>
+        <button class="btn btn-primary" type="submit">
+          Зареєструватися
+          {{ icons.icon('arrow-right', 15) }}
+        </button>
       </div>
     </form>
 
-    <div class="auth-foot">
-      <span>Мінімум 12 символів</span>
-      <span>Літера + цифра</span>
-    </div>
+    <p class="auth-switch" data-reveal>Вже є акаунт? <a href="/login">Увійти</a></p>
+  </div>
+
+  <div class="auth-art" aria-hidden="true" data-reveal="scale">
+    <div class="art-glow"></div>
+    <svg class="art-svg" viewBox="0 0 400 400" fill="none">
+      <circle class="art-ring art-ring-1" cx="200" cy="200" r="150" stroke="currentColor" stroke-width="1"/>
+      <circle class="art-ring art-ring-2" cx="200" cy="200" r="112" stroke="currentColor" stroke-width="1"/>
+      <circle class="art-ring art-ring-3" cx="200" cy="200" r="74" stroke="currentColor" stroke-width="1"/>
+      <g class="art-orbit art-orbit-a" style="transform-origin:200px 200px">
+        <circle cx="200" cy="50" r="5" fill="currentColor"/>
+        <circle cx="200" cy="50" r="10" stroke="currentColor" stroke-width="1" opacity="0.35"/>
+      </g>
+      <g class="art-orbit art-orbit-b" style="transform-origin:200px 200px">
+        <circle cx="88" cy="200" r="3.5" fill="currentColor"/>
+        <circle cx="88" cy="200" r="8" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+      </g>
+      <g class="art-orbit art-orbit-c" style="transform-origin:200px 200px">
+        <rect x="296" y="196" width="8" height="8" transform="rotate(45 300 200)" fill="currentColor"/>
+      </g>
+      <circle class="art-core" cx="200" cy="200" r="4" fill="currentColor"/>
+      <path class="art-scan" d="M50 200h300" stroke="currentColor" stroke-width="1"/>
+    </svg>
   </div>
 </div>
 {% endblock %}

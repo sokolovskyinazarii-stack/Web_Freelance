@@ -1,30 +1,30 @@
 {% extends "layout.njk" %}
 {% import "macros/table.njk" as table %}
+{% import "macros/icons.njk" as icons %}
 
 {% block content %}
 <div class="page-full">
-  <section class="page-head">
-    <p class="eyebrow">Особистий огляд{% if currentUser %} · {{ currentUser.role.name }}{% endif %}</p>
-    <div class="page-head-row">
-      <h1>Ваш <em>потік</em></h1>
-      <p class="lede">Короткий зріз вашої роботи на платформі{% if currentUser %}, {{ currentUser.fullName }}{% endif %}. Дані оновлюються під час кожного запиту до PostgreSQL (Neon).</p>
-    </div>
+  <section class="page-head" data-reveal>
+    <h1>Огляд</h1>
   </section>
 
   <section class="figures" aria-label="Ваші показники">
     {% for stat in stats %}
-      <article class="figure">
-        <span class="figure-label">{{ stat.label }}</span>
+      <article class="figure" data-reveal>
+        <div class="figure-head">
+          <span class="figure-icon">{{ icons.icon(stat.icon or 'chart', 16) }}</span>
+          <span class="figure-label">{{ stat.label }}</span>
+        </div>
         <strong class="figure-value">{{ stat.value }}</strong>
-        <span class="figure-note">{{ stat.note }}</span>
+        {% if stat.note %}<span class="figure-note">{{ stat.note }}</span>{% endif %}
       </article>
     {% endfor %}
   </section>
 
   <section class="sheet">
-    <header class="sheet-head">
-      <h2 class="sheet-title"><i>01</i> {{ tableTitle }}</h2>
-      <a class="link-arrow" href="{{ tableHref }}">Усі</a>
+    <header class="sheet-head" data-reveal>
+      <h2 class="sheet-title">{{ icons.icon('orders', 17) }} {{ tableTitle }}</h2>
+      <a class="link-arrow" href="{{ tableHref }}">Усі {{ icons.icon('arrow-up-right', 13) }}</a>
     </header>
     <div class="table-wrap">{{ table.render(tableData) | safe }}</div>
   </section>

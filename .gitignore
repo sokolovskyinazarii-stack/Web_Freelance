@@ -2,7 +2,6 @@ node_modules
 .env
 .env.*
 !.env.example
-.vercel
 .neon
 prisma/seed-accounts.txt
 prisma/freelance.db

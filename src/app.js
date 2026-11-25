@@ -20,7 +20,7 @@ const currentDir = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(currentDir, 'public');
 const viewsDir = path.join(currentDir, 'views');
 const app = express();
-const isProduction = process.env.NODE_ENV === 'production' || Boolean(process.env.VERCEL);
+const isProduction = process.env.NODE_ENV === 'production';
 
 if (!process.env.SESSION_SECRET && isProduction) {
   throw new Error('SESSION_SECRET не заданий. Додайте його в змінні середовища.');
@@ -96,7 +96,8 @@ app.use(authLocals);
 const nunjucksEnv = nunjucks.configure(viewsDir, {
   express: app,
   autoescape: true,
-  watch: false
+  watch: !isProduction,
+  noCache: !isProduction
 });
 
 nunjucksEnv.addFilter('money', money);
@@ -123,7 +124,7 @@ app.use((req, res) => {
 
   return res.status(404).render('shared/error.njk', {
     title: 'Сторінку не знайдено',
-    message: 'Перевірте адресу або поверніться до огляду платформи.',
+    message: 'Такої сторінки не існує.',
     active: ''
   });
 });

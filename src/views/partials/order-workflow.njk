@@ -1,26 +1,27 @@
+{% import "macros/icons.njk" as icons %}
 {% if workflow.canPublish or workflow.canCancelOrder or workflow.showApplications or workflow.canApply or workflow.myApplication or workflow.isAssignedFreelancer or workflow.canAcceptWork or workflow.canCancelFreelancer or workflow.canRequestDelivery or workflow.deliveryId or workflow.canReviewOrder or workflow.reviews.length or workflow.rejectionReason or workflow.canEditRequest %}
 <section class="sheet workflow-panel">
-  <header class="sheet-head">
-    <h2 class="sheet-title"><i>02</i> Робота із замовленням</h2>
+  <header class="sheet-head" data-reveal>
+    <h2 class="sheet-title">{{ icons.icon('orders', 17) }} Робота із замовленням</h2>
   </header>
 
   <div class="workflow-body">
     {% if workflow.canPublish %}
       <div class="workflow-actions">
         <form method="post" class="ajax-form" action="/orders/{{ id }}/publish">
-          <button class="btn btn-primary" type="submit">Опублікувати</button>
+          <button class="btn btn-primary" type="submit">{{ icons.icon('check', 15) }} Опублікувати</button>
         </form>
       </div>
       <form method="post" class="workflow-form ajax-form" action="/orders/{{ id }}/reject">
         <textarea name="reason" rows="2" placeholder="Причина відхилення" required minlength="5"></textarea>
         <div class="workflow-actions">
-          <button class="btn btn-danger" type="submit">Відхилити</button>
+          <button class="btn btn-danger" type="submit">{{ icons.icon('close', 15) }} Відхилити</button>
         </div>
       </form>
     {% endif %}
 
     {% if workflow.rejectionReason %}
-      <article class="review-card">
+      <article class="review-card" data-reveal>
         <strong>Причина відхилення</strong>
         <p>{{ workflow.rejectionReason }}</p>
       </article>
@@ -35,7 +36,7 @@
     {% if workflow.canCancelOrder %}
       <div class="workflow-actions">
         <form method="post" class="ajax-form" action="/orders/{{ id }}/cancel">
-          <button class="btn btn-ghost" type="submit">Скасувати замовлення</button>
+          <button class="btn btn-ghost" type="submit">{{ icons.icon('close', 15) }} Скасувати замовлення</button>
         </form>
       </div>
     {% endif %}
@@ -45,7 +46,7 @@
       {% if workflow.applications.length %}
         <div class="application-list">
           {% for app in workflow.applications %}
-            <article class="application-card">
+            <article class="application-card" data-reveal>
               <div class="application-head">
                 <strong>{{ app.freelancer.fullName }}</strong>
                 <span class="badge" style="--tone:{{ app.statusTone }}">{{ app.statusLabel }}</span>
@@ -84,7 +85,7 @@
         <textarea name="message" rows="3" placeholder="Коротко про досвід"></textarea>
         <input name="proposedAmount" type="number" min="0" step="0.01" placeholder="Ваша ціна">
         <div class="workflow-actions">
-          <button class="btn btn-primary" type="submit">Подати заявку</button>
+          <button class="btn btn-primary" type="submit">{{ icons.icon('arrow-right', 15) }} Подати заявку</button>
         </div>
       </form>
     {% elif workflow.myApplication %}
@@ -94,7 +95,7 @@
     {% if workflow.isAssignedFreelancer and workflow.statusCode == 'in_progress' %}
       <div class="workflow-actions">
         <form method="post" class="ajax-form" action="/orders/{{ id }}/submit">
-          <button class="btn btn-primary" type="submit">Завершити роботу</button>
+          <button class="btn btn-primary" type="submit">{{ icons.icon('check', 15) }} Завершити роботу</button>
         </form>
       </div>
     {% endif %}
@@ -102,10 +103,10 @@
     {% if workflow.canAcceptWork %}
       <div class="workflow-actions">
         <form method="post" class="ajax-form" action="/orders/{{ id }}/complete">
-          <button class="btn btn-primary" type="submit">Прийняти роботу</button>
+          <button class="btn btn-primary" type="submit">{{ icons.icon('check', 15) }} Прийняти роботу</button>
         </form>
         <form method="post" class="ajax-form" action="/orders/{{ id }}/rework">
-          <button class="btn btn-ghost" type="submit">На доопрацювання</button>
+          <button class="btn btn-ghost" type="submit">{{ icons.icon('refresh', 15) }} На доопрацювання</button>
         </form>
       </div>
     {% endif %}
@@ -118,11 +119,11 @@
         <input name="cost" type="number" min="0" step="0.01" placeholder="Вартість" required>
         <input name="estimatedAt" type="date" required>
         <div class="workflow-actions">
-          <button class="btn btn-primary" type="submit">Замовити доставку</button>
+          <button class="btn btn-primary" type="submit">{{ icons.icon('deliveries', 15) }} Замовити доставку</button>
         </div>
       </form>
     {% elif workflow.deliveryId %}
-      <a class="link-arrow" href="/deliveries/{{ workflow.deliveryId }}">Переглянути доставку</a>
+      <a class="link-arrow" href="/deliveries/{{ workflow.deliveryId }}">Переглянути доставку {{ icons.icon('arrow-up-right', 13) }}</a>
     {% endif %}
 
     {% if workflow.canReviewOrder %}
@@ -137,7 +138,7 @@
         </select>
         <textarea name="comment" rows="2" placeholder="Коментар"></textarea>
         <div class="workflow-actions">
-          <button class="btn btn-primary" type="submit">Залишити відгук</button>
+          <button class="btn btn-primary" type="submit">{{ icons.icon('star', 15) }} Залишити відгук</button>
         </div>
       </form>
     {% endif %}
@@ -145,7 +146,7 @@
     {% if workflow.reviews.length %}
       <div class="review-list">
         {% for review in workflow.reviews %}
-          <article class="review-card">
+          <article class="review-card" data-reveal>
             <strong>{{ review.author.fullName }} · {{ review.rating }}/5</strong>
             <p>{{ review.comment or 'Без коментаря' }}</p>
           </article>
