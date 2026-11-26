@@ -14,6 +14,4 @@ export function orderDeadline(row) {
   return row.deadline || row.project?.deadline || null;
 }
 
-export function orderBudget(row) {
-  return row.project?.budget ?? row.amount;
-}
+

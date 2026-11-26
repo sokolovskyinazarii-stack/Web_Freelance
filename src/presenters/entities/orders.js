@@ -8,12 +8,7 @@ import {
   statusBadge,
   text
 } from '../cells.js';
-import {
-  orderBudget,
-  orderCategoryName,
-  orderDeadline,
-  orderTitle
-} from '../orders/order-helpers.js';
+import { orderCategoryName, orderDeadline, orderTitle } from '../orders/order-helpers.js';
 
 export const orders = {
   key: 'orders',
@@ -58,11 +53,15 @@ export const orders = {
     metrics: [
       { label: 'Сума', cell: (row) => moneyCell(row.amount), hint: (row) => row.currency },
       {
-        label: 'Бюджет',
-        cell: (row) => moneyCell(orderBudget(row)),
-        hint: () => 'бюджет проєкту'
+        label: 'Бюджет проєкту',
+        cell: (row) => (row.project ? moneyCell(row.project.budget) : text('—')),
+        hint: (row) => (row.project ? 'бюджет проєкту' : 'замовлення без проєкту')
       },
-      { label: 'Дедлайн', cell: (row) => dateCell(orderDeadline(row)), hint: () => 'дата з проєкту' },
+      {
+        label: 'Дедлайн',
+        cell: (row) => dateCell(orderDeadline(row)),
+        hint: (row) => (row.project?.deadline ? 'дата з проєкту' : 'дедлайн замовлення')
+      },
       {
         label: 'Доставка',
         cell: (row) => (row.delivery ? deliveryBadge(row.delivery.status) : text('—')),
