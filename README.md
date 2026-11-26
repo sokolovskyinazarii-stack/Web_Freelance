@@ -34,10 +34,20 @@
 | Фрілансер | `lev.kravchenko@freelancehub.ua` | `>/msQ+Qr1pQ(5+r&9{K.` |
 | Замовник | `roman.shevchuk@freelancehub.ua` | `PZ]%TPh>3.gYS3XkQZQh` |
 | Кур’єр | `daria.sereda@freelancehub.ua` | `tD{;eB7"9<Y#t^5"dFVR` |
+| Фрілансер | `yaroslava.zakharchuk@freelancehub.ua` | `5,dUU]#Pm2);"dnH$^q;` |
+| Фрілансер | `danylo.kravchuk@freelancehub.ua` | `R*@W1r_wJp-6(A)5qB"Z` |
+| Фрілансер | `olena.pavliuk@freelancehub.ua` | `_nGQ8Mt:3qS}ff&H)jxH` |
+| Фрілансер | `adam.kravchuk@freelancehub.ua` | `1qW6y.VqBx:jDB1ut:_C` |
+| Фрілансер | `yelyzaveta.kravchenko@freelancehub.ua` | `K3@5<m(/CJ+Z5~N${cf)` |
+| Замовник | `kateryna.zakharchuk@freelancehub.ua` | `_/qZy/MQ*W[JA92n2m*p` |
+| Замовник | `leonid.shevchenko@freelancehub.ua` | `1s5AH;.wsN^erZ:X!AKX` |
+| Замовник | `valerii.tarashchuk@freelancehub.ua` | `>%73VR!&bQB4/fesU3Ab` |
+| Замовник | `vira.tarashchuk@freelancehub.ua` | `Kkt(<vUnn{*G95H(B>55` |
+| Кур’єр | `nadiia.tarashchuk@freelancehub.ua` | `_^s<s?@x,BBk4[6e_jB:` |
+| Кур’єр | `vira.shevchuk@freelancehub.ua` | `jU")3SkUrE<!~Mg1?p@m` |
+| Кур’єр | `myroslav.ponomarenko@freelancehub.ua` | `EF=Q~D(")d*S.]{W$)6Q` |
 
-Паролі згенеровані `generate-password` (20 символів) і зберігаються в
-`src/db/seed-data/users.js` у відкритому вигляді; в базу потрапляють bcrypt-хеші
-з cost 12. Повний список також у `prisma/seed-accounts.txt` (файл не комітиться).
+Повний список також у `prisma/seed-accounts.txt` (файл не комітиться).
 
 ## Запуск
 
